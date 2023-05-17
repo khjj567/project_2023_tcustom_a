@@ -9,6 +9,9 @@
 <body>
     <h2>로그인</h2>
     <form th:action="@{/loginaction.do}" method="post">
+    <!-- SecurityConfig에서 
+        .loginPage("/login.do") // 로그인은 무슨 화면을 쓸거야?(get)
+        .loginProcessingUrl("/loginaction.do") // 로그인 action은 어디로 보내?(post) -->
         아이디: <input type="text" name="mid" value="aaa" autofocus/><br />
         암호: <input type="text" name="mpw" value="aaa" /><br />
         <input type="submit" value="로그인"/>

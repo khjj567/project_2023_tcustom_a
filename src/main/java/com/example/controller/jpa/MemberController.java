@@ -19,5 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "/member")
 public class MemberController {
 
-    
+    @GetMapping(value = "/mypage.do")
+    public String mypageGET(){
+        return "/member/mypage";
+    }
 }

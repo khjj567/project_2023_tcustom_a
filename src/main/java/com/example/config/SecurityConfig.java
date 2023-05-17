@@ -54,7 +54,7 @@ public class SecurityConfig {
             .loginProcessingUrl("/loginaction.do") // 로그인 action은 어디로 보내?(post)
             .usernameParameter("mid") // id의 name값은 뭐야? 
             .passwordParameter("mpw") // password의 name값은 뭐야? 
-            .successHandler(new MemberLoginSuccessHandler()) // 특정 타입만 들어갈 수 있음 대충 A로 시작하는 뭔가임
+            .successHandler(new MemberLoginSuccessHandler()) // 특정 타입만 들어갈 수 있음 : AuthenticationSuccessHandler
             .defaultSuccessUrl("/home.do") // 로그인 성공시 이동할 페이지
             .permitAll();
 
@@ -63,7 +63,6 @@ public class SecurityConfig {
             http.logout()
             .logoutUrl("/logout.do") // 로그아웃은 로그아웃.do에서 할거에요
             .logoutSuccessHandler(new MemberLogoutSuccessHandler())
-            //.logoutSuccessUrl("/home.do") // 수행하면 홈화면으로
             .invalidateHttpSession(true) // 권한 날리기
             .clearAuthentication(true) // 권한 날리기
             .permitAll();

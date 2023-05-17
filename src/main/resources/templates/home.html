@@ -8,7 +8,7 @@
 </head>
 <body>
     <!-- 127.0.0.1:9090/CUSTOM/home.do -->
-    
+    <!-- OK : 05/17-->
     <h2>홈화면</h2>
     <!-- 회원정보 영역 -->
     <div th:if="${user == null}"> <!-- model.addAttribute("user", user); 로 받아온 user -->
@@ -17,12 +17,14 @@
     </div>
     <div th:if="${user != null}">
         <p th:text="${user.name}"></p> <!-- 이름 -->
+        <!-- user.mid (x)  ->  user.id (o)
+            user.mname (x)  ->  user.name (o) -->
         <a th:href="@{/home.do}">홈</a>
         <a th:href="@{/member/mypage.do}">마이페이지</a>
         <form th:action="@{/logout.do}" method="post">
+        <!-- (로그인도 그렇고)/로그아웃: post로 보내고 get으로만 받는다. post는 SecurityConfig가 해줌-->
             <input type="submit" value="로그아웃"/>
         </form>
     </div>
-
 </body>
 </html>
