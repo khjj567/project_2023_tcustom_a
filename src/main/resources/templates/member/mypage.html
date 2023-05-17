@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T-Custom 고객</title>
+</head>
+<body>
+    <h2>마이페이지</h2>
+    <hr/>
+		<a th:href="@{/member/home.do}">홈으로</a>
+		<a th:href="@{/member/mypage.do(menu=1)}" >디자인목록</a>
+		<a th:href="@{/member/mypage.do(menu=2)}" >파일목록</a>
+		<a th:href="@{/member/mypage.do(menu=3)}" >주문내역</a>
+		<a th:href="@{/member/mypage.do(menu=4)}" >문의내역</a>
+		<a th:href="@{/member/mypage.do(menu=5)}" >개인정보변경</a>
+		<a th:href="@{/member/mypage.do(menu=6)}" >주소관리</a>
+	<hr />
+    <table>
+		<thead>
+			<tr>
+				<th scope="col">체크</th>
+				<th scope="col">디자인번호</th>
+				<th scope="col">파일+티셔츠=이미지</th><!-- 뷰를 만들어야해 -->
+				<th scope="col">이름</th><!-- 뷰를 만들어야해 -->
+				<th scope="col">사이즈</th>
+				<th scope="col">프린팅방식</th>
+				<th scope="col">가격</th>
+				<th scope="col">등록일자</th>
+				<th scope="col">주문하기</th>
+			</tr>
+		</thead>
+		<tbody>
+            <form th:action="@{/board2/updatebatch.pknu}" method="post" id="form">
+				<tr th:each="obj : ${list}">
+
+                    <!-- 스프링부트 -->
+                    <td><input type="checkbox" name="chk[]" th:value="${obj.no.longValue()}"/></td>
+                    <td th:text="${obj.no.longValue()}"></td>
+                    <td th:text="${obj.title}"></td>
+                    <td th:text="${obj.writer}"></td>
+                    <td th:text="${obj.hit.longValue()}"></td>
+                    <td th:text="${obj.regdate}"></td>
+
+                    <!-- jsp -->
+					<th scope="row"><input name="chk[]" id="del" type="checkbox" value="${obj.dno}"/>${obj.dno}</th> <!-- 주문번호 -->
+					<td>${obj.dno}</td>
+					<td><input src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." ></td>
+						<!-- 뷰를 만들어야해 : 그러나 아직 자동으로 사진합성할 방법못찾음-->
+					<td>${obj.tname}</td>
+					<td>${obj.tsize}</td>
+					<td>${obj.pmethod}</td>
+					<td><fmt:formatNumber value="${obj.totalprice}" pattern="#,###"/></td><!-- 뷰 Designoneprice totalprice-->
+					<td><fmt:formatDate value="${obj.dregdate}" pattern="yyyy-MM-dd hh:mm:ss"/></td>
+					<td><input type="button" name="order" value="주문하기" onclick="orderOneAction()"/></td>
+
+				</tr>
+            </form>
+		</tbody>
+	</table>
+	<div>
+		<input type="button" th:href="@{/member/delete.do(dno=${obj.dno})}" value="삭제하기">
+		<input type="button" th:href="order.do?dno=${obj.dno}" value="주문하기">
+    </div>
+
+    <div th:if="${#strings.equals(param.menu, '2')}">
+        <form th:action="@{/member/home.do(menu=2)}" method="post">
+            <input type="text" name="pw" placeholder="현재비번" />
+            <input type="text" name="pw1" placeholder="바꿀비번" />
+            <input type="submit" value="비번변경" />
+        </form>
+    </div>
+    <div th:if="${#strings.equals(param.menu, '3')}">
+        <form th:action="@{/customer/home.do(menu=3)}" method="post">
+            <input type="text" placeholder="현재비번" />
+            <input type="submit" value="탈퇴변경" />
+        </form>
+    </div>
+</body>
+</html>

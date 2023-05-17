@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 127.0.0.1:9090/CUSTOM/join.do -->
+    <!-- OK : 05/17-->
+    <h2>회원가입</h2>
+    <a th:href="@{/home.do}">홈으로</a>
+    <hr/>
+    <form th:action="@{/join.do}" method="post">
+    <!-- name값은 항상 dto의 값과 같아야 한다는 점을 주의하자: 현재는 Member-->
+        아이디: <input type="text" name="mid" value="aaa" autofocus/><br />
+        비밀번호: <input type="text" name="mpw" value="aaa" /><br />
+        이메일 <input type="text" name="memail" value="aaa"v/><br />
+        이름: <input type="text" name="mname" value="aaa" /><br />
+        전화번호 : <input type="text" name="mphone" value="010-0000-0000"/><br />
+        <input type="submit" value="회원가입"/>
+    </form>
+</body>
+</html>
