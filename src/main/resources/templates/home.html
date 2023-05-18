@@ -5,31 +5,43 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>T-Custom HOME</title>
+    <link rel="stylesheet" th:href="@{/css/homeheader.css}">
 </head>
 <body>
-    <!-- homeheader -->
-    <!-- 참고 : https://kitty-geno.tistory.com/126 -->
-    <div th:insert="{homeheader :: homeheaderFragment} "></div>
-
-
-    <!-- 127.0.0.1:9090/CUSTOM/home.do -->
-    <!-- OK : 05/17-->
-    <h2>홈화면</h2>
-    <!-- 회원정보 영역 -->
-    <div th:if="${user == null}"> <!-- model.addAttribute("user", user); 로 받아온 user -->
-        <a th:href="@{/join.do}">회원가입</a>
-        <a th:href="@{/login.do}">로그인</a>
+    <div th:if="${user == null}">
+        <div id="title">
+            <div class="title_1">T-custom</div>
+        </div> 
+        <div id="nav">
+            <div class="nav_0">
+                <a th:href="@{/join.do}">회원가입</a>
+                <a th:href="@{/login.do}">로그인</a>
+            </div>
+            <a id="nav" th:href="@{/fqa.do}">FQA</a>
+            <div class="nav_2"><a th:href="@{/printing.do}">Printing</a></div>
+            <div class="nav_2"><a th:href="@{/product.do}">Product</a></div>
+            <div class="nav_2"><a th:href="@{/home.do}">Home</a></div>
+        </div>
     </div>
+
     <div th:if="${user != null}">
-        <p th:text="${user.name}"></p> <!-- 이름 -->
-        <!-- user.mid (x)  ->  user.id (o)
-            user.mname (x)  ->  user.name (o) -->
-        <a th:href="@{/home.do}">홈</a>
-        <a th:href="@{/member/mypage.do}">마이페이지</a>
-        <form th:action="@{/logout.do}" method="post">
-        <!-- (로그인도 그렇고)/로그아웃: post로 보내고 get으로만 받는다. post는 SecurityConfig가 해줌-->
-            <input type="submit" value="로그아웃"/>
-        </form>
+        <div id="title">
+            <div class="title_1">T-custom</div>
+        </div> 
+
+        <div id="nav">
+            <div class="nav_0">
+                <p th:text="${user.name}"> 님 환영합니다</p>
+                <form th:action="@{/logout.do}" method="post">
+                    <!-- (로그인도 그렇고)/로그아웃: post로 보내고 get으로만 받는다. post는 SecurityConfig가 해줌-->
+                        <input type="submit" value="로그아웃"/>
+                </form>
+            </div>
+            <div class="nav_1"><a th:href="@{/fqa.do}">FQA</a></div>
+            <div class="nav_2"><a th:href="@{/printing.do}">Printing</a></div>
+            <div class="nav_2"><a th:href="@{/product.do}">Product</a></div>
+            <div class="nav_2"><a th:href="@{/home.do}">Home</a></div>
+        </div>
     </div>
 </body>
 </html>

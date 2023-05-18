@@ -37,6 +37,7 @@ public class SecurityConfig {
             .antMatchers("/join.do").permitAll() // 고객join까지 막히는 불상사를 막기 위해 permitAll
             .antMatchers("/").permitAll()
             
+            .antMatchers("/seller", "/seller/*").hasAuthority("ROLE_SELLER")
             .antMatchers("/member","/member/*").hasAuthority("ROLE_MEMBER") // 주소가 9090/ROOT/admin ~~ 모든 것
             .antMatchers("/","/home/*").hasAnyAuthority("ROLE_NO")
             .anyRequest().permitAll(); // 풀어놔서 로그인은 들어갈 수 있음 // 지정해주지 않아도 되는건가요?

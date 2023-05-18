@@ -50,7 +50,6 @@ public class HomeController {
         }
     } // OK : 05/17
 
-
     // 127.0.0.1:9090/CUSTOM/join.do
     @PostMapping(value="/join.do")
     public String joinPOST(@ModelAttribute Member member) {

@@ -17,65 +17,66 @@
 		<a th:href="@{/member/mypage.do(menu=5)}" >개인정보변경</a>
 		<a th:href="@{/member/mypage.do(menu=6)}" >주소관리</a>
 	<hr />
-    <table>
-		<thead>
-			<tr>
-				<th scope="col">체크</th>
-				<th scope="col">디자인번호</th>
-				<th scope="col">파일+티셔츠=이미지</th><!-- 뷰를 만들어야해 -->
-				<th scope="col">이름</th><!-- 뷰를 만들어야해 -->
-				<th scope="col">사이즈</th>
-				<th scope="col">프린팅방식</th>
-				<th scope="col">가격</th>
-				<th scope="col">등록일자</th>
-				<th scope="col">주문하기</th>
-			</tr>
-		</thead>
-		<tbody>
-            <form th:action="@{/board2/updatebatch.pknu}" method="post" id="form">
-				<tr th:each="obj : ${list}">
 
-                    <!-- 스프링부트 -->
-                    <td><input type="checkbox" name="chk[]" th:value="${obj.no.longValue()}"/></td>
-                    <td th:text="${obj.no.longValue()}"></td>
-                    <td th:text="${obj.title}"></td>
-                    <td th:text="${obj.writer}"></td>
-                    <td th:text="${obj.hit.longValue()}"></td>
-                    <td th:text="${obj.regdate}"></td>
-
-                    <!-- jsp -->
-					<th scope="row"><input name="chk[]" id="del" type="checkbox" value="${obj.dno}"/>${obj.dno}</th> <!-- 주문번호 -->
-					<td>${obj.dno}</td>
-					<td><input src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." ></td>
-						<!-- 뷰를 만들어야해 : 그러나 아직 자동으로 사진합성할 방법못찾음-->
-					<td>${obj.tname}</td>
-					<td>${obj.tsize}</td>
-					<td>${obj.pmethod}</td>
-					<td><fmt:formatNumber value="${obj.totalprice}" pattern="#,###"/></td><!-- 뷰 Designoneprice totalprice-->
-					<td><fmt:formatDate value="${obj.dregdate}" pattern="yyyy-MM-dd hh:mm:ss"/></td>
-					<td><input type="button" name="order" value="주문하기" onclick="orderOneAction()"/></td>
-
-				</tr>
-            </form>
-		</tbody>
-	</table>
-	<div>
-		<input type="button" th:href="@{/member/delete.do(dno=${obj.dno})}" value="삭제하기">
-		<input type="button" th:href="order.do?dno=${obj.dno}" value="주문하기">
+	<div th:if="${#strings.equals(param.menu, '1')}">
+		<h2>디자인목록</h2>
+		<a th:href="@{/design.do}"><button>디자인하러가기</button></a>
+		<hr />
+        <table>
+			<tbody>
+				<form th:action="@{/member/mypage.do(menu=1)}" method="post" id="form">
+					<tr th:each="obj : ${list}">
+						<td><!-- 체크박스 -->
+							<input type="checkbox" name="chk[]" th:value="${obj.no.longValue()}"/>
+						</td>
+						<td><input src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." ></td>
+						<td th:text="${obj.dno}"></td><!-- 디자인번호 -->
+						<td th:text="${obj.tname}"></td><!-- 티셔츠이름 -->
+						<td th:text="${obj.ttname}"></td><!-- 티셔츠타입이름 -->
+						<td th:text="${obj.tssize}"></td><!-- 티셔츠사이즈 -->
+						<td th:text="${obj.pmethod}"></td><!-- 프린팅방식 -->
+						<td th:text="${obj.tssize}"></td><!-- 티셔츠사이즈 -->
+						<td><!-- 총 가격 -->
+							<fmt:formatNumber th:vlaue="${obj.totalprice}" pattern="#,###"></fmt:formatNumber>
+						</td>
+						<td><!-- 디자인 생성 날짜 -->
+							<fmt:formatDate th:vlaue="${obj.dregdate}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatNumber>
+						</td>
+						<td>
+							<a th:href="@{/seller/productupload.do(dno=${obj.dno})}"><button>상품만들기</button></a>
+						</td>
+					</tr>
+					<input type="hidden" name="btn" id="btn" />
+					<input type="button" value="일괄삭제" onclick="deleteItemAction()"/>
+					<input type="button" value="일괄수정" onclick="updateItemAction()"/>
+					<input type="button" value="일괄주문" onclick="orderItemAction()"/>
+				</form>
+			</tbody>
+		</table>
     </div>
 
-    <div th:if="${#strings.equals(param.menu, '2')}">
-        <form th:action="@{/member/home.do(menu=2)}" method="post">
-            <input type="text" name="pw" placeholder="현재비번" />
-            <input type="text" name="pw1" placeholder="바꿀비번" />
-            <input type="submit" value="비번변경" />
-        </form>
-    </div>
-    <div th:if="${#strings.equals(param.menu, '3')}">
-        <form th:action="@{/customer/home.do(menu=3)}" method="post">
+	<div th:if="${#strings.equals(param.menu, '2')}">
+		<h2>파일목록</h2>
+        <form th:action="@{/member/mypage.do(menu=2)}" method="post">
+			<div class="card shadow-sm">
+				<img src="https://via.placeholder.com/400x225" width="100%" height="225" focusable="false">
+				<div class="card-body">
+					<p class="card-text">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat perspiciatis magni totam eum dolore sequi iste, laboriosam at.
+					</p>
+					<div class="d-flex justify-content-between align-items-center">
+						<div class="btn-group">
+							<button type="button" class="btn btn-sm btn-outline-primary">View</button>
+							<button type="button" class="btn btn-sm btn-outline-primary">Edit</button>
+						</div>
+						<small class="text-body-secondary">10 mins</small>
+					</div>
+				</div>
+			</div>
             <input type="text" placeholder="현재비번" />
             <input type="submit" value="탈퇴변경" />
         </form>
     </div>
+
 </body>
 </html>
