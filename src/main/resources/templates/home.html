@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>T-Custom HOME</title>
     <link rel="stylesheet" th:href="@{/css/homeheader.css}">
+
 </head>
 <body>
     <div th:if="${user == null}">
@@ -17,8 +18,8 @@
                 <a th:href="@{/join.do}">회원가입</a>
                 <a th:href="@{/login.do}">로그인</a>
             </div>
-            <a id="nav" th:href="@{/fqa.do}">FQA</a>
-            <div class="nav_2"><a th:href="@{/printing.do}">Printing</a></div>
+            <div ><a class="nav_1" th:href="@{/fqa.do}">FQA</a></div>
+            <div ><a class="nav_2"th:href="@{/printing.do}">Printing</a></div>
             <div class="nav_2"><a th:href="@{/product.do}">Product</a></div>
             <div class="nav_2"><a th:href="@{/home.do}">Home</a></div>
         </div>
@@ -28,19 +29,16 @@
         <div id="title">
             <div class="title_1">T-custom</div>
         </div> 
-
+        <p id="nav_0" th:text="${user.name + '님 환영합니다'}"></p>
+        <a id="nav_00" th:href="@{/member/mypage.do}">mypage</a>
+        <form id="nav_00_" th:action="@{/logout.do}" method="post">
+            <input type="submit" th:value="logout" />
+        </form>
         <div id="nav">
-            <div class="nav_0">
-                <p th:text="${user.name}"> 님 환영합니다</p>
-                <form th:action="@{/logout.do}" method="post">
-                    <!-- (로그인도 그렇고)/로그아웃: post로 보내고 get으로만 받는다. post는 SecurityConfig가 해줌-->
-                        <input type="submit" value="로그아웃"/>
-                </form>
-            </div>
-            <div class="nav_1"><a th:href="@{/fqa.do}">FQA</a></div>
-            <div class="nav_2"><a th:href="@{/printing.do}">Printing</a></div>
-            <div class="nav_2"><a th:href="@{/product.do}">Product</a></div>
-            <div class="nav_2"><a th:href="@{/home.do}">Home</a></div>
+            <div id="nav_1"><a th:href="@{/fqa.do}">FQA</a></div>
+            <div id="nav_2"><a th:href="@{/printing.do}">Printing</a></div>
+            <div id="nav_2"><a th:href="@{/product.do}">Product</a></div>
+            <div id="nav_2"><a th:href="@{/home.do}">Home</a></div>
         </div>
     </div>
 </body>

@@ -48,4 +48,17 @@ public class MemberController {
         }
         return "/member/mypage";
     }
+
+    @GetMapping(value = "/ design.do")
+    public String designGET(){
+
+        return "/member/design";
+    }
+
+
+    @GetMapping(value = "/productupload.do")
+    public String productuploadGET(){
+
+        return "/member/productupload";
+    }
 }

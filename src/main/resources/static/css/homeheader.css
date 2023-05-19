@@ -11,6 +11,18 @@
 	
 } */
 
+a:link{
+	color:rgb(0, 0, 0, 1);
+	text-decoration-line: none;
+	font-size: 20px;	
+	font-family:Inter;
+	margin-top: 57px;
+	float: right;
+}
+a:hover{
+	color: #838383;
+
+}
 
 /* 타이틀 */
 #title{
@@ -19,6 +31,7 @@
 	letter-spacing: 3px;
 	float: left;
 	margin-left: 85px;
+	
 
 }
 .title_1{
@@ -26,36 +39,75 @@
 	margin-top: 62px;
 }
 
+
+
+
+
+
+
 #nav{
 	float: right;
-	color:rgb(0, 0, 0, 1);
 	letter-spacing: 0;
+	text-decoration-line: none;
 }
 #nav :hover{
 	color: #838383;
 	/* hover지정할땐 id에 지정 */
 }
-.nav_0{
+#nav_0{
+	float: right;
+	letter-spacing: 0;
+	text-decoration-line: none;
+
 	font-size: 10px;
 	margin-right: 85px;
-	margin-left: 730px;
+	/* margin-left: 730px; */
 	margin-top: 23px;
 	font-family:Inter;
 	/* 폰트는 왜인지 클래스에만 먹힘 */
 }
-.nav_1{
+#nav_00{
+	float: right;
+	letter-spacing: 0;
+	text-decoration-line: none;
+
+	font-size: 10px;
+	margin-right: 20px;
+	/* margin-left: 20px; */
+	margin-top: 23px;
+	font-family:Inter;
+	/* 폰트는 왜인지 클래스에만 먹힘 */
+}
+#nav_00_{
+	float: right;
+	letter-spacing: 0;
+	text-decoration-line: none;
+
+	font-size: 10px;
+	margin-right: 20px;
+	/* margin-left: 20px; */
+	margin-top: 23px;
+	font-family:Inter;
+}
+#nav_1{
+	float: right;
+	letter-spacing: 0;
+	text-decoration-line: none;
 	float: right;
 	font-size: 20px;	
 	margin-right: 360px;
-	margin-top: 57px;	
-	font-family:Inter;
+	margin-top: 57px;
+
 }
 
 #nav2{
-	color:rgb(0, 0, 0, 1);
 	letter-spacing: 0;
+	text-decoration-line: none;
 }
-.nav_2{
+#nav_2{
+	letter-spacing: 0;
+	text-decoration-line: none;
+
 	float: right;
 	font-size: 20px;	
 	margin-right: 50px;
@@ -71,13 +123,14 @@
 	color:rgb(0, 0, 0, 1);
 	background-color:rgba(242, 242, 242, 1);
 	border-radius: 30px;
-	padding: 13px 26px 13px 26px;
-	font: size 20px;
+	padding: 5px 10px 5px 10px;
+	font: size 14px;
 	font-family:Inter;
 	letter-spacing:0;
     width: auto;
 	height: auto;
     float: right;
+	margin-top: 20px;
 	margin-right: 65px;
 
 }
