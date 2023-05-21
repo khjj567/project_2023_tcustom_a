@@ -98,16 +98,22 @@ public class HomeController {
         } // OK : 5/17
         // 이것도 역시 html에서는 post로 보내고, controller에서는 get만 쓴다.
 
+        // 127.0.0.1:9090/CUSTOM/product.do
+        @GetMapping(value = "/product.do")
+        public String  productGET(){
+            
+            return "product";
+        }
 
     @GetMapping(value = "/403page.do")
     public String page3GET(){
         
-        return "/error/403page";
+        return "/403page";
     }
     
     @GetMapping(value = "/404page.do")
     public String page4GET(){
         
-        return "/error/404page";
+        return "/404page";
     }
 }

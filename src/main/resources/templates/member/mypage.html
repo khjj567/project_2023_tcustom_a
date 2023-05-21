@@ -31,11 +31,12 @@
 						</td>
 						<td><input src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." ></td>
 						<td th:text="${obj.dno}"></td><!-- 디자인번호 -->
+						<td th:text="${obj.tcolorname}"></td><!-- color -->
+						<td th:text="${obj.psidename}"></td><!-- side -->
 						<td th:text="${obj.tname}"></td><!-- 티셔츠이름 -->
 						<td th:text="${obj.ttname}"></td><!-- 티셔츠타입이름 -->
 						<td th:text="${obj.tssize}"></td><!-- 티셔츠사이즈 -->
 						<td th:text="${obj.pmethod}"></td><!-- 프린팅방식 -->
-						<td th:text="${obj.tssize}"></td><!-- 티셔츠사이즈 -->
 						<td><!-- 총 가격 -->
 							<fmt:formatNumber th:vlaue="${obj.totalprice}" pattern="#,###"></fmt:formatNumber>
 						</td>

@@ -2,42 +2,164 @@
 /* Anton & Inter */
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600&display=swap');
 
-*{
-	box-sizing: border-box;
-	font-family: 'Inter', 'Anton', sans-serif;
+a:link.hello{
+	font-size: 10px;
+	background-color: rgb(179, 233, 237);
+	float: right;
+	font-family:Inter;
+	/* 폰트는 왜인지 클래스에만 먹힘 */
 }
 
-/* .container{
-	
-} */
+a:link.mylogin{
+    float: right;
+    margin-right: 20px;
+    font-size: 10px;
+    /* background-color: blueviolet; */
+}
+
+a:link.nav_0{
+	font-size: 10px;
+	/* background-color: rgb(179, 233, 237); */
+	float: right;
+	font-family:Inter;
+	/* 폰트는 왜인지 클래스에만 먹힘 */
+}
 
 a:link{
 	color:rgb(0, 0, 0, 1);
-	text-decoration-line: none;
+	text-decoration: none;
 	font-size: 20px;	
 	font-family:Inter;
-	margin-top: 57px;
+	/* margin-top: 57px; */
 	float: right;
 }
+a:visited {
+	color: rgb(0, 0, 0, 1);
+  }
 a:hover{
-	color: #838383;
-
+	color: pink;
 }
 
-/* 타이틀 */
-#title{
+
+
+
+/* NEW header */
+
+#header{
+    /* background-color: darkseagreen; */
 	color:rgb(0, 0, 0, 1);
-	font-size: 42px;
+    width: 1200px;
+    /* 1000%? */
+    height: auto;
+    /* 패딩 상속됨 */
+    padding-left: 5%;
+    padding-right: 5%;
+/* 포지션 릴레이티브 땜 */
+/* position: relative; */
+    font-size: 22px;
+    font-family: Anton;
 	letter-spacing: 3px;
+    /* 폰트도 지정가능 상속됨*/
+    
+}
+
+#header1{
+    /* background-color: darkseagreen; */
+	color:rgb(0, 0, 0, 1);
+    width: 1200px;
+    /* 1000%? */
+    height: auto;
+    /* 패딩 상속됨 */
+    padding-left: 5%;
+    padding-right: 5%;
+/* 포지션 릴레이티브 땜 */
+/* position: relative; */
+    font-size: 22px;
+    font-family: Anton;
+	letter-spacing: 3px;
+    /* 폰트도 지정가능 상속됨*/
+    
+}
+
+
+.title{
+    /* background-color: aqua; */
+    font-size: 42px;
+    /* 폰트사이즈 속성을 넣으면 깨진다? */
 	float: left;
-	margin-left: 85px;
-	
+    margin-top: 70px;
+    font-family:Anton;
+}
+
+.nav_role{
+    width: 80%;
+    height: auto;
+    /* background-color: brown; */
+    float: right; 
+    /* 같은 행에 있는 애랑 꼭 같은 방향을 쓸 필요 없다 */
+    /* float은 길면 밑으로 줄바꿈이 일어난다 */
+    margin-top: 23px;
+    font-family:Inter;
+}
+
+
+
+.nav_role2{
+    width: 70%;
+    height: auto;
+    /* background-color: brown; */
+    float: right; 
+    /* 같은 행에 있는 애랑 꼭 같은 방향을 쓸 필요 없다 */
+    /* float은 길면 밑으로 줄바꿈이 일어난다 */
+    font-family:Inter;
+    margin-top: 62px;
+}
+
+.navigation{
+    float: right;
+    margin-right: 50%;
+    /* background-color: rgb(252, 255, 86); */
+}
+
+.nav_0{
+    float: right;
+    /* background-color: coral; */
+    margin-right: 20px;
+}
+
+.nav_1{
+    float: right;
+    /* background-color: royalblue; */
 
 }
-.title_1{
-	font-family: Anton;
-	margin-top: 62px;
+
+
+#all{
+    margin: 0;
+    padding: 0;
+    /* background-color: rgb(255, 0, 0); */
+    display: flex ; 
+    /* display: inline-block; : 내용이 적히는 만큼만 적용 */
+    /* display: flex; : 상속가능. 사용하는 div 밑에도 상속가능. 화면이 줄어들면 자유롭게 배치됨. 좌우스크롤없음 */
 }
+
+.hello{
+	font-size: 10px;
+    /* background-color: rgb(179, 233, 237); */
+    float: right;
+	font-family:Inter;
+	/* 폰트는 왜인지 클래스에만 먹힘 */
+	margin: 0px;
+	/* 로그인환경에서 왜 지혼자 마진10씩 들어가있는거지 */
+}
+
+.mylogin{
+    float: right;
+    margin-right: 20px;
+    font-size: 10px;
+    /* background-color: blueviolet; */
+}
+
 
 
 
@@ -118,6 +240,7 @@ a:hover{
 	color: #838383;
 }
 
+
 /* 버튼 오른쪽정렬 */
 .btn_right1_16 { 
 	color:rgb(0, 0, 0, 1);
@@ -148,3 +271,4 @@ a:hover{
     float: right;
 	margin-right: 10px;
 }
+
