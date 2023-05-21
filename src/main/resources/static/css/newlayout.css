@@ -1,0 +1,183 @@
+@charset "UTF-8";
+/* Anton & Inter */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600&display=swap');
+
+#header{
+    background-color: darkseagreen;
+	color:rgb(0, 0, 0, 1);
+    width: 1200px;
+    /* 1000%? */
+    height: auto;
+    /* 패딩 상속됨 */
+    padding-left: 5%;
+    padding-right: 5%;
+/* 포지션 릴레이티브 땜 */
+/* position: relative; */
+    font-size: 22px;
+    font-family: Anton;
+	letter-spacing: 3px;
+    /* 폰트도 지정가능 상속됨*/
+    
+}
+
+.title{
+    /* background-color: aqua; */
+    font-size: 42px;
+    /* 폰트사이즈 속성을 넣으면 깨진다? */
+	float: left;
+    margin-top: 70px;
+    font-family:Anton;
+}
+
+.nav_role{
+    width: 80%;
+    height: auto;
+    /* background-color: brown; */
+    float: right; 
+    /* 같은 행에 있는 애랑 꼭 같은 방향을 쓸 필요 없다 */
+    /* float은 길면 밑으로 줄바꿈이 일어난다 */
+    margin-top: 23px;
+    font-family:Inter;
+}
+
+.hello{
+	font-size: 10px;
+    /* background-color: rgb(179, 233, 237); */
+    float: right;
+	font-family:Inter;
+	/* 폰트는 왜인지 클래스에만 먹힘 */
+}
+
+.mylogin{
+    float: right;
+    margin-right: 20px;
+    font-size: 10px;
+    /* background-color: blueviolet; */
+}
+
+.nav_role2{
+    width: 70%;
+    height: auto;
+    /* background-color: brown; */
+    float: right; 
+    /* 같은 행에 있는 애랑 꼭 같은 방향을 쓸 필요 없다 */
+    /* float은 길면 밑으로 줄바꿈이 일어난다 */
+    font-family:Inter;
+    margin-top: 62px;
+}
+
+.navigation{
+    float: right;
+    margin-right: 50%;
+    /* background-color: rgb(252, 255, 86); */
+}
+
+.nav_0{
+    float: right;
+    /* background-color: coral; */
+    margin-right: 20px;
+}
+
+.nav_1{
+    float: right;
+    /* background-color: royalblue; */
+
+}
+
+#body{
+    width: auto;
+    /* 100%하니까 우측에 삐져나옴 / auto는 all을 받은걸까*/
+    height: auto;
+    /*  height: auto; : 내용의 높이에 따라 body의 높이도 정해질것 */
+    
+    padding-top: 10px;
+    padding-bottom: 10px;
+    /*  padding-bottom: 10%; ? : 안될듯 height: auto;  떄문에*/
+    padding-left: 9%;
+    padding-right: 9%;
+    /* 좌우 패딩 9% : 전체대비 */
+    margin-top: 7px;
+
+    /* background-color: cornflowerblue; */
+    /* position: absolute; */
+    color:rgb(0, 0, 0, 1);
+    font-size: 16px;
+    font-family:Inter;
+	letter-spacing: 0px;
+}
+
+.bodytitle{
+    font-size: 32px;
+    padding-bottom: 8px;
+}
+
+/* 왜 id로 만들수 없을까 */
+.banner1{
+    /* background-color: aquamarine; */
+    width: auto;
+    /* : 가로 스크롤생기면 어쩌쥐 */
+    height: 250px;
+    /* height: auto;로 나중엔 변환 */
+    margin-top: 7px;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.banner2{
+    /* background-color: hotpink; */
+    width: auto;
+    /* : 가로 스크롤생기면 어쩌쥐 */
+    height: 700px;
+    /* height: auto;로 나중엔 변환 : 이미지에 따라 달라지도록*/
+    margin-top: 7px;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+
+#footer{
+    width: auto;
+    height: 100px;
+    padding-left: 9%;
+    padding-right: 9%;
+    /* 가운데 정렬하는거 그거써볼까 */
+    margin-top: 7px;
+    /* 마진 %랑 px를 섞어서 씀 */
+    background-color: rgb(215, 215, 215);
+    /* position: absolute; */
+    color:rgb(0, 0, 0, 1);
+    font-size: 8px;
+    font-family:Inter;
+	letter-spacing: 0px;
+    /* display: block; */
+}
+
+.footer_0{
+    font-size: 10px;
+    /* background-color: rgb(179, 233, 237); */
+    margin-top: 45px;
+    margin-bottom: 50px;
+    /* margin-right: 50%; */
+	font-family:Inter;
+/* float: center; 중앙정렬 :  .footer_0 + .center */
+    position: relative;
+    left: 50%;
+}
+
+#all{
+    margin: 0;
+    padding: 0;
+    /* background-color: rgb(255, 0, 0); */
+    display: flex ; 
+    /* display: inline-block; : 내용이 적히는 만큼만 적용 */
+    /* display: flex; : 상속가능. 사용하는 div 밑에도 상속가능. 화면이 줄어들면 자유롭게 배치됨. 좌우스크롤없음 */
+}
+
+
+
+/* float: center; 중앙정렬 :  .footer_0 + .center */
+.center {
+    float: right;
+    position: relative;
+    left: -50%;
+}
