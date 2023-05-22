@@ -18,8 +18,6 @@
         float: right;
         /* background-color: royalblue; */
     }
-    
-
 
     </style>
 
@@ -59,9 +57,9 @@
                     <a class="mylogin" th:href="@{/member/mypage.do}">mypage</a>
                     
                     <form th:action="@{/logout.do}" method="post">
-                        <input class="mylogin" type="submit" th:value="logout" />
+                        <!-- style="border: none; background: transparent;" : input에 스타일 삭제 -->
+                        <input class="mylogout" style="border: none; background: transparent;" type="submit" th:value="logout" />
                     </form>
-                       
                 </div>
                 <div class="nav_role2">
                     <div class="navigation">
@@ -74,7 +72,20 @@
             </div>
         </div>
     </div>
+    <div>
+        <div class="banner1">
+            배너1 좌우이동
+        </div>
 
+        <div class="banner2">
+            세로로 긴 사각형. 사이트 pr.
+        </div>
+    </div>
+    <div id="footer">
+        <div class="center">
+            <p class="footer_0">Copyright &copy; T-CUSTOM 2023</p>
+        </div>
+    </div>
 
 
     

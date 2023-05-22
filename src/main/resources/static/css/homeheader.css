@@ -7,6 +7,7 @@ a:link.hello{
 	background-color: rgb(179, 233, 237);
 	float: right;
 	font-family:Inter;
+	letter-spacing: 1px;
 	/* 폰트는 왜인지 클래스에만 먹힘 */
 }
 
@@ -14,6 +15,7 @@ a:link.mylogin{
     float: right;
     margin-right: 20px;
     font-size: 10px;
+	letter-spacing: 1px;
     /* background-color: blueviolet; */
 }
 
@@ -35,7 +37,7 @@ a:link{
 }
 a:visited {
 	color: rgb(0, 0, 0, 1);
-  }
+}
 a:hover{
 	color: pink;
 }
@@ -151,16 +153,28 @@ a:hover{
 	/* 폰트는 왜인지 클래스에만 먹힘 */
 	margin: 0px;
 	/* 로그인환경에서 왜 지혼자 마진10씩 들어가있는거지 */
+	letter-spacing: 1px;
 }
 
 .mylogin{
     float: right;
     margin-right: 20px;
     font-size: 10px;
+	
     /* background-color: blueviolet; */
 }
 
+.mylogout{
+    float: right;
+    margin-right: 20px;
+    font-size: 10px;
+	letter-spacing: 1px;
+    /* background-color: blueviolet; */
+}
 
+.mylogout:hover{
+	color: pink;
+}
 
 
 
@@ -272,3 +286,65 @@ a:hover{
 	margin-right: 10px;
 }
 
+
+
+/* NEW Banner & Footer */
+
+/* 왜 id로 만들수 없을까 */
+.banner1{
+    /* background-color: aquamarine; */
+    width: auto;
+    /* : 가로 스크롤생기면 어쩌쥐 */
+    height: 250px;
+    /* height: auto;로 나중엔 변환 */
+    margin-top: 7px;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.banner2{
+    /* background-color: hotpink; */
+    width: auto;
+    /* : 가로 스크롤생기면 어쩌쥐 */
+    height: 700px;
+    /* height: auto;로 나중엔 변환 : 이미지에 따라 달라지도록*/
+    margin-top: 7px;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+#footer{
+    width: auto;
+    height: 100px;
+    padding-left: 9%;
+    padding-right: 9%;
+    /* 가운데 정렬하는거 그거써볼까 */
+    margin-top: 7px;
+    /* 마진 %랑 px를 섞어서 씀 */
+    background-color: rgb(215, 215, 215);
+    /* position: absolute; */
+    color:rgb(0, 0, 0, 1);
+    font-size: 8px;
+    font-family:Inter;
+	letter-spacing: 0px;
+    /* display: block; */
+}
+
+.footer_0{
+    font-size: 10px;
+    /* background-color: rgb(179, 233, 237); */
+    margin-top: 45px;
+    margin-bottom: 50px;
+    /* margin-right: 50%; */
+	font-family:Inter;
+/* float: center; 중앙정렬 :  .footer_0 + .center */
+    position: relative;
+    left: 50%;
+}
+
+/* float: center; 중앙정렬 :  .footer_0 + .center */
+.center {
+    float: right;
+    position: relative;
+    left: -50%;
+}

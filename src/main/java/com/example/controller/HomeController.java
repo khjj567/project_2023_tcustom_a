@@ -1,5 +1,8 @@
 package com.example.controller;
 
+import java.math.BigInteger;
+import java.util.List;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -7,10 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.MemberUser;
+import com.example.dto.TshirtProductSorting;
 import com.example.entity.Member;
+import com.example.entity.TshirtView1;
 import com.example.repository.MemberRepository;
+import com.example.repository.TshirtView1Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HomeController {
 
     final MemberRepository mRepository;
+    final TshirtView1Repository tv1Repository;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
     //127.0.0.1:9090/CUSTOM/home.do
@@ -83,7 +91,6 @@ public class HomeController {
         } // OK : 5/17
         // SecurityConfig에 비밀번호 인코딩 설정 안해놔서 오류
         // html에서는 post로 보내고, controller에서는 get만 쓴다. 로그인 하는 post는 SecurityConfig에서 처리한다.
-        
 
         // 127.0.0.1:9090/CUSTOM/logout.do
         @GetMapping(value = "/logout.do")
@@ -100,10 +107,42 @@ public class HomeController {
 
         // 127.0.0.1:9090/CUSTOM/product.do
         @GetMapping(value = "/product.do")
-        public String  productGET(){
-            
-            return "product";
+        public String  productGET(Model model, 
+                @ModelAttribute TshirtProductSorting obj, 
+                @RequestParam(name="typeCode", defaultValue = "0") int typeCode){
+            try{
+
+                List<TshirtView1> list = null;
+                if(typeCode == 0){
+                    list = tv1Repository.findAll();
+                }
+                else {
+                    list = tv1Repository.findByTtnoOrderByTnoDesc(BigInteger.valueOf(typeCode));
+                }
+
+                log.info("리스트 =>{}", list.toString());
+                model.addAttribute("search", obj);
+                model.addAttribute("list", list);
+                return "product";
+            }
+            catch(Exception e){
+                e.printStackTrace();
+                return "redirect:/home.do";
+            }
         }
+
+        // 
+        @PostMapping(value = "/product.do")
+        public String productPOST(){
+            try {
+
+                return "redirect:/product.do";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "redirect:/home.do";
+        }
+
 
     @GetMapping(value = "/403page.do")
     public String page3GET(){

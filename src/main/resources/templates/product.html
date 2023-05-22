@@ -4,9 +4,49 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>상품목록페이지</title>
+    <style>
+        .one{
+            background-color: aquamarine;
+        }
+    </style>
+    
 </head>
 <body>
-    
+    <h2>상품</h2>
+        <div>
+            <!-- 항목카테고리  버튼을 누르면 해당타입으로 정렬-->
+            <!-- 항목카테고리 버튼모양 변경 수정 -->
+            <a th:href="@{/product.do(typeCode=0)}">전체목록</a>
+            <th:block th:each="tmp, idx : ${search.typeCode}" >
+                <form th:action="@{/product.do}" method="get" th:object="${search}">
+                    <input type="hidden" name="typeCode" th:value="${tmp}" />
+                    <input type="submit" th:value="${tmp}" th:text="${search.typeName[idx.index]}" />
+                </form>
+            </th:block>
+            
+            <table>
+                <h5>상품목록</h5>
+                <tbody>
+                    <tr th:each="one : ${list}">                  
+                        <td th:text="${one.tname}"></td>
+                        <td th:text="${one.tprice}"></td>
+                        <td><a type="button" th:href="@{/product/making.do(tno=${one.tno})}" >디자인하러가기</a></td>
+                        <td><a type="button" th:href="@{/product/insertimage.do(tno=${one.tno})}" >티셔츠이미지넣으러가기</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <!-- 분류 : 인기순(조회수) 최신등록순 낮은가격순 높은가격순 -->
+        </div>
+        
+
+
+        <div id="footer">
+            <div class="center">
+                <p class="footer_0">Copyright &copy; T-CUSTOM 2023</p>
+            </div>
+        </div>
 </body>
 </html>
