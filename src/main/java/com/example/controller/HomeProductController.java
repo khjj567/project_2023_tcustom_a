@@ -29,7 +29,7 @@ public class HomeProductController {
     @GetMapping(value = "/making.do")
     public String makingGET(){
         try {
-            return "/product/making";
+            return "product/making";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
@@ -38,17 +38,10 @@ public class HomeProductController {
     }
 
     @GetMapping(value = "/insertimage.do")
-    public String insertimageGET(@ModelAttribute TshirtImage obj){
+    public String insertimageGET(){
         try {
-            log.info("이미지정보 => {}", obj.toString());
-            // , @RequestParam(name="file") MultipartFile file
-            // // 파일은 수동으로 obj에 추가
-            // obj.setIname(file.getOriginalFilename());
-            // obj.setIsize(BigInteger.valueOf(file.getSize()));
-            // // (BigInteger.valueOf(file.getSize())) : long,int -> BigInteger 형변환
-            // obj.setItype(file.getContentType());
-            // obj.setIdata(file.getInputStream().readAllBytes());
-            return "/product/insertimage";
+            
+            return "product/insertimage";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/product.do";
@@ -56,13 +49,27 @@ public class HomeProductController {
         
     }
     @PostMapping(value="/insertimage.do")
-    public String insertimagePOST() {
+    public String insertimagePOST(@ModelAttribute TshirtImage obj
+                        , @RequestParam(name="file") MultipartFile file
+                        , @RequestParam(name="tno") long tno) {
         try {
+            log.info("이미지정보 => {}", tno);
+            // // 파일은 수동으로 obj에 추가
+            // obj.setIname(file.getOriginalFilename());
+            // obj.setIsize(BigInteger.valueOf(file.getSize()));
+            // // (BigInteger.valueOf(file.getSize())) : long,int -> BigInteger 형변환
+            // obj.setItype(file.getContentType());
+            // obj.setIdata(file.getInputStream().readAllBytes());
+            // obj.setTno(BigInteger.valueOf(tno));
 
-            return "redirect:/product/insertimage.do";
+            // log.info("이미지정보 => {}", tno);
+            // tiRepository.save(obj);
+            // 왜 안되지
+
+            return "redirect:/product.do";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/product.do";
+            return "redirect:/home.do";
         }
     }
     

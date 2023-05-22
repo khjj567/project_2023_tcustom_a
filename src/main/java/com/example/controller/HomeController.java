@@ -120,7 +120,7 @@ public class HomeController {
                     list = tv1Repository.findByTtnoOrderByTnoDesc(BigInteger.valueOf(typeCode));
                 }
 
-                log.info("리스트 =>{}", list.toString());
+                //log.info("리스트 =>{}", list.toString());
                 model.addAttribute("search", obj);
                 model.addAttribute("list", list);
                 return "product";
