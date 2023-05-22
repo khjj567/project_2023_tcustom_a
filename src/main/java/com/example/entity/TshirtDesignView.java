@@ -76,7 +76,7 @@ public class TshirtDesignView {
 
     private	String	itype	; // 티셔츠 이미지 타입
 
-    private	BigInteger	tssize	; // 티셔츠 사이즈
+    private	String	tssize	; // 티셔츠 사이즈
 
     private	String	tcolorname	; // 티셔츠 컬러 이름
     
