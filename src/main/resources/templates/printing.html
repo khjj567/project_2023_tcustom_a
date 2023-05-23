@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프린팅 상세</title>
+    <link rel="stylesheet" th:href="@{/css/homeheader.css}">
+</head>
+<body>
+        <!-- header -->
+<div id="all">
+
+    <div class="header_center">
+        <div class="header" th:if="${user == null}">
+            <div class="title">
+                T-custom
+            </div> 
+            <div>
+                <div class="nav_role">
+                    <!-- a태그 css 안먹히면? -> 밑에서 한 방법으로 해봄-->
+                    <!-- a태그 css a태그에 직접주는거 아니면 글자스타일 안먹힘-->
+                    <div><a class="hello" th:href="@{/join.do}">회원가입</a></div>
+                    <div><a class="mylogin" th:href="@{/login.do}">로그인</a></div>
+                </div>
+                <div class="nav_role2">
+                    <div class="navigation">
+                        <div class="nav_1"><a th:href="@{/fqa.do}">FQA</a></div>
+                        <div class="nav_0"><a th:href="@{/printing.do}">Printing</a></div>
+                        <div class="nav_0"><a th:href="@{/product.do}">Product</a></div>
+                        <div class="nav_0"><a th:href="@{/home.do}">Home</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header" th:if="${user != null}">
+            <div class="title">
+                T-custom
+            </div> 
+            <div>
+                <div class="nav_role">
+                    <p class="hello" th:text="${user.name + '님 환영합니다'}"></p>
+                    <a class="mylogin" th:href="@{/member/mypage.do}">mypage</a>
+                    
+                    <form th:action="@{/logout.do}" method="post">
+                        <!-- style="border: none; background: transparent;" : input에 스타일 삭제 -->
+                        <input class="mylogout" style="border: none; background: transparent;" type="submit" th:value="logout" />
+                    </form>
+                </div>
+                <div class="nav_role2">
+                    <div class="navigation">
+                        <div class="nav_1"><a th:href="@{/fqa.do}">FQA</a></div>
+                        <div class="nav_0"><a th:href="@{/printing.do}">Printing</a></div>
+                        <div class="nav_0"><a th:href="@{/product.do}">Product</a></div>
+                        <div class="nav_0"><a th:href="@{/home.do}">Home</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="clear"></div>
+        
+        <div class="bar"></div>
+        <div class="body">
+            <div class="mid_title">
+                프린팅 방식
+            </div>
+            
+            <div class="p_box">
+                디지털 프린팅(Digital Printing)
+                <a class="select_btn2" style="border: solid 1px #cfcfcf;" th:href="@{/product.do}">디자인하러가기</a>
+                <p class="p_conts_first">컴퓨터로 작업된 이미지를 원단에 잉크를 직접 분사하여 자연스럽게 흡수시키는 인쇄 방식으로,</p>
+                <p class="p_conts_last">세세한 부분까지 인쇄가 가능하여 얇은 선, 크고 디테일한 이미지 등 복잡하고 다양한 이미지 표현이 가능합니다.</p>
+                <p class="p_conts_mid">원단에 흡수시키는 인쇄 방식 특성상 전처리 작업을 거쳐 컬러 표현을 극대화합니다.</p>
+                <p class="p_conts_last">상품 수령 시 전처리 자국이 남아있을 수 있으며, 1~2회 세탁 시 전처리 자국은 옅어지면서 사라집니다.</p>
+            </div>
+            <div class="p_box">
+                DTF(Direct to Film)
+                <a class="select_btn2" style="border: solid 1px #cfcfcf;" th:href="@{/product.do}">디자인하러가기</a>
+                <p class="p_conts_first">피그먼트 잉크로 특수 필름에 인쇄를 한 뒤 핫멜트 파우더 처리를 하고 원단에 열프레스 작업을 통해 인쇄되는 방식입니다.</p>
+                <p class="p_conts_last">(※ 핫멜트 파우더 : 작은 입자크기의 분말형 접착제)</p>
+                <p class="p_conts_first">1. 뛰어난 인쇄 퀄리티</p>
+                <p class="p_conts_last">색감의 표현력이 풍부하며, 얇고 작은 디자인도 정교하게 표현해낼 수 있습니다.</p>
+                <p class="p_conts_first">2. 뛰어난 터치감</p>
+                <p class="p_conts_last">더욱 얇고, 더욱 부드러운 터치감으로 원단과의 이질감이 최소화 되었습니다.</p>
+                <p class="p_conts_first">3. 뛰어난 세탁 견뢰도</p>
+                <p class="p_conts_last">세탁 시 인쇄 표면 벗겨짐, 갈라짐 현상이 없습니다.</p>
+                <p class="p_conts_first">4. 뛰어난 범용성</p>
+                <p class="p_conts_last">면, 폴리, 가죽, 나일론, 스판 등 다양한 소재에 적용 가능합니다.</p>
+            </div>
+            <div class="p_box">
+                플렉스(FLEX)
+                <a class="select_btn2" style="border: solid 1px #cfcfcf;" th:href="@{/product.do}">디자인하러가기</a>
+                <p class="p_conts_one">얇은 고무 원단(시트)을 기계로 커팅 하여 고온 압착하는 인쇄 방식입니다.</p>
+                <p class="p_conts_first">플렉스는 지정된 원단 컬러로 만 인쇄가 가능하여, 다양한 색감 표현은 불가하지만, 인쇄면의 제한 없이 선명한 컬러 표현이 가능합니다.</p>
+                <p class="p_conts_last">홀로그램, 야광, 반사광, 골드, 실버 등 특수 컬러 표현도 가능합니다.</p>
+            </div>
+            <div class="p_box">
+                우레탄 전사(PU Heat Transfer)
+                <a class="select_btn2" style="border: solid 1px #cfcfcf;" th:href="@{/product.do}">디자인하러가기</a>
+                <p class="p_conts_one">인쇄할 이미지를 특수 인쇄용지에 출력 후, 기계로 커팅 하여 고온 압착하는 방식입니다.</p>
+                <p class="p_conts_first">인쇄면의 제한 없이 다양한 컬러 표현이 가능하며, 실사 이미지로도 제작 가능합니다.</p>
+                <p class="p_conts_last">전사 인쇄 지보다 두께감이 있고 탄성 있는 특수 인쇄용지를 사용하기 때문에, 크랙 현상이 없고, 색감 표현이 우수합니다.</p>
+                <p class="p_conts_one">플렉스와 마찬가지로 커팅 방식 특성상 너무 얇은 선으로 이루어진 이미지는 표현이 불가합니다.</p>
+                <p class="p_conts_one">또한, 우레탄 전사(PU Heat Transfer)로 제작 시 솔벤트와 같은 용해력이 있는 용매를 사용한 향수의 사용을 삼가해 주세요.</p>
+            </div>
+            <div class="p_box">
+                나염(Silk Screen)
+                <a class="select_btn2" style="border: solid 1px #cfcfcf;" th:href="@{/product.do}">디자인하러가기</a>
+                <p class="p_conts_one">판화처럼 프레임을 만들고 색을 조색하여 원단에 염료를 덧바르는 인쇄 방식입니다.</p>
+                <p class="p_conts_first">컬러에 제한이 없으며, 고객님이 원하는 컬러에 가장 가깝고, 선명한 컬러 표현이 가능합니다.</p>
+                <p class="p_conts_last">프린팅 방식 중 내구성이 가장 뛰어나며, 인쇄 특성상 단체 주문에 가장 적합합니다.</p>
+                <p class="p_conts_one">나염은 실사 이미지는 인쇄가 불가하며, 1도(컬러) 당 최소 5장부터 인쇄 가능합니다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="clear"></div>
+<div id="footer">
+    <div class="center">
+        <p class="footer_0">Copyright &copy; T-CUSTOM 2023</p>
+    </div>
+</div>
+</body>
+</html>

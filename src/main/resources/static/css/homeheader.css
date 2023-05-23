@@ -1,10 +1,11 @@
 @charset "UTF-8";
 /* Anton & Inter */
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600&display=swap');
+@import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css);
 
 a:link.hello{
 	font-size: 10px;
-	background-color: rgb(179, 233, 237);
+	/* background-color: rgb(179, 233, 237); */
 	float: right;
 	font-family:Inter;
 	letter-spacing: 1px;
@@ -42,47 +43,76 @@ a:hover{
 	color: pink;
 }
 
-
-
-
-/* NEW header */
-
-#header{
-    /* background-color: darkseagreen; */
-	color:rgb(0, 0, 0, 1);
-    width: 1200px;
-    /* 1000%? */
+a:link.select_btn2{
+    width: auto;
     height: auto;
-    /* 패딩 상속됨 */
-    padding-left: 5%;
-    padding-right: 5%;
-/* 포지션 릴레이티브 땜 */
-/* position: relative; */
-    font-size: 22px;
-    font-family: Anton;
-	letter-spacing: 3px;
-    /* 폰트도 지정가능 상속됨*/
-    
+	/* color:rgb(0, 0, 0, 1); */
+    background-color: rgba(242, 242, 242, 1);
+	text-decoration: none;
+	font-family:Inter;
+	/* margin-top: 57px; */
+	float: right;
+    /* border: solid 1px; */
+    /* border-color: #ff0000; */
+    border-radius: 30px;
+    padding: 5px 15px 5px 15px;
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+a:link.select_btn2:visited {
+	color: rgb(0, 0, 0, 1);
+}
+a:link.select_btn2:hover{
+    color: pink
 }
 
-#header1{
-    /* background-color: darkseagreen; */
-	color:rgb(0, 0, 0, 1);
-    width: 1200px;
-    /* 1000%? */
-    height: auto;
-    /* 패딩 상속됨 */
-    padding-left: 5%;
-    padding-right: 5%;
-/* 포지션 릴레이티브 땜 */
-/* position: relative; */
-    font-size: 22px;
-    font-family: Anton;
-	letter-spacing: 3px;
-    /* 폰트도 지정가능 상속됨*/
-    
+
+
+#all{
+    width: auto;
+    height: 100px;
+    padding-left: 9%;
+    padding-right: 9%;
+    /* 가운데 정렬하는거 그거써볼까 */
+    margin-top: 7px;
+    /* 마진 %랑 px를 섞어서 씀 */
+    /* background-color: rgb(215, 215, 215); */
+    /* position: absolute; */
+    color:rgb(0, 0, 0, 1);
+    font-size: 8px;
+    font-family:Inter;
+    letter-spacing: 0px;
+    /* display: flex; */
 }
 
+
+/* 헤더 */
+
+.header{
+    /* width: 90%;
+    height: auto; */
+    font-size: 22px;
+    background-color: rgb(179, 233, 237);
+    padding-left: 3%;
+    padding-right: 3%;
+    /* margin-right: 50%; */
+    font-family: Anton;
+    /* 나중에 css에 넣으면 구글폰트 먹겠지 */
+    letter-spacing: 3px;
+    /* float: center; 중앙정렬 :  .footer_0 + .center */
+    position: relative;
+    left: 50%;
+}
+
+/* float: center; 중앙정렬 :  .footer_0 + .center */
+.header_center {
+    /* background-color: blueviolet; */
+    width: 100%;
+    height: auto;
+    float: right;
+    position: relative;
+    left: -50%;
+}
 
 .title{
     /* background-color: aqua; */
@@ -93,58 +123,7 @@ a:hover{
     font-family:Anton;
 }
 
-.nav_role{
-    width: 80%;
-    height: auto;
-    /* background-color: brown; */
-    float: right; 
-    /* 같은 행에 있는 애랑 꼭 같은 방향을 쓸 필요 없다 */
-    /* float은 길면 밑으로 줄바꿈이 일어난다 */
-    margin-top: 23px;
-    font-family:Inter;
-}
-
-
-
-.nav_role2{
-    width: 70%;
-    height: auto;
-    /* background-color: brown; */
-    float: right; 
-    /* 같은 행에 있는 애랑 꼭 같은 방향을 쓸 필요 없다 */
-    /* float은 길면 밑으로 줄바꿈이 일어난다 */
-    font-family:Inter;
-    margin-top: 62px;
-}
-
-.navigation{
-    float: right;
-    margin-right: 50%;
-    /* background-color: rgb(252, 255, 86); */
-}
-
-.nav_0{
-    float: right;
-    /* background-color: coral; */
-    margin-right: 20px;
-}
-
-.nav_1{
-    float: right;
-    /* background-color: royalblue; */
-
-}
-
-
-#all{
-    margin: 0;
-    padding: 0;
-    /* background-color: rgb(255, 0, 0); */
-    display: flex ; 
-    /* display: inline-block; : 내용이 적히는 만큼만 적용 */
-    /* display: flex; : 상속가능. 사용하는 div 밑에도 상속가능. 화면이 줄어들면 자유롭게 배치됨. 좌우스크롤없음 */
-}
-
+/* 로그인 로그아웃 마이페이지 */
 .hello{
 	font-size: 10px;
     /* background-color: rgb(179, 233, 237); */
@@ -176,92 +155,126 @@ a:hover{
 	color: pink;
 }
 
-
-
-
-
-
-#nav{
-	float: right;
-	letter-spacing: 0;
-	text-decoration-line: none;
+/* 네비게이션 */
+.nav_role{
+    width: 80%;
+    height: auto;
+    /* background-color: brown; */
+    float: right; 
+    /* 같은 행에 있는 애랑 꼭 같은 방향을 쓸 필요 없다 */
+    /* float은 길면 밑으로 줄바꿈이 일어난다 */
+    margin-top: 23px;
+    font-family:Inter;
 }
-#nav :hover{
-	color: #838383;
-	/* hover지정할땐 id에 지정 */
-}
-#nav_0{
-	float: right;
-	letter-spacing: 0;
-	text-decoration-line: none;
 
-	font-size: 10px;
-	margin-right: 85px;
-	/* margin-left: 730px; */
-	margin-top: 23px;
-	font-family:Inter;
-	/* 폰트는 왜인지 클래스에만 먹힘 */
+.nav_role2{
+    width: 70%;
+    height: auto;
+    /* background-color: brown; */
+    float: right; 
+    /* 같은 행에 있는 애랑 꼭 같은 방향을 쓸 필요 없다 */
+    /* float은 길면 밑으로 줄바꿈이 일어난다 */
+    font-family:Inter;
+    margin-top: 62px;
 }
-#nav_00{
-	float: right;
-	letter-spacing: 0;
-	text-decoration-line: none;
 
-	font-size: 10px;
-	margin-right: 20px;
-	/* margin-left: 20px; */
-	margin-top: 23px;
-	font-family:Inter;
-	/* 폰트는 왜인지 클래스에만 먹힘 */
+.navigation{
+    float: right;
+    margin-right: 50%;
+    /* background-color: rgb(252, 255, 86); */
 }
-#nav_00_{
-	float: right;
-	letter-spacing: 0;
-	text-decoration-line: none;
 
-	font-size: 10px;
-	margin-right: 20px;
-	/* margin-left: 20px; */
-	margin-top: 23px;
-	font-family:Inter;
+.nav_0{
+    float: right;
+    /* background-color: coral; */
+    margin-right: 20px;
 }
-#nav_1{
-	float: right;
-	letter-spacing: 0;
-	text-decoration-line: none;
-	float: right;
-	font-size: 20px;	
-	margin-right: 360px;
-	margin-top: 57px;
+
+.nav_1{
+    float: right;
+    /* background-color: royalblue; */
 
 }
 
-#nav2{
-	letter-spacing: 0;
-	text-decoration-line: none;
-}
-#nav_2{
-	letter-spacing: 0;
-	text-decoration-line: none;
+/* 바디 */
 
-	float: right;
-	font-size: 20px;	
-	margin-right: 50px;
-	margin-top: 57px;	
-	font-family:Inter;
-}
-#nav2 :hover{
-	color: #838383;
+.body{
+    font-size: 22px;
+    /* background-color: cornflowerblue; */
+    padding-left: 2%;
+    padding-right: 2%;
+    /* margin-right: 50%; */
+    font-family: Inter;
+    /* 나중에 css에 넣으면 구글폰트 먹겠지 */
+    letter-spacing: 0px;
+    /* float: center; 중앙정렬 :  .footer_0 + .center */
+    position: relative;
+    left: 50%;
 }
 
+.bar{
+    /* background-color: cadetblue; */
+    /* float: left 50%; */
+    width: 100%;
+    height: 15px;
+    background-color: rgba(217, 217, 217, 1);
+    margin-top: 15px ;
+    margin-bottom: 30px;
+    position: relative;
+    left: 50%;
+}
 
-/* 버튼 오른쪽정렬 */
+.mid_title{
+    /* background-color: aquamarine; */
+    color: black;
+    font-size: 32px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.base{
+    float: left;
+    margin-top: 10px;
+    width: 700px;
+    height: auto;
+    /* background-color: azure; */
+}
+
+.image_p{
+    float: left;
+    width: 700px;
+    height: 600px;
+    background-color: rgba(217, 217, 217, 1);
+}
+
+/* 버튼 */
+
+.button{
+    float: right; 
+    width: auto;
+    height: auto;
+    padding: 3px;
+    /* background-color: rgb(255, 197, 197); */
+}
+#select_btn{
+    /* input에 타입으로 스타일을 지정할수 있음 */
+    /* 아이디로도 가능한듯 */
+    /* 근데 타입으로도 아이디로도 백그라운드컬러는 안먹혀 : 직접줘라*/
+    border: solid 1px #cfcfcf; 
+    border-radius: 30px;
+    padding: 5px 10px 5px 10px;
+    font-size: 14px;
+    margin-left: 10px;
+    margin-bottom: 3px;
+}
+
 .btn_right1_16 { 
 	color:rgb(0, 0, 0, 1);
-	background-color:rgba(242, 242, 242, 1);
+	background-color:rgba(217, 217, 217, 1);
 	border-radius: 30px;
 	padding: 5px 10px 5px 10px;
 	font: size 14px;
+    
 	font-family:Inter;
 	letter-spacing:0;
     width: auto;
@@ -269,7 +282,6 @@ a:hover{
     float: right;
 	margin-top: 20px;
 	margin-right: 65px;
-
 }
 
 .btn_right2_16 { 
@@ -286,33 +298,113 @@ a:hover{
 	margin-right: 10px;
 }
 
+/* 프린팅방식 */
 
-
-/* NEW Banner & Footer */
-
-/* 왜 id로 만들수 없을까 */
-.banner1{
-    /* background-color: aquamarine; */
+.all_box{
     width: auto;
-    /* : 가로 스크롤생기면 어쩌쥐 */
-    height: 250px;
-    /* height: auto;로 나중엔 변환 */
-    margin-top: 7px;
-    margin-left: 3%;
-    margin-right: 3%;
+    height: auto;
 }
 
-.banner2{
-    /* background-color: hotpink; */
-    width: auto;
-    /* : 가로 스크롤생기면 어쩌쥐 */
-    height: 700px;
-    /* height: auto;로 나중엔 변환 : 이미지에 따라 달라지도록*/
-    margin-top: 7px;
-    margin-left: 3%;
-    margin-right: 3%;
+.p_box{
+    color: black;
+    font-family: NanumSquare;
+    font-size: 25px;
+    font-weight: bold;
+    width: 100%;
+    height: auto;
+    padding: 5px 10px 5px 10px;
+    float: left;
+    /* background-color: rgb(222, 233, 255); */
+    margin-top: 20px;
 }
 
+.p_conts_one{
+    font-size: 17px;
+    font-weight: lighter;
+    /* background-color: bisque; */
+
+    width: auto;
+    height: auto;
+    margin: 20px;
+}
+
+.p_conts_first{
+    font-size: 17px;
+    font-weight: lighter;
+    /* background-color: bisque; */
+
+    width: auto;
+    height: auto;
+    /* padding-left: 2px; */
+    /* margin-left: 15px; */
+    padding-left: 20px;
+    margin-top: 23px;
+    margin-bottom: 5px;
+}
+.p_conts_mid{
+    font-size: 17px;
+    font-weight: lighter;
+    /* background-color: bisque; */
+
+    width: auto;
+    height: auto;
+    padding-left: 40px;
+    /* margin-left: 15px; */
+    margin-top: 5px;
+    margin-bottom: 5px;
+    
+}
+
+.p_conts_last{
+    font-size: 17px;
+    font-weight: lighter;
+    /* background-color: bisque; */
+    margin-top: 5px;
+    margin-bottom: 23px;
+
+    width: auto;
+    height: auto;
+    padding-left: 40px;
+    /* margin-top: 1px; */
+    
+}
+
+/* 상품 카드  (고쳐야)*/
+.one{
+    background-color: aquamarine;
+    width: 275px;
+    height: 375px;
+    margin: 5px;
+    float: left;
+}
+.pic{
+    background-color: yellow;
+    width: 275px;
+    height: 200px;
+    float: left;
+}
+.cont{
+    color: black;
+    font-size: 14px;
+    background-color: violet;
+    width: 275px;
+    height: 100px;
+    float: left;
+    margin-top: 5px;
+}
+/* .center{
+
+} */
+
+.oneline{
+    background-color: rgb(207, 255, 239);
+    width: 1140px;
+    height: auto;
+    float: left;
+}
+
+
+/* 푸터 */
 #footer{
     width: auto;
     height: 100px;
@@ -344,7 +436,36 @@ a:hover{
 
 /* float: center; 중앙정렬 :  .footer_0 + .center */
 .center {
+
     float: right;
     position: relative;
     left: -50%;
+}
+
+
+/* 배너 */
+.banner1{
+    /* background-color: aquamarine; */
+    width: auto;
+    /* : 가로 스크롤생기면 어쩌쥐 */
+    height: 250px;
+    /* height: auto;로 나중엔 변환 */
+    margin-top: 7px;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.banner2{
+    /* background-color: hotpink; */
+    width: auto;
+    /* : 가로 스크롤생기면 어쩌쥐 */
+    height: 700px;
+    /* height: auto;로 나중엔 변환 : 이미지에 따라 달라지도록*/
+    margin-top: 7px;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.clear{
+    clear: both;
 }

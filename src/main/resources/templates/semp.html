@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+                
+        #all{
+            width: auto;
+            height: 100px;
+            padding-left: 9%;
+            padding-right: 9%;
+            /* 가운데 정렬하는거 그거써볼까 */
+            margin-top: 7px;
+            /* 마진 %랑 px를 섞어서 씀 */
+            background-color: rgb(215, 215, 215);
+            /* position: absolute; */
+            color:rgb(0, 0, 0, 1);
+            font-size: 8px;
+            font-family:Inter;
+            letter-spacing: 0px;
+            /* display: flex; */
+        }
+
+        .header{
+            /* width: 90%;
+            height: auto; */
+            font-size: 22px;
+            background-color: rgb(179, 233, 237);
+            padding-left: 3%;
+            padding-right: 3%;
+            /* margin-right: 50%; */
+            font-family: Anton;
+            /* 나중에 css에 넣으면 구글폰트 먹겠지 */
+            letter-spacing: 3px;
+            /* float: center; 중앙정렬 :  .footer_0 + .center */
+            position: relative;
+            left: 50%;
+        }
+
+        /* float: center; 중앙정렬 :  .footer_0 + .center */
+        .header_center {
+            /* background-color: blueviolet; */
+            width: 100%;
+            height: auto;
+            float: right;
+            position: relative;
+            left: -50%;
+        }
+    </style>
+</head>
+<body>
+    <div id="all">
+        <div class="header_center">
+            <div class="header" th:if="${user == null}">
+                title
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

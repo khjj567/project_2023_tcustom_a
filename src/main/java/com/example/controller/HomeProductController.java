@@ -29,14 +29,26 @@ public class HomeProductController {
     final TshirtImageRepository tiRepository;
 
     @GetMapping(value = "/making.do")
-    public String makingGET(){
+    public String makingGET(Model model, @RequestParam(name="tno") long tno){
         try {
+            model.addAttribute("tno", tno);
             return "product/making";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
         }
         
+    }
+
+    @PostMapping(value = "/making.do")
+    public String makingPOST(){
+        try {
+            
+            return "redirect:product/making.do";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
     }
 
     @GetMapping(value = "/insertimage.do")

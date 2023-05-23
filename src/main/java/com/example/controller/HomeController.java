@@ -143,6 +143,15 @@ public class HomeController {
             return "redirect:/home.do";
         }
 
+        @GetMapping(value = "/printing.do")
+        public String printingGET(){
+            try {
+                return "printing";
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "redirect:/home.do";
+            }
+        }
 
     @GetMapping(value = "/403page.do")
     public String page3GET(){
