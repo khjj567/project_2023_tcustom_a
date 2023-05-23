@@ -20,8 +20,8 @@ public class FilterConfig {
         filterReg.setFilter(jwtFilter);
 
         // 필터처리할 url 두개 걸어놈
-        filterReg.addUrlPatterns("/api/student2/update.json");
-        filterReg.addUrlPatterns("/api/student2/delete.json");
+        filterReg.addUrlPatterns("/api/member/*");
+        // filterReg.addUrlPatterns("/api/member/delete.json");
         return filterReg;
     }
 
@@ -30,7 +30,7 @@ public class FilterConfig {
         log.info("filter => {}" , "filterConfig");
         FilterRegistrationBean<UrlFilter> filterReg = new FilterRegistrationBean<>();
         filterReg.setFilter(jwtFilter);
-        filterReg.addUrlPatterns("/api/student2/*");   // *는 전체 url
+        filterReg.addUrlPatterns("/api/*");   // *는 전체 url
         return filterReg;
     }
 }

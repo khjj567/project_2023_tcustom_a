@@ -105,7 +105,7 @@ a:link.select_btn2:hover{
 }
 
 /* float: center; 중앙정렬 :  .footer_0 + .center */
-.header_center {
+.all_center {
     /* background-color: blueviolet; */
     width: 100%;
     height: auto;
@@ -156,6 +156,7 @@ a:link.select_btn2:hover{
 }
 
 /* 네비게이션 */
+
 .nav_role{
     width: 80%;
     height: auto;
