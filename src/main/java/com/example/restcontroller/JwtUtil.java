@@ -25,6 +25,7 @@ public class JwtUtil {
     
     // 토큰생성하는 메소드
     public String createJwt( String id, String name ) throws Exception {
+        // 여기서 말하는  id와 name이 무엇인지
 
         // 1. header정보
         Map<String, Object> headerMap = new HashMap<>();

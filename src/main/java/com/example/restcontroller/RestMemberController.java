@@ -36,7 +36,7 @@ public class RestMemberController {
             log.info("{}", member.toString());
 
             // 2. 이메일을 이용해서 정보를 가져옴.
-            Member retmember = mRepository.findById(member.getMemail()).orElse(null);
+            Member retmember = mRepository.findById(member.getMid()).orElse(null);
 
             // 3. 실패시 전송할 데이터
             retMap.put( "status", 0 );
@@ -44,7 +44,8 @@ public class RestMemberController {
             // 4. 암호가 일치하는지 확인 => 전송된 hash되지 않은 암호와 DB에 해시된 암호 일치 확인
             if(  bcpe.matches( member.getMpw(), retmember.getMpw()) ) {
                 retMap.put( "status", 200 );
-                retMap.put( "token", jwtUtil.createJwt(retmember.getMemail(), retmember.getMname() ) );
+                retMap.put( "token", jwtUtil.createJwt(retmember.getMid(), retmember.getMname() ) );
+                //  암호가 일치하고 로그인요건을 충족하면 200과 토큰(jwtUtil이 )
             }
         } catch (Exception e) {
             e.printStackTrace(); 
