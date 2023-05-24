@@ -1,62 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>프린팅 상세</title>
-    <link rel="stylesheet" th:href="@{/css/homeheader.css}">
-</head>
-<body>
-        <!-- header -->
-<div id="all">
 
+<th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
+
+<body>
+        
+<div id="all">
     <div class="all_center">
-        <div class="header" th:if="${user == null}">
-            <div class="title">
-                T-custom
-            </div> 
-            <div>
-                <div class="nav_role">
-                    <!-- a태그 css 안먹히면? -> 밑에서 한 방법으로 해봄-->
-                    <!-- a태그 css a태그에 직접주는거 아니면 글자스타일 안먹힘-->
-                    <div><a class="hello" th:href="@{/join.do}">회원가입</a></div>
-                    <div><a class="mylogin" th:href="@{/login.do}">로그인</a></div>
-                </div>
-                <div class="nav_role2">
-                    <div class="navigation">
-                        <div class="nav_1"><a th:href="@{/fqa.do}">FQA</a></div>
-                        <div class="nav_0"><a th:href="@{/printing.do}">Printing</a></div>
-                        <div class="nav_0"><a th:href="@{/product.do}">Product</a></div>
-                        <div class="nav_0"><a th:href="@{/home.do}">Home</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="header" th:if="${user != null}">
-            <div class="title">
-                T-custom
-            </div> 
-            <div>
-                <div class="nav_role">
-                    <p class="hello" th:text="${user.name + '님 환영합니다'}"></p>
-                    <a class="mylogin" th:href="@{/member/mypage.do}">mypage</a>
-                    
-                    <form th:action="@{/logout.do}" method="post">
-                        <!-- style="border: none; background: transparent;" : input에 스타일 삭제 -->
-                        <input class="mylogout" style="border: none; background: transparent;" type="submit" th:value="logout" />
-                    </form>
-                </div>
-                <div class="nav_role2">
-                    <div class="navigation">
-                        <div class="nav_1"><a th:href="@{/fqa.do}">FQA</a></div>
-                        <div class="nav_0"><a th:href="@{/printing.do}">Printing</a></div>
-                        <div class="nav_0"><a th:href="@{/product.do}">Product</a></div>
-                        <div class="nav_0"><a th:href="@{/home.do}">Home</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <th:block th:replace="~{/fragments/hometitlenav :: navFragment}"></th:block>
         
         <div class="clear"></div>
         
@@ -117,10 +68,6 @@
 </div>
 
 <div class="clear"></div>
-<div id="footer">
-    <div class="center">
-        <p class="footer_0">Copyright &copy; T-CUSTOM 2023</p>
-    </div>
-</div>
+<th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
 </body>
 </html>
