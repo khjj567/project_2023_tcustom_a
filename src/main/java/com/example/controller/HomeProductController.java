@@ -43,7 +43,11 @@ public class HomeProductController {
     @PostMapping(value = "/making.do")
     public String makingPOST(){
         try {
-            
+            // 파일정보
+            // 사이즈
+            // 컬러(콤보박스)
+            // 프린팅방식 
+            // 수량
             return "redirect:product/making.do";
         } catch (Exception e) {
             e.printStackTrace();

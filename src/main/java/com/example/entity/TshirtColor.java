@@ -8,36 +8,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import lombok.Data;
-import lombok.ToString;
 
 @Data
 @Entity
-@Table(name = "TSHIRTIMAGE")
-@SequenceGenerator(name = "SEQ_T_IMAGE_NO", sequenceName = "SEQ_T_IMAGE_NO", initialValue = 1, allocationSize = 1)
-public class TshirtImage {
-
+@Table(name="TCOLOR")
+@SequenceGenerator(name = "SEQ_TCOLOR_NO", sequenceName = "SEQ_TCOLOR_NO", initialValue = 1, allocationSize = 1)
+public class TshirtColor {
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_T_IMAGE_NO")
-    @Column
-    private	BigInteger	ino	;
-
-    private	String	iname	;
-    private	BigInteger	isize	;
-
-    @Lob 
-    @ToString.Exclude 
-    private	byte[]	idata	;
-
-    private	String	itype	;
-
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TCOLOR_NO")
+    @Column(name="TCOLORNO")
+    private BigInteger tcolorno;
+    private String tcolorname;
+    
     @ManyToOne
     @JoinColumn(name = "tno", referencedColumnName = "tno")
     private Tshirt tshirt;
-    
 }

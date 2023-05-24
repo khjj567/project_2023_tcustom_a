@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-    <div id="all" th:fragment = "hometitlenav">
-        <div id="header" th:if="${user == null}">
+<html>
+    <th:block th:fragment="navFragment">
+        <div class="header" th:if="${user == null}">
             <div class="title">
                 T-custom
             </div> 
@@ -22,9 +22,8 @@
                 </div>
             </div>
         </div>
-        
         <!-- header1 : id -> class ? (일단 id 유지하고 이름바꿈)-->
-        <div id="header1" th:if="${user != null}">
+        <div class="header" th:if="${user != null}">
             <div class="title">
                 T-custom
             </div> 
@@ -48,5 +47,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </th:block>
 </html>

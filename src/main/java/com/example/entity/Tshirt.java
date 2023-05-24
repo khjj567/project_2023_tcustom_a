@@ -38,4 +38,11 @@ public class Tshirt {
     @OneToMany(mappedBy = "tshirt", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     private List<TshirtImage> list = new ArrayList<>();
     
+    @ToString.Exclude
+    @OneToMany(mappedBy = "tshirt", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    private List<TshirtSize> list1 = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "tshirt", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    private List<TshirtSize> list2 = new ArrayList<>();
 }
