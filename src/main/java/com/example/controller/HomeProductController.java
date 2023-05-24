@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.entity.TshirtImage;
+import com.example.entity.TshirtSize;
 import com.example.repository.TshirtImageRepository;
+import com.example.repository.TshirtSizeRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +29,23 @@ import lombok.extern.slf4j.Slf4j;
 public class HomeProductController {
     
     final TshirtImageRepository tiRepository;
+    final TshirtSizeRepository tsRepository;
 
+    //127.0.0.1:9090/CUSTOM/product/making.do
     @GetMapping(value = "/making.do")
-    public String makingGET(Model model, @RequestParam(name="tno") long tno){
+    public String makingGET(
+            Model model, 
+            @RequestParam(name="tno") long tno){
         try {
+            // 파일정보
+            // 사이즈
+            // 컬러(콤보박스)
+            // 프린팅방식 
+            // 수량
+            List<TshirtSize> list = tsRepository.findTssizeByTshirt_tno(BigInteger.valueOf(tno));
+            log.info("티셔츠사이즈정보 => {}", list.toString());
             model.addAttribute("tno", tno);
+            model.addAttribute("obj", list);
             return "product/making";
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,14 +54,11 @@ public class HomeProductController {
         
     }
 
+    // 127.0.0.1:9090/CUSTOM/product/making.do
     @PostMapping(value = "/making.do")
     public String makingPOST(){
         try {
-            // 파일정보
-            // 사이즈
-            // 컬러(콤보박스)
-            // 프린팅방식 
-            // 수량
+ 
             return "redirect:product/making.do";
         } catch (Exception e) {
             e.printStackTrace();

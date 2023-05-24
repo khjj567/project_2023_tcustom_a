@@ -9,7 +9,7 @@
 <body>
     <h4>메모</h4>
     로그인권한부여
-    1. 헤더를 분리해서(아직 방법은 못찾았지만), 헤더가 갈때마다 로그인이 되게 하기
+    1. 헤더마다 로그인이 되게 하기
     2. 모든 페이지에 로그인 토큰 
     filterConfig에서 url 지정? (filterReg.addUrlPatterns("/api/*");   // *는 전체 url)
     
@@ -31,5 +31,12 @@
 
     // 사이즈, 수량(한계 필요), 
     // 프린팅사이드, 프린팅, 색깔 (엔티티 만듦)
+
+    // select tssize from tshirtsize where tno=1001;
+    <!-- List<TshirtSize> findTssizeByTshirt_tno(BigInteger tno); -->
+    이렇게 하면 안되는걸까
+    네이티브로 쿼리문을 써야하는걸까
+    그럼 mode=oracle -> mysql로 바꿔줘야했던가
+    
 </body>
 </html>

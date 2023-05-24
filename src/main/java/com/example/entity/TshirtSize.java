@@ -22,7 +22,7 @@ public class TshirtSize {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_TSHIRTSIZE_NO")
     private BigInteger tsno;
-    private String tssize;
+    private String tssize;  // tssize값 중에서 첫번째 값을 가지고 오고 싶다면? ="[0]";
 
     @ManyToOne
     @JoinColumn(name = "tno", referencedColumnName = "tno")

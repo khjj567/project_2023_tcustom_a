@@ -131,7 +131,7 @@ public class HomeController {
             }
         }
 
-        // 
+        // 127.0.0.1:9090/CUSTOM/product.do
         @PostMapping(value = "/product.do")
         public String productPOST(){
             try {
