@@ -15,12 +15,9 @@
                 </div>
                 <div class="base">
                     <div class="button">
-                        <!-- <th:block th:each="tmp, idx : ${search.psidename}" >
-                        <form th:action="@{/making.do}" method="get" th:object="${search}">
-                            <input type="hidden" name="psidename" th:value="${tmp}" />
-                            <input type="submit" id="select_btn" style="background: transparent; background-color:rgba(242, 242, 242, 1); float: left;" th:value="${search.psidename[idx.index]}" />
-                        </form>
-                        </th:block> -->
+                        <!-- 라디오버튼 input -->
+                        <!--  varStatus="i" : 순서대로 정렬 ? -->
+
                         <!-- a태그로 바꿀것 : 스타일은 "border: solid 1px #cfcfcf;" 이거 직접 줘야함. a태그에 줘야함-->
                         <input id="select_btn" style="background: transparent; background-color:rgba(242, 242, 242, 1);" type="submit" value="앞면" />
                         <input id="select_btn" style="background: transparent; background-color:rgba(242, 242, 242, 1);" type="submit" value="뒷면" />
@@ -30,14 +27,38 @@
             </div>
             <div>
                 <th:block>
-                    <form th:action="@{/product/making.do}" method="get" th:object="${obj}">
-                        <input type="text" name="tshirt.tno" th:value="${tno}" readonly />
-                        <select th:field="${obj}"> <!-- 필드를 쓰면 선택이 자동으로 됨-->
-                            <option th:each="tmp : ${#numbers.sequence(1,120)}" th:value="${tmp}" th:text="${tmp}" >종류</option>
+                    <!-- + 수량 -  -->
+                    <!-- 파일업로드 @@-->
+                    <form th:action="@{/product/making.do}" method="post" enctype="multipart/form-data">
+                        <!-- <input type="text" name="tshirt.tno" th:value="${tno}" readonly /><br /> -->
+                        <!-- name="tshirt.tno" : 티셔츠no? 디자인no? 아니 no가 필요한가?-->
+                        <input type="file" name="file" accept="image/*"/><br />
+                        <!-- name="tmpfile" : 어차피 파일은 한번에 못넣는다. entity와 이름을 맞출 필요 없다 -->
+                        <input type="submit" value="이미지업로드" /><br />
+                    </form>
+                    <!-- 프린팅사이드 @@ : 체크박스로 바꿔야함-->
+                    <form th:action="@{/product/making.do}" method="get" th:object="${psdto}">
+                        <select th:field="${psdto.selectpside}"> <!-- 필드를 쓰면 선택이 자동으로 됨-->
+                            <option th:each="tmp : ${psdto.list}" th:value="${tmp.psidename}" th:text="${tmp.psidename}" >종류</option>
                         </select>
-                        <!-- typeCode를 Search.java에서 받아온다 -->
-                        <!-- th:value="{tmp}"가(typeCode) th:field="${search.type}"에서 유지된다. -->
-                        <!-- typeCode가 올때마다 typeName가 온다. 반복문 두번 돌려야함. 그래서 idx를 사용한다.-->
+                    </form>
+                    <!-- 티셔츠컬러 -->
+                    <form th:action="@{/product/making.do}" method="get" th:object="${tcdto}">
+                        <select th:field="${tcdto.selectcolor}"> <!-- 필드를 쓰면 선택이 자동으로 됨-->
+                            <option th:each="tmp : ${tcdto.list}" th:value="${tmp.tcolorname}" th:text="${tmp.tcolorname}" >종류</option>
+                        </select>
+                    </form>
+                    <!-- 프린팅방식 @@-->
+                    <form th:action="@{/product/making.do}" method="get" th:object="${pdto}">
+                        <select th:field="${pdto.selectpmethod}"> <!-- 필드를 쓰면 선택이 자동으로 됨-->
+                            <option th:each="tmp : ${pdto.list}" th:value="${tmp.pmethod}" th:text="${tmp.pmethod}" >종류</option>
+                        </select>
+                    </form>
+                    <!-- 티셔츠사이즈 -->
+                    <form th:action="@{/product/making.do}" method="get" th:object="${tsdto}">
+                        <select th:field="${tsdto.selectsize}"> <!-- 필드를 쓰면 선택이 자동으로 됨-->
+                            <option th:each="tmp : ${tsdto.list}" th:value="${tmp.tssize}" th:text="${tmp.tssize}" >종류</option>
+                        </select>
                     </form>
                 </th:block>
             <!-- 우측 : 사이즈 수량 프린팅방식 컬러 선택 -->
@@ -64,7 +85,6 @@
                 
                 </div>
         </th:block> -->
-
 
             </div>
         </div>

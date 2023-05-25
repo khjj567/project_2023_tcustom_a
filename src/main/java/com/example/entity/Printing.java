@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "SEQ_PRINTING_NO")
+@Table(name = "PRINTING")
 @SequenceGenerator(name = "SEQ_PRINTING_NO", sequenceName = "SEQ_PRINTING_NO", initialValue = 6, allocationSize = 1)
 public class Printing {
     // 에러
