@@ -12,11 +12,11 @@ import com.example.entity.TshirtView1;
 public interface TshirtView1Repository extends JpaRepository<TshirtView1, BigInteger>{
     // TshirtView의 정보를 티셔츠 타입으로 tno내림차순으로 가져오기
 
-    public List<TshirtView1> findAllByTpriceOrderByTnoDesc(BigInteger tprice);
+    // public List<TshirtView1> findAllByTpriceOrderByTnoDesc(BigInteger tprice);
 
     // 타입이름으로 
     public List<TshirtView1> findByTtnoOrderByTnoDesc(BigInteger ttno);
 
-    public List<TshirtView1> findAllByOrderByTnoDesc();
+    // public List<TshirtView1> findAllByOrderByTnoDesc();
 
 }

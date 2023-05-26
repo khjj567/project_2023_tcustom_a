@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@PropertySource(value = {"classpath:global.properties"}) //직접만든 환경파일 위치
+//@PropertySource(value = {"classpath:global.properties"}) //직접만든 환경파일 위치 //??? 5/26 : 갑자기 class path resource [global.properties] cannot be opened because it does not exist 떠서 파일을 삭제하고 이부분에 주석을 달았다
 @MapperScan(basePackages = {"com.example.mapper"}) // 매퍼위치
 @ComponentScan(basePackages = {
 	"com.example.controller", 
