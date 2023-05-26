@@ -17,8 +17,6 @@
                     <div class="button">
                         <!-- 라디오버튼 input -->
                         <!--  varStatus="i" : 순서대로 정렬 ? -->
-
-                        <!-- a태그로 바꿀것 : 스타일은 "border: solid 1px #cfcfcf;" 이거 직접 줘야함. a태그에 줘야함-->
                         <input id="select_btn" style="background: transparent; background-color:rgba(242, 242, 242, 1);" type="submit" value="앞면" />
                         <input id="select_btn" style="background: transparent; background-color:rgba(242, 242, 242, 1);" type="submit" value="뒷면" />
                     </div>
@@ -26,41 +24,38 @@
                 <div class="image_p"></div>
             </div>
             <div>
-                <th:block>
+                <!-- form 태그 밖으로 빼고 안에 select다 넣어도 ok -->
+                <!-- enctype="multipart/form-data"을 그냥 form 태그에 넣고 안에 파일업로드를 비롯한 여러가지 기능 섞여있어도 오케이 -->
+                <form th:action="@{/product/making.do}" method="post"  enctype="multipart/form-data">
                     <!-- + 수량 -  -->
+
                     <!-- 파일업로드 @@-->
-                    <form th:action="@{/product/making.do}" method="post" enctype="multipart/form-data">
                         <!-- <input type="text" name="tshirt.tno" th:value="${tno}" readonly /><br /> -->
                         <!-- name="tshirt.tno" : 티셔츠no? 디자인no? 아니 no가 필요한가?-->
                         <input type="file" name="file" accept="image/*"/><br />
                         <!-- name="tmpfile" : 어차피 파일은 한번에 못넣는다. entity와 이름을 맞출 필요 없다 -->
                         <input type="submit" value="이미지업로드" /><br />
-                    </form>
-                    <!-- 프린팅사이드 @@ : 체크박스로 바꿔야함-->
-                    <form th:action="@{/product/making.do}" method="get" th:object="${psdto}">
-                        <select th:field="${psdto.selectpside}"> <!-- 필드를 쓰면 선택이 자동으로 됨-->
-                            <option th:each="tmp : ${psdto.list}" th:value="${tmp.psidename}" th:text="${tmp.psidename}" >종류</option>
+
+                    <!-- 프린팅사이드정보 -->
+                        <select th:object="${psdto}" th:field="${psdto.selectpside}"> 
+                            <option th:each="tmp : ${psdto.list}" th:value="${tmp.psidename}" th:text="${tmp.psidename}" ></option>
                         </select>
-                    </form>
+
                     <!-- 티셔츠컬러 -->
-                    <form th:action="@{/product/making.do}" method="get" th:object="${tcdto}">
-                        <select th:field="${tcdto.selectcolor}"> <!-- 필드를 쓰면 선택이 자동으로 됨-->
+                        <select th:object="${tcdto}" th:field="${tcdto.selectcolor}"> 
                             <option th:each="tmp : ${tcdto.list}" th:value="${tmp.tcolorname}" th:text="${tmp.tcolorname}" >종류</option>
                         </select>
-                    </form>
+
                     <!-- 프린팅방식 @@-->
-                    <form th:action="@{/product/making.do}" method="get" th:object="${pdto}">
-                        <select th:field="${pdto.selectpmethod}"> <!-- 필드를 쓰면 선택이 자동으로 됨-->
+                        <select th:object="${pdto}" th:field="${pdto.selectpmethod}"> 
                             <option th:each="tmp : ${pdto.list}" th:value="${tmp.pmethod}" th:text="${tmp.pmethod}" >종류</option>
                         </select>
-                    </form>
+
                     <!-- 티셔츠사이즈 -->
-                    <form th:action="@{/product/making.do}" method="get" th:object="${tsdto}">
-                        <select th:field="${tsdto.selectsize}"> <!-- 필드를 쓰면 선택이 자동으로 됨-->
+                        <select th:object="${tsdto}" th:field="${tsdto.selectsize}"> 
                             <option th:each="tmp : ${tsdto.list}" th:value="${tmp.tssize}" th:text="${tmp.tssize}" >종류</option>
                         </select>
-                    </form>
-                </th:block>
+                </form>
             <!-- 우측 : 사이즈 수량 프린팅방식 컬러 선택 -->
             <!-- 파일업로드버튼도 -->
             <!-- <div class="rightbase">
@@ -81,8 +76,7 @@
                         <a class="conts" th:text="${one.tprice}"></a>
                         <a type="button" th:href="@{/product/making.do(tno=${one.tno})}" >디자인하러가기</a>
                     </div>
-                    
-                
+
                 </div>
         </th:block> -->
 

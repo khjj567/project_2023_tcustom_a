@@ -45,4 +45,8 @@ public class Tshirt {
     @ToString.Exclude
     @OneToMany(mappedBy = "tshirt", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     private List<TshirtSize> list2 = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "tshirt", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    private List<PsidePic> list3 = new ArrayList<>();
 }

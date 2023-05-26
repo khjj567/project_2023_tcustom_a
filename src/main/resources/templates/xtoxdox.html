@@ -30,8 +30,39 @@
 
 이지아이엔시
 엔시정보기술
-?
-?
+
+
+
+
+<form th:action="@{/product/making.do}" method="get" th:object="${psdto}">
+    <select th:field="${psdto.selectpside}"> <!-- 필드를 쓰면 선택이 자동으로 됨-->
+        <option th:each="tmp : ${psdto.list}" th:value="${tmp.psidename}" th:text="${tmp.psidename}" >종류</option>
+    </select>
+</form>
+
+
+
+
+
+
+<div id="tssize" class="" role="group">
+    <c:forEach var="obj" items="${psdto}" >
+        <input type="radio" class="" name="tssize" id="btnradio1_${i.index}" autocomplete="off" checked>
+        <label class="" for="btnradio1_${i.index}">${obj.tssize}</label>
+    </c:forEach>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

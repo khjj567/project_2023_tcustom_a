@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>프린팅사이드 이미지 등록</h2>
+    <!-- 이미지 첨부할때 enctype 꼭 필요-->
+    <!-- 이미지 첨부할때 이미지만 넣고 싶으면 accept="image/*" -->
+    <form th:action="@{/product/insertpsidepic.do}" method="post" enctype="multipart/form-data" th:object="${psdto}">
+        <input type="text" name="tno" th:value="${tno}" readonly /><br />
+            <select th:field="${psdto.selectpside}"> <!-- 필드를 쓰면 선택이 자동으로 됨-->
+                <option th:each="tmp : ${psdto.list}" th:value="${tmp.psidename}" th:text="${tmp.psidename}" ></option>
+            </select> 
+        <input type="file" name="file2" accept="image/*"/><br />
+        <input type="submit" value="이미지업로드" /><br />
+    </form>
+
+</body>
+</html>

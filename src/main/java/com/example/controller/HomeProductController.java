@@ -18,19 +18,23 @@ import com.example.dto.TshirtColorDTO;
 import com.example.dto.TshirtSizeDTO;
 import com.example.entity.Printing;
 import com.example.entity.PrintingSide;
+import com.example.entity.PsidePic;
+import com.example.entity.Tshirt;
 import com.example.entity.TshirtColor;
 import com.example.entity.TshirtImage;
+import com.example.entity.TshirtPrintingSidePicView;
 import com.example.entity.TshirtSize;
 import com.example.repository.FileRepository;
 import com.example.repository.PrintingRepository;
 import com.example.repository.PrintingSideRepository;
+import com.example.repository.PsidePicRepository;
 import com.example.repository.TshirtColorRepository;
 import com.example.repository.TshirtImageRepository;
+import com.example.repository.TshirtPrintingSidePicViewRepository;
 import com.example.repository.TshirtSizeRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 
 
 @Controller
@@ -40,11 +44,13 @@ import lombok.extern.slf4j.Slf4j;
 public class HomeProductController {
     
     final TshirtImageRepository tiRepository;
+    final PsidePicRepository ppRepository;
     final TshirtSizeRepository tsRepository;
     final PrintingRepository pRepository;
     final TshirtColorRepository tcRepository;
     final FileRepository fRepository;
     final PrintingSideRepository psRepository;
+    final TshirtPrintingSidePicViewRepository tpspvRepository;
 
     //127.0.0.1:9090/CUSTOM/product/making.do
     @GetMapping(value = "/making.do")
@@ -52,14 +58,12 @@ public class HomeProductController {
             Model model, 
             @RequestParam(name="tno") long tno){
         try {
-            // 수량  // post에서 보내야함
-            
-            // 파일정보 // post에서 보내야함
 
-            // 프린팅사이드 // 라디오버튼..
+            // 티셔츠프린팅사이드픽뷰 // 체크박스
             PrintingSideDTO psdto = new PrintingSideDTO();
             List<PrintingSide> psList = psRepository.findAll();
             psdto.setList(psList);
+            //log.info("사이드정보 => {}", psList.toString());
 
             // 컬러(콤보박스)
             TshirtColorDTO tcdto = new TshirtColorDTO();
@@ -92,6 +96,8 @@ public class HomeProductController {
             model.addAttribute("tsdto", tsdto);
             model.addAttribute("obj", list);
 
+
+
             return "product/making";
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,6 +109,9 @@ public class HomeProductController {
     @PostMapping(value = "/making.do")
     public String makingPOST(){
         try {
+            // 수량  // post에서 보내야함
+            
+            // 파일정보 // post에서 보내야함
 
             return "redirect:product/making.do";
         } catch (Exception e) {
@@ -119,13 +128,88 @@ public class HomeProductController {
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/product.do";
+        } 
+    }
+    @GetMapping(value = "/insertpsidepic.do")
+    public String insertpsidepiGET(Model model, 
+                    @RequestParam(name="tno") long tno
+                    
+                    ){
+        try {
+            
+            //log.info("티엔오 => {}", tno);
+            
+            // 프린팅사이드에 대한 드롭다운 정보제공+
+            PrintingSideDTO psdto = new PrintingSideDTO();
+            List<PrintingSide> psList = psRepository.findAll();
+            psdto.setList(psList);
+
+            // model.addAttribute("obj", obj);
+            model.addAttribute("psdto", psdto);
+            model.addAttribute("tno", tno);
+            
+            //model.addAttribute("psno", psno);
+            return "product/insertpsidepic";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/product.do";
+        } 
+    }
+
+    @PostMapping(value = "/insertpsidepic.do")
+    public String insertpsidepicPOST(@ModelAttribute PsidePic obj2, 
+                @RequestParam(name="file2") MultipartFile file2,
+                @RequestParam(name="tno") long tno,
+                // @RequestParam(name="psidename") String psidename,
+                @RequestParam(name="selectpside", defaultValue = "", required = false) String selectpside
+                // 주소에 정보가 없어도 ㄱㄴ 
+                // 근데 selectpside를 받으면 psno는 어디서 받아오지
+                ){
+        try {
+            // psidename으로 psno를 찾아
+            //log.info("프린팅사이드 => {}", selectpside.toString());
+            //log.info("수ㅐ => {}", tno);
+            //log.info("파일 => {}", file2.getOriginalFilename());
+            // '앞면'을 이용해서 psno를 받아오기
+            
+            PrintingSide printingSide = psRepository.findByPsidename(selectpside);
+
+            //log.info("프린팅사이드no => {}", printingSide.getPsno());
+                
+            // 파일받기
+            obj2.setPspicname(file2.getOriginalFilename());
+            obj2.setPspicsize(BigInteger.valueOf(file2.getSize()));
+            obj2.setPspictype(file2.getContentType());
+            obj2.setPspicdata(file2.getInputStream().readAllBytes());
+
+            // obj2에는 PrintingSide가 있으니 PrintingSide를 넣어줘야한다
+            // PrintingSide에 값을 넣어주려면 그 객체가 필요하다.
+            obj2.setPrintingSide(printingSide);
+
+            Tshirt tshirt = new Tshirt();
+            // set넣을값 에서 컨트롤스페이스를 눌러 넣어야 할 타입을 찾은 뒤 없으면 새로 객체를 생성
+            // 그리고 그 객체에 set을 통해 원하는 값을 넣어준 후 최종적으로 넣어 줘야하는 객체에 값을 넣어줘야 한다.
+            tshirt.setTno(BigInteger.valueOf(tno));
+            obj2.setTshirt(tshirt);
+            log.info("프린팅사이드픽 정보 -> {}", obj2.toString());
+
+            // 오류코드 : Failed to perform cleanup of multipart items :왜?
+            // 톰캣을 사용해서 생기는 Caused by: java.io.IOException 오류이다
+            //  서버에 올리면 사라짐
+
+            ppRepository.save(obj2);
+            
+            // /selectlist.do?id=" + id +"&page=1";
+            return "redirect:/product.do?tno=" + obj2.getTshirt().getTno() + "&psno=" + printingSide.getPsno();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
         }
-        
     }
     @PostMapping(value="/insertimage.do")
-    public String insertimagePOST(@ModelAttribute TshirtImage obj
-                        , @RequestParam(name="file") MultipartFile file
-                        ) {
+    public String insertimagePOST(@ModelAttribute TshirtImage obj, 
+                                @RequestParam(name="file") MultipartFile file
+                                ) {
         try {
             //log.info("이미지정보 => {}", obj.getTno());
             // 파일은 수동으로 obj에 추가

@@ -9,5 +9,6 @@ import com.example.entity.PrintingSide;
 
 @Repository
 public interface PrintingSideRepository extends JpaRepository<PrintingSide, BigInteger>{
-    
+    // 프린팅사이드이름(유일)으로 psno를 찾을것
+    PrintingSide findByPsidename(String psidename);
 }

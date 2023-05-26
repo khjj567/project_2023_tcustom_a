@@ -33,6 +33,7 @@
                                 <td th:text="${one.tprice}"></td>
                                 <td><a type="button" th:href="@{/product/making.do(tno=${one.tno})}" >디자인하러가기</a></td>
                                 <td><a type="button" th:href="@{/product/insertimage.do(tno=${one.tno})}" >티셔츠이미지넣으러가기</a></td>
+                                <td><a type="button" th:href="@{/product/insertpsidepic.do(tno=${one.tno})}" >프린팅사이드이미지넣으러가기</a></td>
                             </tr>
                         </tbody>
                     </table>
