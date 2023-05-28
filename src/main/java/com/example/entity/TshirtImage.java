@@ -12,6 +12,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.ToString;
@@ -40,4 +41,8 @@ public class TshirtImage {
     @JoinColumn(name = "tno", referencedColumnName = "tno")
     private Tshirt tshirt;
     
+        
+    @Transient //임시변수 :컬럼이 생성되지 않는다. mybatis의 dto개념 // javax 추가함
+    private String imageUrl;
+
 }

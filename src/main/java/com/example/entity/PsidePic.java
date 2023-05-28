@@ -12,6 +12,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.ToString;
@@ -39,6 +40,6 @@ public class PsidePic {
     @ManyToOne
     @JoinColumn(name = "psno", referencedColumnName = "psno")
     private PrintingSide printingSide;
-    
+
     
 }

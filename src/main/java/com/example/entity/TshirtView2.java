@@ -15,8 +15,8 @@ import lombok.ToString;
 @Data
 @Immutable // VIEW entity 만들땐 필수 어노테이션
 @Entity
-@Table(name = "TSHIRTVIEW1")
-public class TshirtView1 {
+@Table(name = "TSHIRTVIEW2")
+public class TshirtView2 {
 
     @Id
     private BigInteger tno;
@@ -30,14 +30,5 @@ public class TshirtView1 {
     private BigInteger ttno;
     private String ttname;
 
-    //
-    private	BigInteger	ino	;
-    private	String	iname	;
-    private	BigInteger	isize	;
-    @Lob
-    @ToString.Exclude
-    private	byte[]	idata	;
-    private	String	itype	;
- 
     
 }

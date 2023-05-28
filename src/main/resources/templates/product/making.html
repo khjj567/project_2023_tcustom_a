@@ -14,19 +14,34 @@
                     디자인하기
                 </div>
                 <div class="base">
-                    <div class="button">
-                        <!-- 라디오버튼 input -->
-                        <!--  varStatus="i" : 순서대로 정렬 ? -->
-                        <input id="select_btn" style="background: transparent; background-color:rgba(242, 242, 242, 1);" type="submit" value="앞면" />
-                        <input id="select_btn" style="background: transparent; background-color:rgba(242, 242, 242, 1);" type="submit" value="뒷면" />
+                    <!-- 라디오버튼 input -->
+                    <!--  varStatus="i" : 순서대로 정렬 ? -->
+                    <div class="button" th:object="${psdto}" th:field="${psdto.selectpside}">
+                        <a id="select_btn" 
+                            th:each="tmp : ${psdto.list}" 
+                            th:value="${tmp.psidename}" th:text="${tmp.psidename}" 
+                            style="background: transparent; 
+                            background-color:rgba(242, 242, 242, 1);"
+                            th:href="@{/product/making.do(psidename=${tmp.psidename})}"
+                            ></a>
+                            <!-- psidename의 값에 따라 이미지 바뀌게 하기 -->
+                            <!-- ????? th:href="@{/product/making.do(tno=${tno})(psidename=${tmp.psidename})}"   ??? -->
                     </div>
-                <!--  티셔츠이미지 들어가게 1001-1 -->
-                <div class="image_p"></div>
-            </div>
-            <div>
-                <!-- form 태그 밖으로 빼고 안에 select다 넣어도 ok -->
-                <!-- enctype="multipart/form-data"을 그냥 form 태그에 넣고 안에 파일업로드를 비롯한 여러가지 기능 섞여있어도 오케이 -->
-                <form th:action="@{/product/making.do}" method="post"  enctype="multipart/form-data">
+                    
+                    <!-- ############## <div th:if="${#strings.equals(param.psidename, ${tmp.psidename})}"> -->
+
+                        <!-- list에 들어있는 걸로 / -->
+                        
+                    <!-- ############## </div> -->
+                    
+                </div>
+               <div class="image_p" >
+                            <!--  티셔츠이미지 들어가게 1001-1 -->
+                </div>
+                <div>
+                    <!-- form 태그 밖으로 빼고 안에 select다 넣어도 ok -->
+                    <!-- enctype="multipart/form-data"을 그냥 form 태그에 넣고 안에 파일업로드를 비롯한 여러가지 기능 섞여있어도 오케이 -->
+                    <form th:action="@{/product/making.do}" method="post"  enctype="multipart/form-data">
                     <!-- + 수량 -  -->
 
                     <!-- 파일업로드 @@-->
@@ -36,10 +51,6 @@
                         <!-- name="tmpfile" : 어차피 파일은 한번에 못넣는다. entity와 이름을 맞출 필요 없다 -->
                         <input type="submit" value="이미지업로드" /><br />
 
-                    <!-- 프린팅사이드정보 -->
-                        <select th:object="${psdto}" th:field="${psdto.selectpside}"> 
-                            <option th:each="tmp : ${psdto.list}" th:value="${tmp.psidename}" th:text="${tmp.psidename}" ></option>
-                        </select>
 
                     <!-- 티셔츠컬러 -->
                         <select th:object="${tcdto}" th:field="${tcdto.selectcolor}"> 
@@ -55,33 +66,79 @@
                         <select th:object="${tsdto}" th:field="${tsdto.selectsize}"> 
                             <option th:each="tmp : ${tsdto.list}" th:value="${tmp.tssize}" th:text="${tmp.tssize}" >종류</option>
                         </select>
-                </form>
-            <!-- 우측 : 사이즈 수량 프린팅방식 컬러 선택 -->
-            <!-- 파일업로드버튼도 -->
-            <!-- <div class="rightbase">
-                <div class="drop">
-                    드롭다운메뉴 사이즈
+                    </form>
+        <!-- 우측 : 사이즈 수량 프린팅방식 컬러 선택 -->
+        <!-- 파일업로드버튼도 -->
+        <!-- <div class="rightbase">
+            <div class="drop">
+                드롭다운메뉴 사이즈
+            </div>
+            <div class="drop">
+                드롭다운메뉴 프린팅방식
+            </div>
+
+        </div> -->
+
+        <!-- <th:block th:each="one : ${list}" class="oneline">
+            <div class="one">
+
+                <div class="conts">
+                    <a class="conts" th:text="${one.tname}"></a>
+                    <a class="conts" th:text="${one.tprice}"></a>
+                    <a type="button" th:href="@{/product/making.do(tno=${one.tno})}" >디자인하러가기</a>
                 </div>
-                <div class="drop">
-                    드롭다운메뉴 프린팅방식
-                </div>
-
-            </div> -->
-
-            <!-- <th:block th:each="one : ${list}" class="oneline">
-                <div class="one">
-
-                    <div class="conts">
-                        <a class="conts" th:text="${one.tname}"></a>
-                        <a class="conts" th:text="${one.tprice}"></a>
-                        <a type="button" th:href="@{/product/making.do(tno=${one.tno})}" >디자인하러가기</a>
-                    </div>
-
-                </div>
-        </th:block> -->
 
             </div>
-        </div>
+        </th:block> -->
+
+                </div> 
+            
+                <div>
+                    <!-- 사진 가운데 정렬, 수평 베열 :클릭하면 크게 볼 수 있도록 + 옆으로 넘기기-->
+                </div>
+                
+                <div class="p_box" th:object="${tcvobj}">
+                <!-- tcvobj는 tno로 받아와야함 -->
+                    <div class="mid_title">
+                        상품 상세
+                    </div>
+                    <h3 th:text="${tcvobj.tname}"></h3>
+
+                    <p class="p_conts_one" 
+                    th:text="${tcvobj.tcinfo}" ></p>
+
+                    <p class="p_conts_one" 
+                    th:text="${tcvobj.tcmaterial}" ></p>
+
+                    <p class="p_conts_one" 
+                    th:text="${tcvobj.tcmanufacomp}" ></p>
+
+                    <p class="p_conts_one" 
+                    th:text="${tcvobj.tcmanufacunt}" ></p>
+
+                    <p class="p_conts_one" 
+                    th:text="${tcvobj.tcsize}" ></p>
+
+                    <p class="p_conts_one" 
+                    th:text="${tcvobj.tcfit}" ></p>
+                    
+                    <p class="p_conts_one" 
+                    th:text="${tcvobj.tcflexi}" ></p>
+                    
+                    <p class="p_conts_one" 
+                    th:text="${tcvobj.tctexture}" ></p>
+                    
+                    <p class="p_conts_one" 
+                    th:text="${tcvobj.tcthick}" ></p>
+                    
+                    <p class="p_conts_one" 
+                    th:text="${tcvobj.tccaution}" ></p>
+                    
+                    <p class="p_conts_one" 
+                    th:text="${tcvobj.tcwash}" ></p>
+
+                </div>
+            </div>
     </div>
     <div class="clear"></div>
     <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>

@@ -3,6 +3,8 @@ package com.example.controller;
 import java.math.BigInteger;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -15,9 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.dto.MemberUser;
 import com.example.dto.TshirtProductSorting;
 import com.example.entity.Member;
-import com.example.entity.TshirtView1;
+import com.example.entity.TshirtImage;
+import com.example.entity.TshirtPrintingSidePicView;
+import com.example.entity.TshirtView2;
 import com.example.repository.MemberRepository;
+import com.example.repository.TshirtImageRepository;
+import com.example.repository.TshirtRepository;
 import com.example.repository.TshirtView1Repository;
+import com.example.repository.TshirtView2Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +37,11 @@ public class HomeController {
 
     final MemberRepository mRepository;
     final TshirtView1Repository tv1Repository;
+    final TshirtView2Repository tv2Repository;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+    final TshirtImageRepository tiRepository;
+    final TshirtRepository tRepository;
+    
 
     //127.0.0.1:9090/CUSTOM/home.do
     @GetMapping(value = "/home.do")  
@@ -109,20 +120,39 @@ public class HomeController {
         @GetMapping(value = "/product.do")
         public String  productGET(Model model, 
                 @ModelAttribute TshirtProductSorting obj, 
-                @RequestParam(name="typeCode", defaultValue = "0") int typeCode){
+                @ModelAttribute TshirtPrintingSidePicView obj2PicView,
+                @ModelAttribute TshirtImage obj3Image,
+                @RequestParam(name="typeCode", defaultValue = "0") int typeCode,
+                HttpServletRequest request
+               ){
             try{
-
-                List<TshirtView1> list = null;
+                // 티셔츠나 후드집업 값에 따라 테이블(표)값 바꾸기
+                // List<Tshirt> list = null;
+                List<TshirtView2> list = null;
+                
                 if(typeCode == 0){
-                    list = tv1Repository.findAll();
+                    list = tv2Repository.findAll();
                 }
                 else {
-                    list = tv1Repository.findByTtnoOrderByTnoDesc(BigInteger.valueOf(typeCode));
+                    list = tv2Repository.findByTtnoOrderByTnoDesc(BigInteger.valueOf(typeCode));
                 }
 
-                //log.info("리스트 =>{}", list.toString());
+                log.info("리스트 =>{}", list.toString());
                 model.addAttribute("search", obj);
                 model.addAttribute("list", list);
+                // model.addAttribute("list1", list1);
+
+
+                // // 대표이미지
+                // obj3Image.setTshirt();
+                // TshirtImage tshirtImage = tiRepository.findTop1ByTshirt_tnoOrderByInoAsc( BigInteger.valueOf( );
+                // // TshirtImage tshirtImage = tiRepository.findTop1ByTshirt_tnoOrderByInoAsc( tno ); // 형변환?
+                //         if(tshirtImage != null){
+                //         //log.info(format, image1.toString());
+                //         obj3Image.setImageUrl(request.getContextPath() + "/boardimage1/image?no=" + image1.getNo());
+                // //   원래 url형태로 들어가는 부분이라서 contextpath <!-- <img src="@{/item/image(no=1)}"> -->
+                //             //log.info(format, image1.toString());
+                // }
                 return "product";
             }
             catch(Exception e){

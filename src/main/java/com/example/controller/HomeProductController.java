@@ -21,6 +21,7 @@ import com.example.entity.PrintingSide;
 import com.example.entity.PsidePic;
 import com.example.entity.Tshirt;
 import com.example.entity.TshirtColor;
+import com.example.entity.TshirtContentView;
 import com.example.entity.TshirtImage;
 import com.example.entity.TshirtPrintingSidePicView;
 import com.example.entity.TshirtSize;
@@ -29,6 +30,7 @@ import com.example.repository.PrintingRepository;
 import com.example.repository.PrintingSideRepository;
 import com.example.repository.PsidePicRepository;
 import com.example.repository.TshirtColorRepository;
+import com.example.repository.TshirtContentViewRepository;
 import com.example.repository.TshirtImageRepository;
 import com.example.repository.TshirtPrintingSidePicViewRepository;
 import com.example.repository.TshirtSizeRepository;
@@ -51,6 +53,7 @@ public class HomeProductController {
     final FileRepository fRepository;
     final PrintingSideRepository psRepository;
     final TshirtPrintingSidePicViewRepository tpspvRepository;
+    final TshirtContentViewRepository tcvRepository;
 
     //127.0.0.1:9090/CUSTOM/product/making.do
     @GetMapping(value = "/making.do")
@@ -82,6 +85,10 @@ public class HomeProductController {
             tsdto.setList(list); // 위에서 생성한 list를 tsdto의 list에 set해 준다
             log.info("티셔츠사이즈정보 => {}", list.toString()); // 모든 정보가 나옴
 
+            // 티셔츠 INFO
+            TshirtContentView tcvobj = tcvRepository.findByTno(BigInteger.valueOf(tno));
+
+
             model.addAttribute("tno", tno);
 
             model.addAttribute("psdto", psdto);
@@ -96,8 +103,7 @@ public class HomeProductController {
             model.addAttribute("tsdto", tsdto);
             model.addAttribute("obj", list);
 
-
-
+            model.addAttribute("tcvobj", tcvobj);
             return "product/making";
         } catch (Exception e) {
             e.printStackTrace();

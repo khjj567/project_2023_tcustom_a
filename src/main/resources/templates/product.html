@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
+<style>
+        /* 상품 카드  (고쳐야)*/
+
+
+
+    </style>
 <body>
     <div id="all">
         <div class="all_center">
@@ -14,33 +20,43 @@
                 <div class="mid_title">
                     전체상품
                 </div>
-                <div>
+                <div >
                     <!-- 항목카테고리  버튼을 누르면 해당타입으로 정렬-->
                     <!-- 항목카테고리 버튼모양 변경 수정 -->
                     <a th:href="@{/product.do(typeCode=0)}">전체목록</a>
+
                     <th:block th:each="tmp, idx : ${search.typeCode}" >
                         <form th:action="@{/product.do}" method="get" th:object="${search}">
                             <input type="hidden" name="typeCode" th:value="${tmp}" />
-                            <input type="submit" id="select_btn" style="background: transparent; background-color:rgba(242, 242, 242, 1); float: left;" th:value="${search.typeName[idx.index]}" />
+                            <input type="submit" id="select_btn" 
+                                style="background: transparent; background-color:rgba(242, 242, 242, 1); float: left;" 
+                                th:value="${search.typeName[idx.index]}" />
                         </form>
                     </th:block>
-                    <br/>
-
-                    <th:block th:each="one : ${list}" class="oneline">
-                    <div class="one">
-
-                        <div class="conts">
-                            <a class="conts" th:text="${one.tname}"></a>
-                            <a class="conts" th:text="${one.tprice}"></a>
-                            <a type="button" th:href="@{/product/making.do(tno=${one.tno})}" >디자인하러가기</a>
-                        </div>
+                </div>
+                <div class="oneline">
+                    <th:block th:each="one : ${list}" >
+                        <div class="one">
+                            
+                            <div class="pic">
+                                <img src="https://via.placeholder.com/400x225" width="100%" focusable="false">
+                                <!-- <img th:src="${psidepic.imageUrl}" style="width:100px;height:100px; object-fit: cover; border:1px solid #cccccc;" 
+                                    th:href="@{/product/making.do(tno=${one.tno})}"><br /> -->
+                            </div>
+                            <div class="cont_name">
+                                <label class="conts" th:text="${one.tname}"></label>
+                            </div>
+                            <div class="cont_price">
+                                <label class="conts" th:text="${one.tprice} + 원"></label>
+                            </div>
+                            <div >
+                                <a class="cont_a"type="button" th:href="@{/product/making.do(tno=${one.tno})}" style="text-align: center;">디자인하러가기</a>
+                            </div>
+                                
+                            
                         
-                        <div class="pic">
-                            <img src="https://via.placeholder.com/400x225" width="100%" focusable="false">
                         </div>
-                    
-                    </div>
-            </th:block>
+                    </th:block>
                 </div>
                 <div>
                     <!-- 분류 : 인기순(조회수) 최신등록순 낮은가격순 높은가격순 -->
