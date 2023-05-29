@@ -3,6 +3,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600&display=swap');
 @import url(https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@2.0/nanumsquare.css);
 
+
+
 a:link.hello{
 	font-size: 10px;
 	/* background-color: rgb(179, 233, 237); */
@@ -259,20 +261,38 @@ a:link.cont_a:hover{
     font-weight: bold;
     padding: 5px;
 }
+.smol_title{
+    /* background-color: aquamarine; */
+    color: black;
+    font-size: 22px;
+    font-weight: 600;
+    padding: 5px;
+}
+
 
 .base{
     float: left;
     margin-top: 10px;
-    width: 700px;
+    width: 54%;
     height: auto;
-    /* background-color: azure; */
+    background-color: azure;
+    
 }
 
 .image_p{
     float: left;
-    width: 700px;
+    width: 100%;
     height: 600px;
     background-color: rgba(217, 217, 217, 1);
+}
+
+#base_right{
+    /* margin-left: 10px; */
+    margin-top: 10px;
+    float: right;
+    width: 45%;
+    height: auto;
+    /* background-color: blueviolet; */
 }
 
 /* 버튼 */
@@ -488,24 +508,25 @@ a:link.cont_a:hover{
 /* 배너 */
 .banner1{
     /* background-color: aquamarine; */
-    width: auto;
+    width: 100%;
     /* : 가로 스크롤생기면 어쩌쥐 */
-    height: 250px;
+    height: auto;
     /* height: auto;로 나중엔 변환 */
-    margin-top: 7px;
-    margin-left: 3%;
-    margin-right: 3%;
+    margin-top: 7px 3px;
+    /* object-fit: cover; */
 }
 
 .banner2{
-    /* background-color: hotpink; */
-    width: auto;
+    background-color: hotpink;
+    width: 100%;
     /* : 가로 스크롤생기면 어쩌쥐 */
-    height: 700px;
+    height: auto;
     /* height: auto;로 나중엔 변환 : 이미지에 따라 달라지도록*/
-    margin-top: 7px;
-    margin-left: 3%;
-    margin-right: 3%;
+    margin: 7px 3px;
+    display: flex;
+    /* background-size: cover; */
+    object-fit: cover;
+
 }
 
 .clear{
