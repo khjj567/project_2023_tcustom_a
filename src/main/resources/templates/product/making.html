@@ -1,125 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
+
+<link rel= "stylesheet" href="css/jquery.lightbox.css">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" 
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
+        crossorigin="anonymous"></script><!--제이쿼리 슬림에선 동작안함-->
+<script src="js/jquery.lightbox.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('a.light').lightBox();
+    });
+</script>
+
 <style>
-select {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
 
-    /* 생략 */
-    font-family: "NanumSquare";
-    font-size: 16px;
-    font-weight: 400;
-    /* line-height: 1.5; */
-
-    color: black;
-    background: url('../img/caret-down-outline.svg') no-repeat right 14px center;
-    background-size: 15px 14px;
-
-    background-color:  #fff;
-    width: 100%;
-    padding: 0.6em 1.4em 0.5em 0.8em;
-    margin: 5px;
-
-    border: 1px solid #aaa;
-    border-radius: 0.5em;
-    box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
-}
-select:hover {
-    background-color: rgba(217, 217, 217, 1);
-    border: 2px solid pink;
-    color: rgb(0, 0, 0);
-    font-weight: bold;
-}
-
-select:focus {
-    border-color: #aaa;
-    box-shadow: 0 0 1px 3px pink;
-    box-shadow: 0 0 0 3px -moz-mac-focusring;
-    color: #222;
-outline: none;
-}
-
-select:disabled {
-    opacity: 0.5;
-}
-select option {
-  background: pink;
-  color: black;
-  padding: 3px 0;
-}
-
-
-
-input[type=file]::file-selector-button {
-    
-    color: #000000;
-    border: 2px solid #aaa;
-    font-size: 14px;
-    font-family: "NanumSquare";
-    font-weight: 400;
-    vertical-align: middle;
-    background-color:rgba(242, 242, 242, 1);
-    border-radius: 0.5em;
-    /* cursor: pointer; */
-    height: auto;
-    width: auto;
-    margin: 10px 5px;
-    padding: 7px 15px ;
-    /* transition: 1s; */
-}
-
-input[type=file]::file-selector-button:hover {
-    background-color: rgba(217, 217, 217, 1);
-    border: 2px solid pink;
-    color: rgb(0, 0, 0);
-    font-weight: bold;
-}
-
-
-
-.filebox .upload-name {
-    /* display: inline-block; */
-    height: 40px;
-    padding: 0 10px;
-    /* vertical-align: middle; */
-    border: 1px solid #dddddd;
-    width: auto;
-    color: #999999;
-}
-.filebox label {
-    /* display: inline-block; */
-    padding: 10px;
-    color: #000000;
-    border: 2px solid #aaa;
-    font-size: 14px;
-    font-family: "NanumSquare";
-    font-weight: 400;
-    vertical-align: middle;
-    background-color:rgba(242, 242, 242, 1);
-    border-radius: 0.5em;
-    /* cursor: pointer; */
-    height: 20px;
-    margin: 5px;
-}
-.filebox label:hover {
-    background-color: rgba(217, 217, 217, 1);
-    border: 2px solid pink;
-}
-/* .filebox input[type="file"] ::file-selector-button{
-    width: 150px;
-  height: 30px;
-  background: #fff;
-  border: 1px solid rgb(77,77,77);
-  border-radius: 10px;
-  cursor: pointer;
-  &:hover {
-    background: rgb(77,77,77);
-    color: #fff;
-} */
 
 </style>
+
 <body>
     <div id="all">
         <div class="all_center">
@@ -132,6 +30,8 @@ input[type=file]::file-selector-button:hover {
                 <div class="mid_title">
                     디자인하기
                 </div>
+
+                <!-- 좌측 프린팅사이드 이미지 -->
                 <div class="base">
                     <!-- 라디오버튼 input -->
                     <!--  varStatus="i" : 순서대로 정렬 ? -->
@@ -157,7 +57,7 @@ input[type=file]::file-selector-button:hover {
                     </div>
                 </div>
                
-                <!-- <div class="clear"></div> -->
+                <!-- 우측 선택사항 -->
                 <div id="base_right">
                     <!-- form 태그 밖으로 빼고 안에 select다 넣어도 ok -->
                     <!-- enctype="multipart/form-data"을 그냥 form 태그에 넣고 안에 파일업로드를 비롯한 여러가지 기능 섞여있어도 오케이 -->
@@ -209,16 +109,23 @@ input[type=file]::file-selector-button:hover {
                             <option th:each="tmp : ${tsdto.list}" th:value="${tmp.tssize}" th:text="${tmp.tssize}" >종류</option>
                         </select>
                     </form>
-                    
+
+                    <!-- 주문정보 어떻게 넘기지 -->
                     <!-- 주문버튼 넣으면 오류뜨며 아래로 다 안뜸. -->
                     <!-- <a class="select_btn2" value="주문하기" th:href="@{/product/order.do(tno=${one.tno})}" ></a> -->
-                    <!-- 주문정보 어떻게 넘기지 -->
+                    <!-- <a class="select_btn2" value="디자인저장" th:href="@{/member/mypage.do?menu=1}" ></a> -->
 
                 </div> 
             
-                <div>
-                    <!-- 사진 가운데 정렬, 수평 베열 :클릭하면 크게 볼 수 있도록 + 옆으로 넘기기-->
-                </div>
+                <!-- 전체 사진 출력 -->
+                <!-- <div th:each="tmp : ${imageList}"> -->
+                    <a th:each="tmp : ${imageList}" data-lightbox="tmp" class="light" th:href="${tmp}">
+                        <img th:src="${tmp}">
+                    </a>
+                <!-- </div> -->
+                <!-- <div >
+                    <img th:src="${tmp}" style=" width: 100px; height: 100px; display: inline-block; border:1px solid #cccccc;" />
+                </div> -->
                 
                 <div class="p_box" th:object="${tcvobj}">
                 <!-- tcvobj는 tno로 받아와야함 -->

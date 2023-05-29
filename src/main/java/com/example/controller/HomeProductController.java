@@ -1,7 +1,10 @@
 package com.example.controller;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +26,6 @@ import com.example.entity.Tshirt;
 import com.example.entity.TshirtColor;
 import com.example.entity.TshirtContentView;
 import com.example.entity.TshirtImage;
-import com.example.entity.TshirtPrintingSidePicView;
 import com.example.entity.TshirtSize;
 import com.example.repository.FileRepository;
 import com.example.repository.PrintingRepository;
@@ -59,7 +61,8 @@ public class HomeProductController {
     @GetMapping(value = "/making.do")
     public String makingGET(
             Model model, 
-            @RequestParam(name="tno") long tno){
+            @RequestParam(name="tno") long tno,
+            HttpServletRequest request){
         try {
 
             // 티셔츠프린팅사이드픽뷰 // 체크박스
@@ -88,8 +91,18 @@ public class HomeProductController {
             // 티셔츠 INFO
             TshirtContentView tcvobj = tcvRepository.findByTno(BigInteger.valueOf(tno));
 
-
+            // 티셔츠 전체이미지 가져오기
+            List<String> imageList = new ArrayList<>();
+            List<TshirtImage> list1 = tiRepository.findByTshirt_tnoOrderByInoAsc(BigInteger.valueOf(tno));
+            //log.info("what=> {}", list1.toString());
+            if( !list1.isEmpty() ){ // 리스트 비어있지 않은ㅇ지 확인
+                for(TshirtImage tmp : list1){
+                    imageList.add( request.getContextPath() + "/product/making?ino=" + tmp.getIno() );
+                }
+            }
             model.addAttribute("tno", tno);
+
+           model.addAttribute("imageList", imageList);
 
             model.addAttribute("psdto", psdto);
             // model.addAttribute("tclist", tclist);

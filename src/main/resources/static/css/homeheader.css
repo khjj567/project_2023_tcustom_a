@@ -295,6 +295,88 @@ a:link.cont_a:hover{
     /* background-color: blueviolet; */
 }
 
+
+
+/* select 스타일 */
+select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+
+    /* 생략 */
+    font-family: "NanumSquare";
+    font-size: 16px;
+    font-weight: 400;
+    /* line-height: 1.5; */
+
+    color: black;
+    background: url('../img/caret-down-outline.svg') no-repeat right 14px center;
+    background-size: 15px 14px;
+
+    background-color:  #fff;
+    width: 100%;
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    margin: 5px;
+
+    border: 1px solid #aaa;
+    border-radius: 0.5em;
+    box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+}
+select:hover {
+    background-color: rgba(217, 217, 217, 1);
+    border: 2px solid pink;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+select:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 1px 3px pink;
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222;
+outline: none;
+}
+
+select:disabled {
+    opacity: 0.5;
+}
+select option {
+  background: pink;
+  color: black;
+  padding: 3px 0;
+}
+
+
+
+
+/* input type=file */
+input[type=file]::file-selector-button {
+    
+    color: #000000;
+    border: 2px solid #aaa;
+    font-size: 14px;
+    font-family: "NanumSquare";
+    font-weight: 400;
+    vertical-align: middle;
+    background-color:rgba(242, 242, 242, 1);
+    border-radius: 0.5em;
+    /* cursor: pointer; */
+    height: auto;
+    width: auto;
+    margin: 10px 5px;
+    padding: 7px 15px ;
+    /* transition: 1s; */
+}
+
+input[type=file]::file-selector-button:hover {
+    background-color: rgba(217, 217, 217, 1);
+    border: 2px solid pink;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+
+
 /* 버튼 */
 
 .button{
