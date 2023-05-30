@@ -1,83 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T-Custom 고객</title>
-</head>
+<th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
+<link rel= "stylesheet" href="css/jquery.lightbox.css">
+<style>
+	.mypage_button{
+    float: left; 
+    width: auto;
+    height: auto;
+    padding: 3px;
+    /* background-color: rgb(255, 197, 197); */
+}
+
+#mypage_btn{
+	border: solid 2px #000000;
+	font-size: 16px;
+    background-color: rgba(217, 217, 217, 1);
+    width: auto;
+    height: auto;
+    border-radius: 30px;
+    padding: 5px 15px 5px 15px;
+    margin: 5px;
+	font-family: "NanumSquare";
+	float: left;
+}
+
+#mypage_btn:hover{
+	border: solid 2px rgba(217, 217, 217, 1);
+    color: rgb(0, 0, 0);
+    background-color: pink;
+}
+</style>
 <body>
-    <h2>마이페이지</h2>
-    <hr/>
-		<a th:href="@{/home.do}">홈으로</a>
-		<a th:href="@{/member/mypage.do(menu=1)}" >디자인목록</a>
-		<a th:href="@{/member/mypage.do(menu=2)}" >파일목록</a>
-		<a th:href="@{/member/mypage.do(menu=3)}" >주문내역</a>
-		<a th:href="@{/member/mypage.do(menu=4)}" >문의내역</a>
-		<a th:href="@{/member/mypage.do(menu=5)}" >개인정보변경</a>
-		<a th:href="@{/member/mypage.do(menu=6)}" >주소관리</a>
-	<hr />
+	<div id="all">
+        <div class="all_center">
+            <th:block th:replace="~{/fragments/hometitlenav :: navFragment}"></th:block>
+        
+			<div class="clear"></div>
+        
+            <div class="bar"></div>
 
-	<div th:if="${#strings.equals(param.menu, '1')}">
-		<h2>디자인목록</h2>
-		<a th:href="@{/product.do}"><button>디자인하러가기</button></a>
-		<hr />
-        <table>
-			<tbody>
-				<form th:action="@{/member/mypage.do(menu=1)}" method="post" id="form">
-					<tr th:each="obj : ${list}">
-						<td><!-- 체크박스 -->
-							<input type="checkbox" name="chk[]" th:value="${obj.no.longValue()}"/>
-						</td>
-						<td><input src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." ></td>
-						<td th:text="${obj.dno}"></td><!-- 디자인번호 -->
-						<td th:text="${obj.tcolorname}"></td><!-- color -->
-						<td th:text="${obj.psidename}"></td><!-- side -->
-						<td th:text="${obj.tname}"></td><!-- 티셔츠이름 -->
-						<td th:text="${obj.ttname}"></td><!-- 티셔츠타입이름 -->
-						<td th:text="${obj.tssize}"></td><!-- 티셔츠사이즈 -->
-						<td th:text="${obj.pmethod}"></td><!-- 프린팅방식 -->
-						<td><!-- 총 가격 -->
-							<fmt:formatNumber th:vlaue="${obj.totalprice}" pattern="#,###"></fmt:formatNumber>
-						</td>
-						<td><!-- 디자인 생성 날짜 -->
-							<fmt:formatDate th:vlaue="${obj.dregdate}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatNumber>
-						</td>
-						<td>
-							<a th:href="@{/seller/productupload.do(dno=${obj.dno})}"><button>상품만들기</button></a>
-						</td>
-					</tr>
-					<input type="hidden" name="btn" id="btn" />
-					<input type="button" value="일괄삭제" onclick="deleteItemAction()"/>
-					<input type="button" value="일괄수정" onclick="updateItemAction()"/>
-					<input type="button" value="일괄주문" onclick="orderItemAction()"/>
-				</form>
-			</tbody>
-		</table>
-    </div>
+			<div class="body">
+                <div class="mid_title">
+                    디자인하기
+                </div >
+				<!-- style="background: transparent; background-color:rgba(242, 242, 242, 1);"  -->
+				<div class="mypage_button" >
+					<a id="mypage_btn" th:href="@{/home.do}">홈으로</a>
+					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=1)}" >디자인목록</a>
+					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=2)}" >파일목록</a>
+					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=3)}" >주문내역</a>
+					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=4)}" >문의내역</a>
+					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=5)}" >개인정보변경</a>
+					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=6)}" >주소관리</a>
+				</div>
+				<div th:if="${#strings.equals(param.menu, '1')}">
+					<h2>디자인목록</h2>
+					<a th:href="@{/product.do}"><button>디자인하러가기</button></a>
+					<hr />
+					<table>
+						<tbody>
+							<form th:action="@{/member/mypage.do(menu=1)}" method="post" id="form">
+								<tr th:each="obj : ${list}">
+									<td><!-- 체크박스 -->
+										<input type="checkbox" name="chk[]" th:value="${obj.no.longValue()}"/>
+									</td>
+									<td><input src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." ></td>
+									<td th:text="${obj.dno}"></td><!-- 디자인번호 -->
+									<td th:text="${obj.tcolorname}"></td><!-- color -->
+									<td th:text="${obj.psidename}"></td><!-- side -->
+									<td th:text="${obj.tname}"></td><!-- 티셔츠이름 -->
+									<td th:text="${obj.ttname}"></td><!-- 티셔츠타입이름 -->
+									<td th:text="${obj.tssize}"></td><!-- 티셔츠사이즈 -->
+									<td th:text="${obj.pmethod}"></td><!-- 프린팅방식 -->
+									<td><!-- 총 가격 -->
+										<fmt:formatNumber th:vlaue="${obj.totalprice}" pattern="#,###"></fmt:formatNumber>
+									</td>
+									<td><!-- 디자인 생성 날짜 -->
+										<fmt:formatDate th:vlaue="${obj.dregdate}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatNumber>
+									</td>
+									<td>
+										<a th:href="@{/seller/productupload.do(dno=${obj.dno})}"><button>상품만들기</button></a>
+									</td>
+								</tr>
+								<input type="hidden" name="btn" id="btn" />
+								<input type="button" value="일괄삭제" onclick="deleteItemAction()"/>
+								<input type="button" value="일괄수정" onclick="updateItemAction()"/>
+								<input type="button" value="일괄주문" onclick="orderItemAction()"/>
+							</form>
+						</tbody>
+					</table>
+				</div>
 
-	<div th:if="${#strings.equals(param.menu, '2')}">
-		<h2>파일목록</h2>
-        <form th:action="@{/member/mypage.do(menu=2)}" method="post">
-			<div class="card shadow-sm">
-				<img src="https://via.placeholder.com/400x225" width="100%" height="225" focusable="false">
-				<div class="card-body">
-					<p class="card-text">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat perspiciatis magni totam eum dolore sequi iste, laboriosam at.
-					</p>
-					<div class="d-flex justify-content-between align-items-center">
-						<div class="btn-group">
-							<button type="button" class="btn btn-sm btn-outline-primary">View</button>
-							<button type="button" class="btn btn-sm btn-outline-primary">Edit</button>
+				<div th:if="${#strings.equals(param.menu, '2')}">
+					<h2>파일목록</h2>
+					<form th:action="@{/member/mypage.do(menu=2)}" method="post">
+						<div class="card shadow-sm">
+							<img src="https://via.placeholder.com/400x225" width="100%" height="225" focusable="false">
+							<div class="card-body">
+								<p class="card-text">
+									Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat perspiciatis magni totam eum dolore sequi iste, laboriosam at.
+								</p>
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="btn-group">
+										<button type="button" class="btn btn-sm btn-outline-primary">View</button>
+										<button type="button" class="btn btn-sm btn-outline-primary">Edit</button>
+									</div>
+									<small class="text-body-secondary">10 mins</small>
+								</div>
+							</div>
 						</div>
-						<small class="text-body-secondary">10 mins</small>
-					</div>
+						<input type="text" placeholder="현재비번" />
+						<input type="submit" value="탈퇴변경" />
+					</form>
 				</div>
 			</div>
-            <input type="text" placeholder="현재비번" />
-            <input type="submit" value="탈퇴변경" />
-        </form>
-    </div>
+		</div>
+	</div>
+    
+<div class="clear"></div>
+<th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
 
 </body>
 </html>

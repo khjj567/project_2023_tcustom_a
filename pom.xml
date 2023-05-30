@@ -16,8 +16,10 @@
 	<properties>
 		<java.version>11</java.version>
 	</properties>
+	<!-- 개발용 jar -->
+	<!-- 서버에 배포용 war  -->
+	<packaging>war</packaging>
 	<dependencies>
-
 	<!-- 토큰 발행 < new -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>

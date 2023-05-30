@@ -6,7 +6,115 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" 
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
         crossorigin="anonymous"></script><!--제이쿼리 슬림에선 동작안함-->
-<script src="js/jquery.lightbox.min.js"></script>
+
+<!-- 전체이미지 라이트박스 : 한개 클릭하면 크게 뜨게 하기 -->
+<script src="../js/jquery.lightbox.min.js"></script>
+<!-- 경로 맞는듯! -->
+
+<!-- 이미지 특정id로 그부분만 캡처 하기 : designonepic -->
+<script src="../js/html2canvas.min.js"></script>
+
+<!-- 이미지 draggable / resizable -->
+<script src="../js/jquery-ui.min.js"></script>
+
+<!-- 이미지 draggable -->
+<script>
+$( function() {
+    $( "#draggable3" ).draggable({ containment: "#image_p", scroll: false });
+} );
+</script>
+
+<!-- 이미지 resizable -->
+<script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+
+<style>
+.resizable {
+    width: auto;
+    height: auto;
+    /* border-radius: 0.75rem;
+    padding: 20px;
+    margin: 1rem; */
+    background-color: #29e;
+    color: white;
+    font-size: 20px;
+    font-family: sans-serif;
+    overflow: hidden;
+
+    touch-action: none;
+
+    /* This makes things *much* easier */
+    box-sizing: border-box;
+}
+</style>
+
+<script>
+interact('.resizable')
+.resizable({
+    modifiers: [
+      interact.modifiers.aspectRatio({
+        ratio: 'preserve',
+        modifiers: [
+          interact.modifiers.restrictEdges({ outer: 'parent' })
+        ]
+      })
+    ],
+    edges: { top: true, left: true, bottom: true, right: true },
+    listeners: {
+    move: function (event) {
+        let { x, y } = event.target.dataset
+
+        x = (parseFloat(x) || 0) + event.deltaRect.left
+        y = (parseFloat(y) || 0) + event.deltaRect.top
+
+        Object.assign(event.target.style, {
+        width: `${event.rect.width}px`,
+        height: `${event.rect.height}px`,
+        transform: `translate(${x}px, ${y}px)`
+        })
+
+        Object.assign(event.target.dataset, { x, y })
+    }
+    }
+}).on('resizemove', function (event) {
+    var target = event.target,
+        x = (parseFloat(target.getAttribute('data-x')) || 0),
+        y = (parseFloat(target.getAttribute('data-y')) || 0);
+
+    // update the element's style
+    target.style.width  = event.rect.width + 'px';
+    target.style.height = event.rect.height + 'px';
+
+    // translate when resizing from top or left edges
+    x += event.deltaRect.left;
+    y += event.deltaRect.top;
+
+    target.style.webkitTransform = target.style.transform =
+        'translate(' + x + 'px,' + y + 'px)';
+
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+    target.textContent = event.rect.width + '×' + event.rect.height;
+  });
+
+
+  function dragMoveListener (event) {
+    var target = event.target,
+        // keep the dragged position in the data-x/data-y attributes
+        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+    // translate the element
+    target.style.webkitTransform =
+    target.style.transform =
+      'translate(' + x + 'px, ' + y + 'px)';
+
+    // update the posiion attributes
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+  }
+</script>
+
+<!-- 전체이미지 라이트박스 : 한개 클릭하면 크게 뜨게 하기 -->
 <script>
     $(document).ready(function(){
         $('a.light').lightBox();
@@ -14,9 +122,18 @@
 </script>
 
 <style>
+    /* draggable */
+    .draggable { 
+        width: auto; 
+        height: auto; 
+        float: left; 
+    }
 
-
+    /* resizable */
+    /* #resizable { width: 150px; height: 150px; padding: 0.5em; }
+    #resizable h3 { text-align: center; margin: 0; } */
 </style>
+    
 
 <body>
     <div id="all">
@@ -43,18 +160,37 @@
                             background-color:rgba(242, 242, 242, 1);"
                             th:href="@{/product/making.do(psidename=${tmp.psidename})}"
                             ></a>
-                            <!-- psidename의 값에 따라 이미지 바뀌게 하기 -->
-                            <!-- ????? th:href="@{/product/making.do(tno=${tno})(psidename=${tmp.psidename})}"   ??? -->
+                            <!--######## psidename의 값에 따라 이미지 바뀌게 하기 ########-->
+                            <!-- 시도: th:href="@{/product/making.do(tno=${tno})(psidename=${tmp.psidename})}"  -->
                     </div>
                     
-                    <!-- ############## <div th:if="${#strings.equals(param.psidename, ${tmp.psidename})}"> -->
-
+                    <!-- ######## pside에 따라 psidepic이 나와야함 ######## -->
+                    <!-- 추측: 마이페이지에서 menu=1,2,3 에 따라 페이지가 바뀌듯이 class="image_p" 부분을 변경 -->
+                    
+                    <!-- 시도: <div th:if="${#strings.equals(param.psidename, ${tmp.psidename})}"> -->
                         <!-- list에 들어있는 걸로 / -->
-                        
-                    <!-- ############## </div> -->
-                    <div class="image_p" >
-                            <!--  티셔츠이미지 들어가게 1001-1 -->
+                    <!-- </div> -->
+
+                    <!-- .image_p_base 를 사용해 베이스에 들어갈 티셔츠이미지(움직이지 않음) -->
+                    <!-- <div class="image_p_base">
+                        -- 티셔츠이미지 들어가게 : 1001-1.png 
+                        -- 아래는 예시 이미지. 캡처되는지, 디비에 들어가는지 테스트 해보기
+                        <img src="https://via.placeholder.com/400x225" width="100%" height="100%" focusable="false">
+                    </div> -->
+
+                    <!-- 이미지 draggable : ok -->
+                    <!-- 이미지 Resizable :  -->
+                    <!-- <div class="resizable">
+                        <p> Resize from any edge or corner </p>
+                      </div> -->
+
+                    <div id="image_p" >
+                        <!-- 이미지 DRAGGABLE 테스트 -->
+                        <div id="draggable3" class="draggable ui-widget-content">
+                            <img class="resizable" src="https://via.placeholder.com/400x225" >
+                        </div>
                     </div>
+                    <!-- id='container' : 캡처할때 쓸 id -->
                 </div>
                
                 <!-- 우측 선택사항 -->
@@ -77,7 +213,17 @@
                         <!-- <input class="upload-name" value="첨부파일" disabled="disabled" placeholder="첨부파일"> -->
                         <!-- <label for="ex_filename">파일찾기</label>  -->
                         <input type="file" id="ex_filename">
+                        <br/>
+                        <!-- 프린팅방식 @@-->
+                        <div class="smol_title">
+                            프린팅 방식 선택
+                        </div>
+                        <select th:object="${pdto}" th:field="${pdto.selectpmethod}"> 
+                            <option th:each="tmp : ${pdto.list}" th:value="${tmp.pmethod}" th:text="${tmp.pmethod}" >종류</option>
+                        </select>
+                        
                         <hr/>
+                        
                     <!-- <div class="filebox">
                         <input class="upload-name" value="파일선택">
                       
@@ -85,46 +231,60 @@
                         <input type="file" id="ex_filename" class="upload-hidden"> 
                       </div> -->
 
+                        <!-- 티셔츠컬러 -->
                         <div class="smol_title">
                             컬러 선택
                         </div>
-                    <!-- 티셔츠컬러 -->
                         <select th:object="${tcdto}" th:field="${tcdto.selectcolor}"> 
                             <option th:each="tmp : ${tcdto.list}" th:value="${tmp.tcolorname}" th:text="${tmp.tcolorname}" >종류</option>
                         </select>
                         <br/>
-                        <div class="smol_title">
-                            프린팅 방식 선택
-                        </div>
-                    <!-- 프린팅방식 @@-->
-                        <select th:object="${pdto}" th:field="${pdto.selectpmethod}"> 
-                            <option th:each="tmp : ${pdto.list}" th:value="${tmp.pmethod}" th:text="${tmp.pmethod}" >종류</option>
-                        </select>
-                        <br/>
+
+                        <!-- 티셔츠사이즈 -->
                         <div class="smol_title">
                             사이즈 선택
                         </div>
-                    <!-- 티셔츠사이즈 -->
                         <select th:object="${tsdto}" th:field="${tsdto.selectsize}"> 
                             <option th:each="tmp : ${tsdto.list}" th:value="${tmp.tssize}" th:text="${tmp.tssize}" >종류</option>
                         </select>
                     </form>
 
-                    <!-- 주문정보 어떻게 넘기지 -->
+                    <!-- ######## 주문정보 어떻게 넘기지 ######## -->
                     <!-- 주문버튼 넣으면 오류뜨며 아래로 다 안뜸. -->
-                    <!-- <a class="select_btn2" value="주문하기" th:href="@{/product/order.do(tno=${one.tno})}" ></a> -->
-                    <!-- <a class="select_btn2" value="디자인저장" th:href="@{/member/mypage.do?menu=1}" ></a> -->
+
+                    <!-- ######## 이미지를 저장하기 : onclick=partShot() 추가 : 중복되어도 괜찮나 ########-->
+                        <!-- <a class="select_btn2" value="주문하기" th:href="@{/product/order.do(tno=${one.tno})}" >
+                            <button onclick=partShot()>주문하기</button>
+                        </a>
+                        <a class="select_btn2" th:href="@{/member/mypage.do?menu=1}" >
+                            <button onclick=partShot()>디자인저장</button>
+                        </a> -->
 
                 </div> 
-            
-                <!-- 전체 사진 출력 -->
+
+                <!-- ######## 1 전체 사진 출력 ########-->
                 <!-- <div th:each="tmp : ${imageList}"> -->
-                    <a th:each="tmp : ${imageList}" data-lightbox="tmp" class="light" th:href="${tmp}">
+                    <!-- <a th:each="tmp : ${imageList}" data-lightbox="tmp" class="light" th:href="${tmp}">
                         <img th:src="${tmp}">
-                    </a>
+                    </a> -->
                 <!-- </div> -->
-                <!-- <div >
-                    <img th:src="${tmp}" style=" width: 100px; height: 100px; display: inline-block; border:1px solid #cccccc;" />
+                <div class = "img_list" >
+                    <a th:each="tmp : ${imageList}" data-lightbox="tmp" class="light" th:href="${tmp}">
+                        <img class = "img_1" th:src="${tmp}" style=" width: 100px; height: 100px; display: inline-block; border:1px solid #cccccc;" />
+                    </a>
+                </div>
+
+                <!-- 2 전체 사진 출력 -->
+                <!-- <div > -->
+                    <!-- <a th:each="tmp : ${imageList}" data-lightbox="tmp" class="light" th:href="${tmp}">
+                        <img th:src="${tmp}">
+                    </a> -->
+                <!-- </div> -->
+                <!-- <div class = "img_list" >
+                    <a th:each="tmp : ${imageList}" data-lightbox="tmp" class="light" th:href="${tmp}">
+                        <img class = "img_1" th:src="${tmp}" 
+                            style=" width: 100px; height: 100px; display: inline-block; object-fit: over; border:1px solid #cccccc;" />
+                    </a>
                 </div> -->
                 
                 <div class="p_box" th:object="${tcvobj}">

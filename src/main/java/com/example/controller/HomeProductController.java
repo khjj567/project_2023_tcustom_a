@@ -102,7 +102,7 @@ public class HomeProductController {
             }
             model.addAttribute("tno", tno);
 
-           model.addAttribute("imageList", imageList);
+            model.addAttribute("imageList", imageList);
 
             model.addAttribute("psdto", psdto);
             // model.addAttribute("tclist", tclist);
