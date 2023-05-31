@@ -34,6 +34,5 @@ public class Project2023TshirtCustomApplication extends SpringBootServletInitial
 		SpringApplication.run(Project2023TshirtCustomApplication.class, args);
 	}
 
-	
 
 }

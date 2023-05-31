@@ -111,32 +111,40 @@ a:link.mypage_btn:hover{
     border: solid 2px #aaa;
 }
 
-a:link.cont_a{
-    color: black;
-    font-size: 16px;
-    /* background-color: violet; */
+/* cont_a의 정렬요소 */
+.what{
+    
+    right: 50%;
+}
+.in{
+    right:-40%;
+    position: relative;
+}
+a:link.select_bk{
     width: auto;
     height: auto;
-    float: right;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    margin: 10px;
-    /* right: 50%; */
-    text-align: center;
-
 	/* color:rgb(0, 0, 0, 1); */
-    background-color: rgba(217, 217, 217, 1);
+    background-color: pink;
+    /* border: solid 2px #aaa;  ??????????????????????????*/
 	text-decoration: none;
 	font-family:Inter;
-
+	float: right;
+    /* border: solid 1px; */
+    /* border-color: #ff0000; */
     border-radius: 30px;
     padding: 5px 15px 5px 15px;
+    font-size: 16px;
+    margin-top: 20px;
+    left: 34%;
+    position: relative;
 }
-a:link.cont_a:visited {
+a:link.select_bk:visited {
 	color: rgb(0, 0, 0, 1);
 }
-a:link.cont_a:hover{
-    color: pink
+a:link.select_bk:hover{
+    color: pink;
+    background-color: #000000;
+    border: solid 2px #aaa; 
 }
 
 #all{
@@ -547,29 +555,52 @@ input[type=file]::file-selector-button:hover {
 }
 
 /* 상품 카드  (고쳐야)*/
+/* float: center; 중앙정렬 :  .footer_0 + .center */
+.product_center {
+    /* background-color: blueviolet; */
+    float: right;
+    position: relative;
+    left: -50%;
+}
+
 .one{
     background-color:rgba(242, 242, 242, 1);
     width: 205px;
-    height: 350px;
+    height: 450px;
     margin: 5px;
     float: left;
     border-radius: 10px;
 }
 .pic{
-    background-color: yellow;
+    /* background-color: yellow; */
     width: 100%;
-    height: 150px;
+    height: 250px;
     object-fit: cover;
     margin-bottom: 5px;
     float: left;
-    
+    border-radius: 10px;
+
 }
+.product_img{
+    width:100%;
+    height:100%; 
+    object-fit: cover;
+    border-radius:  10px 10px 0 0;
+}
+
+
 .cont_name{
+    position: relative;
+    left: 50%;
+}
+
+.conts{
     color: black;
+    font-family: "NanumSquare";
     font-size: 20px;
     /* background-color: violet; */
     width: auto;
-    height: auto;
+    height: 50px;
     float: left;
     margin: 10px;
 }
@@ -584,6 +615,12 @@ input[type=file]::file-selector-button:hover {
     margin-bottom: 10px;
     /* right: 50%; */
     text-align: center;
+    position: relative;
+    left: 50%;
+}
+.cont_btn{
+    position: relative;
+    left: 50%;
 }
 
 
