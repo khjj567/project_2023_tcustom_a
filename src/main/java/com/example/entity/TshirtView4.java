@@ -16,12 +16,12 @@ import lombok.ToString;
 @Data
 @Immutable // VIEW entity 만들땐 필수 어노테이션
 @Entity
-@Table(name = "TSHIRTVIEW1")
-public class TshirtView1 {
+@Table(name = "TSHIRTVIEW4")
+public class TshirtView4 {
 
     @Id
     private	BigInteger	ino	;
-
+    
     private BigInteger tno;
 
     private String tname;
@@ -44,5 +44,7 @@ public class TshirtView1 {
 
     @Transient //임시변수 :컬럼이 생성되지 않는다. mybatis의 dto개념 // javax 추가함
     private String imageUrl;
+
+    private long main;
 
 }

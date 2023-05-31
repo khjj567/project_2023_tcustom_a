@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.ToString;
@@ -49,4 +50,7 @@ public class Tshirt {
     @ToString.Exclude
     @OneToMany(mappedBy = "tshirt", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     private List<PsidePic> list3 = new ArrayList<>();
+
+    @Transient //임시변수 :컬럼이 생성되지 않는다. mybatis의 dto개념 // javax 추가함
+    private String imageUrl;
 }

@@ -1,11 +1,19 @@
 package com.example.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.dto.MemberUser;
 import com.example.dto.PrintingDTO;
 import com.example.dto.PrintingSideDTO;
 import com.example.dto.TshirtColorDTO;
@@ -56,14 +65,41 @@ public class HomeProductController {
     final PrintingSideRepository psRepository;
     final TshirtPrintingSidePicViewRepository tpspvRepository;
     final TshirtContentViewRepository tcvRepository;
+    final ResourceLoader resourceLoader;
+
+
+    // 127.0.0.1:9090/CUSTOM/product/image?ino=1
+    @GetMapping(value = "/image")
+    public ResponseEntity<byte[]> image(@RequestParam(name = "ino", defaultValue = "0") BigInteger ino) throws IOException{
+        TshirtImage obj = tiRepository.findById(ino).orElse(null);
+        //log.info("objobj => {}", obj);
+        HttpHeaders headers = new HttpHeaders(); // import org.springframework.http.HttpHeaders;
+        if(obj != null){ // 이미지가 존재하는지 확인
+            if(obj.getIsize() != null){
+                headers.setContentType( MediaType.parseMediaType(obj.getItype()));
+                return new ResponseEntity<>(obj.getIdata(), headers, HttpStatus.OK);
+            }
+        }
+        // 이미지가 없을 경우
+        InputStream is = resourceLoader.getResource("./img/no-image.png").getInputStream(); //?
+        headers.setContentType(MediaType.IMAGE_PNG);
+        return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
+        
+    }
 
     //127.0.0.1:9090/CUSTOM/product/making.do
     @GetMapping(value = "/making.do")
     public String makingGET(
             Model model, 
             @RequestParam(name="tno") long tno,
-            HttpServletRequest request){
+            HttpServletRequest request,
+            @AuthenticationPrincipal MemberUser user){
         try {
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
+                }
+                model.addAttribute("user", user);
 
             // 티셔츠프린팅사이드픽뷰 // 체크박스
             PrintingSideDTO psdto = new PrintingSideDTO();
@@ -86,7 +122,7 @@ public class HomeProductController {
             TshirtSizeDTO tsdto = new TshirtSizeDTO(); // select에서 사용해야하는 selectsize변수와 List<TshirtSize> list가 들어가 있는 TshirtSizeDTO
             List<TshirtSize> list = tsRepository.findByTshirt_tno(BigInteger.valueOf(tno));
             tsdto.setList(list); // 위에서 생성한 list를 tsdto의 list에 set해 준다
-            log.info("티셔츠사이즈정보 => {}", list.toString()); // 모든 정보가 나옴
+            //log.info("티셔츠사이즈정보 => {}", list.toString()); // 모든 정보가 나옴
 
             // 티셔츠 INFO
             TshirtContentView tcvobj = tcvRepository.findByTno(BigInteger.valueOf(tno));
@@ -94,12 +130,14 @@ public class HomeProductController {
             // 티셔츠 전체이미지 가져오기
             List<String> imageList = new ArrayList<>();
             List<TshirtImage> list1 = tiRepository.findByTshirt_tnoOrderByInoAsc(BigInteger.valueOf(tno));
-            //log.info("what=> {}", list1.toString());
+            // log.info("what=> {}", list1.toString());
             if( !list1.isEmpty() ){ // 리스트 비어있지 않은ㅇ지 확인
                 for(TshirtImage tmp : list1){
-                    imageList.add( request.getContextPath() + "/product/making?ino=" + tmp.getIno() );
+                    //127.0.0.1:9090/CUSTOM/product/image?ino=1
+                    imageList.add( request.getContextPath() + "/product/image?ino=" + tmp.getIno() );
                 }
             }
+            // log.info("이미지리스트 => {}", imageList); (성공)
             model.addAttribute("tno", tno);
 
             model.addAttribute("imageList", imageList);

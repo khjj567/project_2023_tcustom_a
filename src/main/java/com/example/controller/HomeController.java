@@ -1,10 +1,18 @@
 package com.example.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -18,13 +26,13 @@ import com.example.dto.MemberUser;
 import com.example.dto.TshirtProductSorting;
 import com.example.entity.Member;
 import com.example.entity.TshirtImage;
-import com.example.entity.TshirtPrintingSidePicView;
-import com.example.entity.TshirtView2;
+import com.example.entity.TshirtView4;
 import com.example.repository.MemberRepository;
 import com.example.repository.TshirtImageRepository;
 import com.example.repository.TshirtRepository;
 import com.example.repository.TshirtView1Repository;
 import com.example.repository.TshirtView2Repository;
+import com.example.repository.TshirtView4Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,10 +46,12 @@ public class HomeController {
     final MemberRepository mRepository;
     final TshirtView1Repository tv1Repository;
     final TshirtView2Repository tv2Repository;
+    final TshirtView4Repository tv4Repository;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
     final TshirtImageRepository tiRepository;
     final TshirtRepository tRepository;
-    
+    final ResourceLoader resourceLoader; 
+    final HttpSession httpSession;   
 
     //127.0.0.1:9090/CUSTOM/home.do
     @GetMapping(value = "/home.do")  
@@ -116,43 +126,60 @@ public class HomeController {
         } // OK : 5/17
         // 이것도 역시 html에서는 post로 보내고, controller에서는 get만 쓴다.
 
+
+    // 127.0.0.1:9090/CUSTOM/home/image?ino=1
+    @GetMapping(value = "/image")
+    public ResponseEntity<byte[]> image(@RequestParam(name = "ino", defaultValue = "0") BigInteger ino) throws IOException{
+        TshirtImage obj = tiRepository.findById(ino).orElse(null);
+        //log.info("objobj => {}", obj);
+        HttpHeaders headers = new HttpHeaders(); // import org.springframework.http.HttpHeaders;
+        if(obj != null){ // 이미지가 존재하는지 확인
+            if(obj.getIsize() != null){
+                headers.setContentType( MediaType.parseMediaType(obj.getItype()));
+                return new ResponseEntity<>(obj.getIdata(), headers, HttpStatus.OK);
+            }
+        }
+        // 이미지가 없을 경우
+        InputStream is = resourceLoader.getResource("./img/no-image.png").getInputStream(); //?
+        headers.setContentType(MediaType.IMAGE_PNG);
+        return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
+    }
+
         // 127.0.0.1:9090/CUSTOM/product.do
         @GetMapping(value = "/product.do")
         public String  productGET(Model model, 
                 @ModelAttribute TshirtProductSorting obj, 
-                @ModelAttribute TshirtPrintingSidePicView obj2PicView,
-                @ModelAttribute TshirtImage obj3Image,
                 @RequestParam(name="typeCode", defaultValue = "0") int typeCode,
-                HttpServletRequest request
-               ){
+                HttpServletRequest request,
+                @AuthenticationPrincipal MemberUser user
+                ){
             try{
-                // 티셔츠나 후드집업 값에 따라 테이블(표)값 바꾸기
-                // List<Tshirt> list = null;
-                List<TshirtView2> list = null;
+                // 로그인
+                if(user != null){ 
+                    log.info("로그인user => {}", user); 
+                    }
+                model.addAttribute("user", user);
+
+                // 1. 전부 호출
+                List<TshirtView4> list2 = tv4Repository.findAll();
                 
-                if(typeCode == 0){
-                    list = tv2Repository.findAll();
-                }
-                else {
-                    list = tv2Repository.findByTtnoOrderByTnoDesc(BigInteger.valueOf(typeCode));
+                // 2. 타입코드에 따라 구분 
+                if(typeCode > 0){ 
+                    list2 = tv4Repository.findByTtnoOrderByTnoDesc(BigInteger.valueOf(typeCode)); // 티셔츠뷰 중 일부를 호출
+                }   
+
+                // 3. 티셔츠 이미지 호출
+                if( list2 != null ){ 
+                    for(TshirtView4 tmp : list2){
+                        tmp.setImageUrl(request.getContextPath() + "/image?ino=" + tmp.getIno());
+                    }
+                    log.info("리스트 => {}", list2.toString());
                 }
 
-                log.info("리스트 =>{}", list.toString());
+                // 4. 값 보냄
                 model.addAttribute("search", obj);
-                model.addAttribute("list", list);
-                // model.addAttribute("list1", list1);
+                model.addAttribute("list", list2);
 
-
-                // // 대표이미지
-                // obj3Image.setTshirt();
-                // TshirtImage tshirtImage = tiRepository.findTop1ByTshirt_tnoOrderByInoAsc( BigInteger.valueOf( );
-                // // TshirtImage tshirtImage = tiRepository.findTop1ByTshirt_tnoOrderByInoAsc( tno ); // 형변환?
-                //         if(tshirtImage != null){
-                //         //log.info(format, image1.toString());
-                //         obj3Image.setImageUrl(request.getContextPath() + "/boardimage1/image?no=" + image1.getNo());
-                // //   원래 url형태로 들어가는 부분이라서 contextpath <!-- <img src="@{/item/image(no=1)}"> -->
-                //             //log.info(format, image1.toString());
-                // }
                 return "product";
             }
             catch(Exception e){
@@ -174,8 +201,13 @@ public class HomeController {
         }
 
         @GetMapping(value = "/printing.do")
-        public String printingGET(){
+        public String printingGET(Model model, @AuthenticationPrincipal MemberUser user){
             try {
+                if(user != null){ // 로그인 되었음
+                    log.info("로그인user => {}", user); 
+                    //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
+                    }
+                    model.addAttribute("user", user);
                 return "printing";
             } catch (Exception e) {
                 e.printStackTrace();

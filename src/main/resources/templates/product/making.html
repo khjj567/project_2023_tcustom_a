@@ -51,12 +51,12 @@ $( function() {
 interact('.resizable')
 .resizable({
     modifiers: [
-      interact.modifiers.aspectRatio({
+    interact.modifiers.aspectRatio({
         ratio: 'preserve',
         modifiers: [
-          interact.modifiers.restrictEdges({ outer: 'parent' })
+        interact.modifiers.restrictEdges({ outer: 'parent' })
         ]
-      })
+    })
     ],
     edges: { top: true, left: true, bottom: true, right: true },
     listeners: {
@@ -158,7 +158,7 @@ interact('.resizable')
                             th:value="${tmp.psidename}" th:text="${tmp.psidename}" 
                             style="background: transparent; 
                             background-color:rgba(242, 242, 242, 1);"
-                            th:href="@{/product/making.do(psidename=${tmp.psidename})}"
+                            th:href="@{/product/making.do(tno=${param.tno},psidename=${tmp.psno})}"
                             ></a>
                             <!--######## psidename의 값에 따라 이미지 바뀌게 하기 ########-->
                             <!-- 시도: th:href="@{/product/making.do(tno=${tno})(psidename=${tmp.psidename})}"  -->
@@ -180,10 +180,6 @@ interact('.resizable')
 
                     <!-- 이미지 draggable : ok -->
                     <!-- 이미지 Resizable :  -->
-                    <!-- <div class="resizable">
-                        <p> Resize from any edge or corner </p>
-                      </div> -->
-
                     <div id="image_p" >
                         <!-- 이미지 DRAGGABLE 테스트 -->
                         <div id="draggable3" class="draggable ui-widget-content">
@@ -192,7 +188,7 @@ interact('.resizable')
                     </div>
                     <!-- id='container' : 캡처할때 쓸 id -->
                 </div>
-               
+                
                 <!-- 우측 선택사항 -->
                 <div id="base_right">
                     <!-- form 태그 밖으로 빼고 안에 select다 넣어도 ok -->
@@ -201,7 +197,7 @@ interact('.resizable')
                     <!-- + 수량 -  -->
 
                     <!-- 파일업로드 @@-->
-               
+                        
                         <!-- <input type="text" name="tshirt.tno" th:value="${tno}" readonly /><br /> -->
                         <!-- name="tshirt.tno" : 티셔츠no? 디자인no? 아니 no가 필요한가?-->
                         <!--   <input id="select_btn" value="파일선택" type="file" name="file" accept="image/*"/><br /> -->
@@ -226,10 +222,10 @@ interact('.resizable')
                         
                     <!-- <div class="filebox">
                         <input class="upload-name" value="파일선택">
-                      
+                        
                         <label for="ex_filename">업로드</label> 
                         <input type="file" id="ex_filename" class="upload-hidden"> 
-                      </div> -->
+                        </div> -->
 
                         <!-- 티셔츠컬러 -->
                         <div class="smol_title">
