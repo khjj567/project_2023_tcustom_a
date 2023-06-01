@@ -156,8 +156,8 @@ interact('.resizable')
                         </form>
                     
                     <th:block th:each="tmp : ${psdto1.list}" >
-                    <form th:action="@{/product/making.do(tno=${param.tno},psno=${param.psno})}" method="get">
-                        <img class="image_p" th:value="${param.psno}" th:src="${tmp.imageUrl}" >
+                    <form th:action="@{/product/making.do(tno=${param.tno},psno=${tmp.psno})}" method="get">
+                        <img class="image_p" th:value="${tmp.psno}" th:src="${tmp.imageUrl}" >
                         <!-- 이미지를 넣고 이미지를 움직이기 -->
                         <!-- <div class="image_p" >
                             <div id="draggable3" class="draggable ui-widget-content">

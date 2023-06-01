@@ -156,7 +156,12 @@ public class HomeProductController {
 
             model.addAttribute("search", obj);
 
-            model.addAttribute("psno", psno);
+            if(psno > 0){
+                model.addAttribute("psno", psno);
+            }
+            else{
+                model.addAttribute("psno", 1);
+            }
 
 
             // 컬러(콤보박스)
