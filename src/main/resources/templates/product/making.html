@@ -2,8 +2,6 @@
 <html lang="en">
 <th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
 
-
-
 <!-- 전체이미지 라이트박스 : 한개 클릭하면 크게 뜨게 하기 -->
 <script src="../js/jquery.lightbox.min.js"></script>
 <!-- 경로 맞는듯! -->
@@ -126,6 +124,8 @@ interact('.resizable')
 
 </style>
     
+
+
 <body>
     <div id="all">
         <div class="all_center">
@@ -155,17 +155,17 @@ interact('.resizable')
                             </div>
                         </form>
                     
-                    <th:block th:each="tmp : ${psdto1.list}" >
-                    <form th:action="@{/product/making.do(tno=${param.tno},psno=${tmp.psno})}" method="get">
-                        <img class="image_p" th:value="${tmp.psno}" th:src="${tmp.imageUrl}" >
-                        <!-- 이미지를 넣고 이미지를 움직이기 -->
-                        <!-- <div class="image_p" >
-                            <div id="draggable3" class="draggable ui-widget-content">
-                                <img class="resizable" src="https://via.placeholder.com/400x225" >
-                            </div>
-                        </div> -->
-                    </form>
-                    </th:block>
+                        <th:block th:each="tmp : ${psdto1.list}" >
+                            <form th:action="@{/product/making.do(tno=${param.tno},psno=${tmp.psno})}" method="get">
+                                <img class="image_p" th:value="${tmp.psno}" th:src="${tmp.imageUrl}" >
+                                <!-- 이미지를 넣고 이미지를 움직이기 -->
+                                
+                                    <div id="draggable3" class="draggable ui-widget-content">
+                                        <img class="resizable" src="https://via.placeholder.com/400x225" >
+                                    </div>
+            
+                            </form>
+                        </th:block>
 
                 </div>
                 
@@ -177,17 +177,15 @@ interact('.resizable')
                     <!-- + 수량 -  -->
 
                     <!-- 파일업로드 @@-->
-                        
-                        <!-- <input type="text" name="tshirt.tno" th:value="${tno}" readonly /><br /> -->
-                        <!-- name="tshirt.tno" : 티셔츠no? 디자인no? 아니 no가 필요한가?-->
-                        <!--   <input id="select_btn" value="파일선택" type="file" name="file" accept="image/*"/><br /> -->
-                        <!-- name="tmpfile" : 어차피 파일은 한번에 못넣는다. entity와 이름을 맞출 필요 없다 -->
-                        <!--   <input id="select_btn" type="submit" value="이미지업로드" /><br /> -->
+                        <!-- <div class="filebox">
+                            <input class="upload-name" value="파일선택">
+                            
+                            <label for="ex_filename">업로드</label> 
+                            <input type="file" id="ex_filename" class="upload-hidden"> 
+                            </div> -->
                         <div class="smol_title">
                             파일 선택
                         </div>
-                        <!-- <input class="upload-name" value="첨부파일" disabled="disabled" placeholder="첨부파일"> -->
-                        <!-- <label for="ex_filename">파일찾기</label>  -->
                         <input type="file" id="ex_filename">
                         <br/>
                         <!-- 프린팅방식 @@-->
@@ -199,13 +197,6 @@ interact('.resizable')
                         </select>
                         
                         <hr/>
-                        
-                    <!-- <div class="filebox">
-                        <input class="upload-name" value="파일선택">
-                        
-                        <label for="ex_filename">업로드</label> 
-                        <input type="file" id="ex_filename" class="upload-hidden"> 
-                        </div> -->
 
                         <!-- 티셔츠컬러 -->
                         <div class="smol_title">

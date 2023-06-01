@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
+
+    <script>
+        $("#file").on('change',function(){
+        var fileName = $("#file").val();
+        $(".upload-name").val(fileName);
+        });
+    </script>
+
+<style>
+    /* 기존스타일 없애기 */
+    .filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    }
+
+    /* 파일찾기 부분 */
+    .filebox .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 78%;
+    color: #999999;
+    }
+
+    /* 파일명 들어가는 곳 */
+    .filebox label {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #999999;
+    cursor: pointer;
+    height: 40px;
+    margin-left: 10px;
+    }
+</style>
+
+<body>
+<!-- 
+    <form method="post" enctype="multipart/form-data">
+        <div>
+          <label for="file">Choose file to upload</label>
+          <input type="file" id="file" name="file" multiple>
+        </div>
+        <div class="">
+            <input type="submit">
+        </div>
+    </form>
+
+    <form method="post" enctype="multipart/form-data">
+        <div class="filebox">
+            <input class="upload-name" value="파일선택">
+            
+            <label for="ex_filename">업로드</label> 
+            <input type="file" id="ex_filename" > 
+            <div class="">
+                <input type="submit">
+            </div>
+        </div>
+    </form> -->
+
+    <div class="filebox">
+        <input class="upload-name" value="첨부파일" placeholder="첨부파일">
+        <label for="file">파일찾기</label> 
+        <input type="file" id="file">
+    </div>
+</body>
+</html>

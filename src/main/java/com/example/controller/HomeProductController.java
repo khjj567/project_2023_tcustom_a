@@ -30,6 +30,7 @@ import com.example.dto.PsidePicSorting;
 import com.example.dto.TshirtColorDTO;
 import com.example.dto.TshirtPrintingSidePicViewDTO;
 import com.example.dto.TshirtSizeDTO;
+import com.example.entity.File;
 import com.example.entity.Printing;
 import com.example.entity.PrintingSide;
 import com.example.entity.PsidePic;
@@ -156,6 +157,7 @@ public class HomeProductController {
 
             model.addAttribute("search", obj);
 
+            // 앞면도 뒷면도 없을때 (처음 화면에 들어갔을때)
             if(psno > 0){
                 model.addAttribute("psno", psno);
             }
@@ -196,13 +198,10 @@ public class HomeProductController {
             }
             // log.info("이미지리스트 => {}", imageList); (성공)
 
-            // 
+            
             model.addAttribute("tno", tno);
 
             model.addAttribute("imageList", imageList);
-
-            // model.addAttribute("psdto", psdto);
-            // model.addAttribute("tclist", tclist);
 
             model.addAttribute("tcdto", tcdto);
             model.addAttribute("tclist", tclist);
@@ -223,9 +222,15 @@ public class HomeProductController {
 
     // 127.0.0.1:9090/CUSTOM/product/making.do
     @PostMapping(value = "/making.do")
-    public String makingPOST(){
+    public String makingPOST(
+            @ModelAttribute File obj,
+            
+            @RequestParam(name = "tmpFile") MultipartFile file){
         try {
-            // 수량  // post에서 보내야함
+
+            // 파일 저장 (파일 선택하고 업로드)
+
+            // 디자인 저장
             
             // 파일정보 // post에서 보내야함
 
