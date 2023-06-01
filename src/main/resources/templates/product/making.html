@@ -2,10 +2,7 @@
 <html lang="en">
 <th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
 
-<link rel= "stylesheet" href="css/jquery.lightbox.css">
-<script src="https://code.jquery.com/jquery-3.6.4.min.js" 
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
-        crossorigin="anonymous"></script><!--제이쿼리 슬림에선 동작안함-->
+
 
 <!-- 전체이미지 라이트박스 : 한개 클릭하면 크게 뜨게 하기 -->
 <script src="../js/jquery.lightbox.min.js"></script>
@@ -114,12 +111,10 @@ interact('.resizable')
   }
 </script>
 
-<!-- 전체이미지 라이트박스 : 한개 클릭하면 크게 뜨게 하기 -->
-<script>
-    $(document).ready(function(){
-        $('a.light').lightBox();
-    });
-</script>
+<!-- 전체이미지 라이트박스 : 한개 클릭하면 크게 뜨게 하기 + 좌우화살표-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js"></script>
 
 <style>
     /* draggable */
@@ -129,12 +124,8 @@ interact('.resizable')
         float: left; 
     }
 
-    /* resizable */
-    /* #resizable { width: 150px; height: 150px; padding: 0.5em; }
-    #resizable h3 { text-align: center; margin: 0; } */
 </style>
     
-
 <body>
     <div id="all">
         <div class="all_center">
@@ -258,30 +249,13 @@ interact('.resizable')
 
                 </div> 
 
-                <!-- ######## 1 전체 사진 출력 ########-->
-                <!-- <div th:each="tmp : ${imageList}"> -->
-                    <!-- <a th:each="tmp : ${imageList}" data-lightbox="tmp" class="light" th:href="${tmp}">
-                        <img th:src="${tmp}">
-                    </a> -->
-                <!-- </div> -->
+                <!-- 전체 사진 출력 -->
                 <div class = "img_list" >
-                    <a th:each="tmp : ${imageList}" data-lightbox="tmp" class="light" th:href="${tmp}">
+                    <a th:each="tmp : ${imageList}" data-lightbox="tmp"th:href="${tmp}">
                         <img class = "img_1" th:src="${tmp}" style=" width: 100px; height: 100px; display: inline-block; border:1px solid #cccccc;" />
                     </a>
                 </div>
-
-                <!-- 2 전체 사진 출력 -->
-                <!-- <div > -->
-                    <!-- <a th:each="tmp : ${imageList}" data-lightbox="tmp" class="light" th:href="${tmp}">
-                        <img th:src="${tmp}">
-                    </a> -->
-                <!-- </div> -->
-                <!-- <div class = "img_list" >
-                    <a th:each="tmp : ${imageList}" data-lightbox="tmp" class="light" th:href="${tmp}">
-                        <img class = "img_1" th:src="${tmp}" 
-                            style=" width: 100px; height: 100px; display: inline-block; object-fit: over; border:1px solid #cccccc;" />
-                    </a>
-                </div> -->
+                
                 
                 <div class="p_box" th:object="${tcvobj}">
                 <!-- tcvobj는 tno로 받아와야함 -->

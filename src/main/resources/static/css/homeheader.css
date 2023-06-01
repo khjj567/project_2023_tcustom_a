@@ -124,10 +124,10 @@ a:link.select_bk{
     width: auto;
     height: auto;
 	/* color:rgb(0, 0, 0, 1); */
-    background-color: pink;
-    /* border: solid 2px #aaa;  ??????????????????????????*/
+    background-color: rgba(217, 217, 217, 1);
+    /* border: solid 2px rgba(217, 217, 217, 1); */
 	text-decoration: none;
-	font-family:Inter;
+	/* font-family:Inter; */
 	float: right;
     /* border: solid 1px; */
     /* border-color: #ff0000; */
@@ -143,7 +143,7 @@ a:link.select_bk:visited {
 }
 a:link.select_bk:hover{
     color: pink;
-    background-color: #000000;
+    background-color: rgba(242, 242, 242, 0.5);
     border: solid 2px #aaa; 
 }
 
