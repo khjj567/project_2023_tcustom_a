@@ -41,5 +41,4 @@ public class PsidePic {
     @JoinColumn(name = "psno", referencedColumnName = "psno")
     private PrintingSide printingSide;
 
-    
 }

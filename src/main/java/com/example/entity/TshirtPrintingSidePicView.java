@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.data.annotation.Immutable;
 
@@ -36,4 +37,6 @@ public class TshirtPrintingSidePicView {
     private	byte[]	pspicdata	;
     private	String	pspictype	;
         
+    @Transient //임시변수 :컬럼이 생성되지 않는다. mybatis의 dto개념 // javax 추가함
+    private String imageUrl;
 }

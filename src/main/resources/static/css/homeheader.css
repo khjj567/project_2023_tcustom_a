@@ -329,10 +329,11 @@ a:link.select_bk:hover{
     
 }
 
-#image_p{
+.image_p{
     float: left;
     width: 100%;
     height: 600px;
+    margin: auto 0px; position: relative;
     background-color: rgba(217, 217, 217, 1);
 }
 

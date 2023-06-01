@@ -30,6 +30,7 @@ public class PrintingSide {
     private BigInteger psno;
     private String psidename;
 
+    // PSNO가 PsidePic에 외래키로 들어감
     @ToString.Exclude
     @OneToMany(mappedBy = "printingSide", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     private List<PsidePic> list = new ArrayList<>();

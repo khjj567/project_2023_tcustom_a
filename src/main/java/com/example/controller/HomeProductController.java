@@ -26,7 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.dto.MemberUser;
 import com.example.dto.PrintingDTO;
 import com.example.dto.PrintingSideDTO;
+import com.example.dto.PsidePicSorting;
 import com.example.dto.TshirtColorDTO;
+import com.example.dto.TshirtPrintingSidePicViewDTO;
 import com.example.dto.TshirtSizeDTO;
 import com.example.entity.Printing;
 import com.example.entity.PrintingSide;
@@ -35,6 +37,7 @@ import com.example.entity.Tshirt;
 import com.example.entity.TshirtColor;
 import com.example.entity.TshirtContentView;
 import com.example.entity.TshirtImage;
+import com.example.entity.TshirtPrintingSidePicView;
 import com.example.entity.TshirtSize;
 import com.example.repository.FileRepository;
 import com.example.repository.PrintingRepository;
@@ -87,13 +90,35 @@ public class HomeProductController {
         
     }
 
+    @GetMapping(value = "/psidepic")
+    public ResponseEntity<byte[]> psidepic(@RequestParam(name = "pspicno", defaultValue = "0") BigInteger pspicno) throws IOException{
+        PsidePic obj = ppRepository.findById(pspicno).orElse(null);
+        //log.info("objobj => {}", obj);
+        HttpHeaders headers = new HttpHeaders(); // import org.springframework.http.HttpHeaders;
+        if(obj != null){ // 이미지가 존재하는지 확인
+            if(obj.getPspicsize() != null){
+                headers.setContentType( MediaType.parseMediaType(obj.getPspictype()));
+                return new ResponseEntity<>(obj.getPspicdata(), headers, HttpStatus.OK);
+            }
+        }
+        // 이미지가 없을 경우
+        InputStream is = resourceLoader.getResource("./img/no-image.png").getInputStream(); //?
+        headers.setContentType(MediaType.IMAGE_PNG);
+        return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
+        
+    }
+
     //127.0.0.1:9090/CUSTOM/product/making.do
     @GetMapping(value = "/making.do")
     public String makingGET(
             Model model, 
             @RequestParam(name="tno") long tno,
+            @RequestParam(name="psno") long psno,
             HttpServletRequest request,
-            @AuthenticationPrincipal MemberUser user){
+            @AuthenticationPrincipal MemberUser user,
+            @ModelAttribute TshirtPrintingSidePicView tpspicView,
+            @ModelAttribute PsidePicSorting obj,
+            @RequestParam(name="typeCode", defaultValue = "0") int typeCode ){
         try {
             if(user != null){ // 로그인 되었음
                 log.info("로그인user => {}", user); 
@@ -101,11 +126,40 @@ public class HomeProductController {
                 }
                 model.addAttribute("user", user);
 
-            // 티셔츠프린팅사이드픽뷰 // 체크박스
-            PrintingSideDTO psdto = new PrintingSideDTO();
-            List<PrintingSide> psList = psRepository.findAll();
-            psdto.setList(psList);
-            //log.info("사이드정보 => {}", psList.toString());
+
+
+            // 앞면뒷면에 따라 앞면뒷면 사진가져오기
+                // 1. 티셔츠번호에 따라 호출하고 (repository)
+            BigInteger psno1 = tpspicView.getPsno();
+
+            TshirtPrintingSidePicViewDTO psdto1 = new TshirtPrintingSidePicViewDTO();
+            TshirtPrintingSidePicViewDTO psdto2 = new TshirtPrintingSidePicViewDTO();
+            List<TshirtPrintingSidePicView> pspicList = tpspvRepository.findByTno(BigInteger.valueOf(tno));
+            psdto2.setList(pspicList);
+            model.addAttribute("psdto2", psdto2);
+
+            List<TshirtPrintingSidePicView> pspic = tpspvRepository.findByPsnoAndTno(psno1, BigInteger.valueOf(tno)); // 티셔츠뷰 중 일부를 호출
+                // 2. psno와 tno가 일치하는 것을 찾는다
+            
+                // log.info("리스트 => {}", pspic.toString());
+            
+                // 3. 티셔츠 이미지 호출
+            if( pspic != null ){ 
+                for(TshirtPrintingSidePicView tmp : pspic){
+                    tmp.setImageUrl(request.getContextPath() + "/product/psidepic?pspicno=" + tmp.getPspicno());
+
+                }
+                // log.info("리스트 => {}", pspicList.toString());
+            }
+
+            
+            psdto1.setList(pspic);
+            model.addAttribute("psdto1", psdto1);
+            model.addAttribute("search", obj);
+            log.info("tno로 가져온 뷰 정보 => {}", psdto1.toString());
+
+            model.addAttribute("psno", psno);
+
 
             // 컬러(콤보박스)
             TshirtColorDTO tcdto = new TshirtColorDTO();
@@ -138,11 +192,13 @@ public class HomeProductController {
                 }
             }
             // log.info("이미지리스트 => {}", imageList); (성공)
+
+            // 
             model.addAttribute("tno", tno);
 
             model.addAttribute("imageList", imageList);
 
-            model.addAttribute("psdto", psdto);
+            // model.addAttribute("psdto", psdto);
             // model.addAttribute("tclist", tclist);
 
             model.addAttribute("tcdto", tcdto);
