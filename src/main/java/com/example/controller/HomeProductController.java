@@ -124,39 +124,37 @@ public class HomeProductController {
                 log.info("로그인user => {}", user); 
                 //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
                 }
-                model.addAttribute("user", user);
+            model.addAttribute("user", user);
 
 
 
             // 앞면뒷면에 따라 앞면뒷면 사진가져오기
-                // 1. 티셔츠번호에 따라 호출하고 (repository)
-            BigInteger psno1 = tpspicView.getPsno();
-
-            TshirtPrintingSidePicViewDTO psdto1 = new TshirtPrintingSidePicViewDTO();
+            
+            // 1. 앞면 뒷면 나오게 하기
             TshirtPrintingSidePicViewDTO psdto2 = new TshirtPrintingSidePicViewDTO();
             List<TshirtPrintingSidePicView> pspicList = tpspvRepository.findByTno(BigInteger.valueOf(tno));
+            
             psdto2.setList(pspicList);
             model.addAttribute("psdto2", psdto2);
 
-            List<TshirtPrintingSidePicView> pspic = tpspvRepository.findByPsnoAndTno(psno1, BigInteger.valueOf(tno)); // 티셔츠뷰 중 일부를 호출
-                // 2. psno와 tno가 일치하는 것을 찾는다
-            
-                // log.info("리스트 => {}", pspic.toString());
-            
-                // 3. 티셔츠 이미지 호출
+            // 2. 앞면뒷면(psno)에 따라 사진나오게 하기
+            BigInteger psno1 = tpspicView.getPsno();
+            TshirtPrintingSidePicViewDTO psdto1 = new TshirtPrintingSidePicViewDTO();
+            // psno와 tno가 일치하는 것을 찾는다
+            List<TshirtPrintingSidePicView> pspic = 
+                tpspvRepository.findByPsnoAndTno(psno1, BigInteger.valueOf(tno)); // 티셔츠뷰 중 일부를 호출
+            // imageUrl 호출
             if( pspic != null ){ 
                 for(TshirtPrintingSidePicView tmp : pspic){
                     tmp.setImageUrl(request.getContextPath() + "/product/psidepic?pspicno=" + tmp.getPspicno());
-
                 }
-                // log.info("리스트 => {}", pspicList.toString());
             }
 
-            
             psdto1.setList(pspic);
             model.addAttribute("psdto1", psdto1);
-            model.addAttribute("search", obj);
             log.info("tno로 가져온 뷰 정보 => {}", psdto1.toString());
+
+            model.addAttribute("search", obj);
 
             model.addAttribute("psno", psno);
 
