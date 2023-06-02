@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
+
+<body>
+    <div id="all">
+        <div class="all_center">
+            <th:block th:replace="~{/fragments/hometitlenav :: navFragment}"></th:block>
+            <div class="clear"></div>
+            <div class="bar"></div>
+            <div class="body">
+                order page
+                주문정보 확인
+                배송정보 입력
+                주문하기
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+        <!-- <img class="resizable" id="img_preview"  >
+        <input type="file" /> -->
+        <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
+    </div>
+</body>
+</html>

@@ -2,27 +2,41 @@
 <html lang="en">
 <th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
 
-<!-- 전체이미지 라이트박스 : 한개 클릭하면 크게 뜨게 하기 -->
-<script src="../js/jquery.lightbox.min.js"></script>
-<!-- 경로 맞는듯! -->
-
+<!-- draggable3 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<!-- resizable -->
+<script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+<!-- 라이트박스 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js"></script>
 <!-- 이미지 특정id로 그부분만 캡처 하기 : designonepic -->
 <script src="../js/html2canvas.min.js"></script>
 
-<!-- 이미지 draggable / resizable -->
-<script src="../js/jquery-ui.min.js"></script>
-
-<!-- 이미지 draggable -->
-<script>
-$( function() {
-    $( "#draggable3" ).draggable({ containment: "#image_p", scroll: false });
-} );
-</script>
-
-<!-- 이미지 resizable -->
-<script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
-
 <style>
+    /* image_p : id일때만 draggable 돼 */
+#image_p2{
+    float: left;
+    width: 100%;
+    height: auto;
+    background-color: rgba(217, 217, 217, 1);
+    
+}
+/* draggable */
+.draggable { 
+    width: auto; 
+    height: auto; 
+    float: left; 
+}
+.timage{
+    float: left;
+    width: 100%;
+    height: auto;
+    margin: auto 0px; 
+    position: relative;
+    object-fit: contain;
+    /* background-color: rgba(217, 217, 217, 1); */
+}
 .resizable {
     width: auto;
     height: auto;
@@ -43,150 +57,131 @@ $( function() {
 </style>
 
 <script>
+    // draggable3
+$( function() {
+    $( "#draggable3" ).draggable({ containment: "#image_p2", scroll: false });
+} );
+
+    // resizable
 interact('.resizable')
 .resizable({
+modifiers: [
+interact.modifiers.aspectRatio({
+    ratio: 'preserve',
     modifiers: [
-    interact.modifiers.aspectRatio({
-        ratio: 'preserve',
-        modifiers: [
-        interact.modifiers.restrictEdges({ outer: 'parent' })
-        ]
+    interact.modifiers.restrictEdges({ outer: 'parent' })
+    ]
+})
+],
+edges: { top: true, left: true, bottom: true, right: true },
+listeners: {
+move: function (event) {
+    let { x, y } = event.target.dataset
+
+    x = (parseFloat(x) || 0) + event.deltaRect.left
+    y = (parseFloat(y) || 0) + event.deltaRect.top
+
+    Object.assign(event.target.style, {
+    width: `${event.rect.width}px`,
+    height: `${event.rect.height}px`,
+    transform: `translate(${x}px, ${y}px)`
     })
-    ],
-    edges: { top: true, left: true, bottom: true, right: true },
-    listeners: {
-    move: function (event) {
-        let { x, y } = event.target.dataset
 
-        x = (parseFloat(x) || 0) + event.deltaRect.left
-        y = (parseFloat(y) || 0) + event.deltaRect.top
-
-        Object.assign(event.target.style, {
-        width: `${event.rect.width}px`,
-        height: `${event.rect.height}px`,
-        transform: `translate(${x}px, ${y}px)`
-        })
-
-        Object.assign(event.target.dataset, { x, y })
-    }
-    }
+    Object.assign(event.target.dataset, { x, y })
+}
+}
 }).on('resizemove', function (event) {
-    var target = event.target,
-        x = (parseFloat(target.getAttribute('data-x')) || 0),
-        y = (parseFloat(target.getAttribute('data-y')) || 0);
+var target = event.target,
+    x = (parseFloat(target.getAttribute('data-x')) || 0),
+    y = (parseFloat(target.getAttribute('data-y')) || 0);
 
-    // update the element's style
-    target.style.width  = event.rect.width + 'px';
-    target.style.height = event.rect.height + 'px';
+// update the element's style
+target.style.width  = event.rect.width + 'px';
+target.style.height = event.rect.height + 'px';
 
-    // translate when resizing from top or left edges
-    x += event.deltaRect.left;
-    y += event.deltaRect.top;
+// translate when resizing from top or left edges
+x += event.deltaRect.left;
+y += event.deltaRect.top;
 
-    target.style.webkitTransform = target.style.transform =
-        'translate(' + x + 'px,' + y + 'px)';
+target.style.webkitTransform = target.style.transform =
+    'translate(' + x + 'px,' + y + 'px)';
 
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
-    target.textContent = event.rect.width + '×' + event.rect.height;
-  });
+target.setAttribute('data-x', x);
+target.setAttribute('data-y', y);
+target.textContent = event.rect.width + '×' + event.rect.height;
+});
 
 
-  function dragMoveListener (event) {
-    var target = event.target,
-        // keep the dragged position in the data-x/data-y attributes
-        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
-        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+function dragMoveListener (event) {
+var target = event.target,
+    // keep the dragged position in the data-x/data-y attributes
+    x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+    y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-    // translate the element
-    target.style.webkitTransform =
-    target.style.transform =
-      'translate(' + x + 'px, ' + y + 'px)';
+// translate the element
+target.style.webkitTransform =
+target.style.transform =
+    'translate(' + x + 'px, ' + y + 'px)';
 
-    // update the posiion attributes
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
-  }
-</script>
+// update the posiion attributes
+target.setAttribute('data-x', x);
+target.setAttribute('data-y', y);
+}
 
-<!-- 전체이미지 라이트박스 : 한개 클릭하면 크게 뜨게 하기 + 좌우화살표-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js"></script>
-
-<style>
-    /* draggable */
-    .draggable { 
-        width: auto; 
-        height: auto; 
-        float: left; 
+   // lightbox
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+        document.getElementById('img_preview').src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        document.getElementById('img_preview').src = "";
     }
-
-</style>
-    
-
+    }
+</script>
 
 <body>
     <div id="all">
         <div class="all_center">
             <th:block th:replace="~{/fragments/hometitlenav :: navFragment}"></th:block>
-            
             <div class="clear"></div>
-        
             <div class="bar"></div>
             <div class="body">
                 <div class="mid_title">
                     디자인하기
                 </div>
-
                 <!-- 좌측 프린팅사이드 이미지 -->
                 <div class="base">
-
-                        <form th:action="@{/product/making.do}" method="get" th:object="${tmp}">
-                            <div class="button" th:field="${psdto1.selectpside}">
-                                <th:block th:each="tmp : ${psdto2.list}" >
-                                    <a id="select_btn" 
-                                        th:value="${tmp.psidename}" th:text="${tmp.psidename}" 
-                                        style="background: transparent; 
-                                        background-color:#f2f2f2;"
-                                        th:href="@{/product/making.do(tno=${param.tno},psno=${tmp.psno})}">
-                                    </a>
-                                </th:block>
+                    <form th:action="@{/product/making.do}" method="get" th:object="${tmp}">
+                        <div class="button" th:field="${psdto1.selectpside}">
+                            <th:block th:each="tmp : ${psdto2.list}" >
+                                <a id="select_btn" 
+                                    th:value="${tmp.psidename}" th:text="${tmp.psidename}" 
+                                    style="background: transparent; 
+                                    background-color:#f2f2f2;"
+                                    th:href="@{/product/making.do(tno=${param.tno},psno=${tmp.psno})}">
+                                </a>
+                            </th:block>
+                        </div>
+                    </form>
+                    <input type="file" onchange="readURL(this);">
+                    <th:block th:each="tmp : ${psdto1.list}" >
+                        <form th:action="@{/product/making.do(tno=${param.tno},psno=${tmp.psno})}" method="get">
+                            <div id="image_p2" >
+                                <img class="timage" th:value="${tmp.psno}" th:src="${tmp.imageUrl}">
+                                <!-- 이미지 DRAGGABLE 테스트 -->
+                                <div id="draggable3" class="draggable ui-widget-content">
+                                    <img class="resizable" id="img_preview"  >
+                                </div>
                             </div>
                         </form>
-                    
-                        <th:block th:each="tmp : ${psdto1.list}" >
-                            <form th:action="@{/product/making.do(tno=${param.tno},psno=${tmp.psno})}" method="get">
-                                <img class="image_p" th:value="${tmp.psno}" th:src="${tmp.imageUrl}" >
-                                <!-- 이미지를 넣고 이미지를 움직이기 -->
-                                
-                                    <div id="draggable3" class="draggable ui-widget-content">
-                                        <img class="resizable" src="https://via.placeholder.com/400x225" >
-                                    </div>
-            
-                            </form>
-                        </th:block>
-
+                    </th:block>
                 </div>
-                
                 <!-- 우측 선택사항 -->
                 <div id="base_right">
-                    <!-- form 태그 밖으로 빼고 안에 select다 넣어도 ok -->
-                    <!-- enctype="multipart/form-data"을 그냥 form 태그에 넣고 안에 파일업로드를 비롯한 여러가지 기능 섞여있어도 오케이 -->
                     <form  th:action="@{/product/making.do}" method="post"  enctype="multipart/form-data">
-                    <!-- + 수량 -  -->
-
-                    <!-- 파일업로드 @@-->
-                        <!-- <div class="filebox">
-                            <input class="upload-name" value="파일선택">
-                            
-                            <label for="ex_filename">업로드</label> 
-                            <input type="file" id="ex_filename" class="upload-hidden"> 
-                            </div> -->
-                        <div class="smol_title">
-                            파일 선택
-                        </div>
-                        <input type="file" id="ex_filename">
                         <br/>
                         <!-- 프린팅방식 @@-->
                         <div class="smol_title">
@@ -195,9 +190,7 @@ interact('.resizable')
                         <select th:object="${pdto}" th:field="${pdto.selectpmethod}"> 
                             <option th:each="tmp : ${pdto.list}" th:value="${tmp.pmethod}" th:text="${tmp.pmethod}" >종류</option>
                         </select>
-                        
                         <hr/>
-
                         <!-- 티셔츠컬러 -->
                         <div class="smol_title">
                             컬러 선택
@@ -206,7 +199,6 @@ interact('.resizable')
                             <option th:each="tmp : ${tcdto.list}" th:value="${tmp.tcolorname}" th:text="${tmp.tcolorname}" >종류</option>
                         </select>
                         <br/>
-
                         <!-- 티셔츠사이즈 -->
                         <div class="smol_title">
                             사이즈 선택
@@ -214,21 +206,20 @@ interact('.resizable')
                         <select th:object="${tsdto}" th:field="${tsdto.selectsize}"> 
                             <option th:each="tmp : ${tsdto.list}" th:value="${tmp.tssize}" th:text="${tmp.tssize}" >종류</option>
                         </select>
+                        <div style="margin: 20px;">
+                            <a class="select_btn2" th:text="주문하기"
+                                th:href="@{/product/order.do(tno=${param.tno},psno=${param.psno})}" >
+                            </a>
+                            <a class="select_btn2" th:text="디자인하기" 
+                                th:href="@{/member/mypage.do?menu=1}" >
+                            </a>
+                        </div>
                     </form>
-
                     <!-- ######## 주문정보 어떻게 넘기지 ######## -->
                     <!-- 주문버튼 넣으면 오류뜨며 아래로 다 안뜸. -->
-
-                    <!-- ######## 이미지를 저장하기 : onclick=partShot() 추가 : 중복되어도 괜찮나 ########-->
-                        <!-- <a class="select_btn2" value="주문하기" th:href="@{/product/order.do(tno=${one.tno})}" >
-                            <button onclick=partShot()>주문하기</button>
-                        </a>
-                        <a class="select_btn2" th:href="@{/member/mypage.do?menu=1}" >
-                            <button onclick=partShot()>디자인저장</button>
-                        </a> -->
-
+                    <!-- ######## 이미지를 저장하기 : 추가 : 중복되어도 괜찮나 ########-->
+                    
                 </div> 
-
                 <!-- 전체 사진 출력 -->
                 <div class = "img_list" >
                     <a th:each="tmp : ${imageList}" data-lightbox="tmp"th:href="${tmp}">
@@ -236,8 +227,7 @@ interact('.resizable')
                             style=" width: 100px; height: 100px; display: inline-block; border:1px solid #cccccc;" />
                     </a>
                 </div>
-                
-                
+                <!-- 상품상세 -->
                 <div class="p_box" th:object="${tcvobj}">
                 <!-- tcvobj는 tno로 받아와야함 -->
                     <div class="mid_title">
@@ -280,11 +270,11 @@ interact('.resizable')
 
                 </div>
             </div>
+        </div>
+        <div class="clear"></div>
+        <!-- <img class="resizable" id="img_preview"  >
+        <input type="file" /> -->
+        <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
     </div>
-    <div class="clear"></div>
-    <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
-
-    
 </body>
-
 </html>

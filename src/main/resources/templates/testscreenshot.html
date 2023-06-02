@@ -1,0 +1,229 @@
+<html>
+
+<head>
+<!-- draggable3 -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" 
+        integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" 
+        crossorigin="anonymous">
+</script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<!-- 캡처 -->
+<script th:href=@{/js/html2canvas.min.js}"></script>
+<script th:href=@{/js/canvas2image.js}"></script>
+<!-- resizable -->
+<script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+<!-- 라이트박스 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js"></script>
+
+<style>
+    /* image_p : id일때만 draggable 돼 */
+#image_p2{
+    float: left;
+    width: 100%;
+    height: auto;
+    background-color: rgba(217, 217, 217, 1);
+    
+}
+/* draggable */
+.draggable { 
+    width: auto; 
+    height: auto; 
+    float: left; 
+}
+.timage{
+    float: left;
+    width: 100%;
+    height: auto;
+    margin: auto 0px; 
+    position: relative;
+    object-fit: contain;
+    /* background-color: rgba(217, 217, 217, 1); */
+}
+.resizable {
+    width: auto;
+    height: auto;
+    /* border-radius: 0.75rem;
+    padding: 20px;
+    margin: 1rem; */
+    background-color: #29e;
+    color: white;
+    font-size: 20px;
+    font-family: sans-serif;
+    overflow: hidden;
+
+    touch-action: none;
+
+    /* This makes things *much* easier */
+    box-sizing: border-box;
+}
+</style>
+
+<script>
+    // draggable3
+    $( function() {
+        $( "#draggable3" ).draggable({ containment: "#image_p2", scroll: false });
+    } );
+
+    // resizable
+    interact('.resizable')
+    .resizable({
+    modifiers: [
+    interact.modifiers.aspectRatio({
+        ratio: 'preserve',
+        modifiers: [
+        interact.modifiers.restrictEdges({ outer: 'parent' })
+        ]
+    })
+    ],
+    edges: { top: true, left: true, bottom: true, right: true },
+    listeners: {
+    move: function (event) {
+        let { x, y } = event.target.dataset
+
+        x = (parseFloat(x) || 0) + event.deltaRect.left
+        y = (parseFloat(y) || 0) + event.deltaRect.top
+
+        Object.assign(event.target.style, {
+        width: `${event.rect.width}px`,
+        height: `${event.rect.height}px`,
+        transform: `translate(${x}px, ${y}px)`
+        })
+
+        Object.assign(event.target.dataset, { x, y })
+    }
+    }
+    }).on('resizemove', function (event) {
+    var target = event.target,
+        x = (parseFloat(target.getAttribute('data-x')) || 0),
+        y = (parseFloat(target.getAttribute('data-y')) || 0);
+
+    // update the element's style
+    target.style.width  = event.rect.width + 'px';
+    target.style.height = event.rect.height + 'px';
+
+    // translate when resizing from top or left edges
+    x += event.deltaRect.left;
+    y += event.deltaRect.top;
+
+    target.style.webkitTransform = target.style.transform =
+        'translate(' + x + 'px,' + y + 'px)';
+
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+    target.textContent = event.rect.width + '×' + event.rect.height;
+    });
+
+
+    function dragMoveListener (event) {
+    var target = event.target,
+        // keep the dragged position in the data-x/data-y attributes
+        x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+        y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+    // translate the element
+    target.style.webkitTransform =
+    target.style.transform =
+        'translate(' + x + 'px, ' + y + 'px)';
+
+    // update the posiion attributes
+    target.setAttribute('data-x', x);
+    target.setAttribute('data-y', y);
+    }
+
+    // lightbox
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+            document.getElementById('img_preview').src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            document.getElementById('img_preview').src = "";
+        }
+        }
+    
+        var test = $(".example").get(0);
+
+        // to canvas
+        $('.toCanvas').click(function(e) {
+        html2canvas(test).then(function(canvas) {
+            // canvas width
+            var canvasWidth = canvas.width;
+            // canvas height
+            var canvasHeight = canvas.height;
+            // render canvas
+            $('.toCanvas').after(canvas);
+            // show 'to image' button
+            $('.toPic').show(1000);
+            // convert canvas to image
+            $('.toPic').click(function(e) {
+            var img = Canvas2Image.convertToImage(canvas, canvasWidth, canvasHeight);
+            // render image
+            $(".toPic").after(img);
+            // save
+            $('#save').click(function(e) {
+                let type = $('#sel').val(); // image type
+                let w = $('#imgW').val(); // image width
+                let h = $('#imgH').val(); // image height
+                let f = $('#imgFileName').val(); // file name
+                w = (w === '') ? canvasWidth : w; 
+                h = (h === '') ? canvasHeight : h;
+                // save as image
+                Canvas2Image.saveAsImage(canvas, w, h, type, f);
+            });
+            });
+        });
+        });
+</script>
+
+
+</head>
+
+<body>
+    <!-- Create a trigger element that will take the screenshot of a specific HTML node. -->
+    <h2 class="toCanvas"> 
+        To Canvas 
+    </h2>
+
+    <!-- Create a trigger element that will convert the canvas into a downloadable image. -->
+    <h2 class="toPic"> 
+        To Image
+    </h2>
+
+    <!-- Create form controls to customize the image output. -->
+    <label for="imgW">Image Width:</label>
+    <input type="number" value="" id="imgW" placeholder="Image Width" />
+    <label for="imgH">Image Height:</label>
+    <input type="number" value="" id="imgH" placeholder="Image Height" />
+    <label for="imgFileName">File Name:</label>
+    <input type="text" placeholder="File Name" id="imgFileName" />
+    <select id="sel">
+        <option value="png">png</option>
+        <option value="jpeg">jpeg</option>
+        <option value="bmp">bmp</option>
+    </select>
+    <button id="save">Save And Download</button>
+
+    <!-- Specify the HTML node you want to take the screenshot. -->
+    <div class="example">
+        <input type="file" onchange="readURL(this);">
+        <th:block th:each="tmp : ${psdto1.list}" >
+            <form th:action="@{/product/making.do(tno=${param.tno},psno=${tmp.psno})}" method="get">
+                <div id="image_p2" >
+                    <img class="timage" src="https://via.placeholder.com/400x225" >
+                    <!-- 이미지 DRAGGABLE 테스트 -->
+                    <div id="draggable3" class="draggable ui-widget-content">
+                        <img class="resizable" id="img_preview"  >
+                    </div>
+                </div>
+            </form>
+        </th:block>
+    </div>
+
+</body>
+
+</html>

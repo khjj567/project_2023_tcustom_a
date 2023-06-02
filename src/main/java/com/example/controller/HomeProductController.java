@@ -198,7 +198,6 @@ public class HomeProductController {
             }
             // log.info("이미지리스트 => {}", imageList); (성공)
 
-            
             model.addAttribute("tno", tno);
 
             model.addAttribute("imageList", imageList);
@@ -224,7 +223,6 @@ public class HomeProductController {
     @PostMapping(value = "/making.do")
     public String makingPOST(
             @ModelAttribute File obj,
-            
             @RequestParam(name = "tmpFile") MultipartFile file){
         try {
 
@@ -240,6 +238,23 @@ public class HomeProductController {
             return "redirect:/home.do";
         }
     }
+
+    @GetMapping(value = "/order.do")
+    public String orderGET(Model model, 
+            @RequestParam(name="tno") long tno, 
+            @RequestParam(name="psno") long psno){
+        try {
+            
+            return "product/order";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+
+
+
+    // 관리자
 
     @GetMapping(value = "/insertimage.do")
     public String insertimageGET(Model model, @RequestParam(name="tno") long tno){

@@ -328,15 +328,43 @@ a:link.select_bk:hover{
     background-color: azure;
     
 }
-
-.image_p{
+/* image_p : id일때만 draggable 돼 */
+#image_p{
     float: left;
     width: 100%;
-    height: 600px;
-    margin: auto 0px; position: relative;
+    height: auto;
+    margin: auto 0px; 
+    position: relative;
+    object-fit: contain;
+    background-color: rgba(217, 217, 217, 1);
+}
+.timage{
+    float: left;
+    width: 100%;
+    height: auto;
+    margin: auto 0px; 
+    position: relative;
+    object-fit: contain;
+    background-color: rgba(217, 217, 217, 1);
+}
+/* image_p : id일때만 draggable 돼 */
+#image_p2{
+    float: left;
+    width: 100%;
+    height: 700px;
     background-color: rgba(217, 217, 217, 1);
 }
 
+/* 미리보기 이미지 : position: absolute => 크기조절문제생김) */
+#img_preview_draggable{
+    float: left;
+    width: auto;
+    height: auto;
+    margin: auto 0px; 
+    position: absolute;
+    object-fit: contain;
+    /* background-color: rgba(217, 217, 217, 1); */
+}
 .image_p_base{
     float: left;
     width: 100%;
