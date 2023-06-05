@@ -22,7 +22,6 @@ import lombok.ToString;
 @Table(name = "TSHIRTDESIGNVIEW")
 public class TshirtDesignView {
     
-
     @Id
     @Column(name = "DNO")
     private	BigInteger	dno	; // 디자인no
@@ -50,15 +49,6 @@ public class TshirtDesignView {
     private Date fregdate	; // 파일등록일
 
     private	String	psidename	; // 프린팅사이드 이름
-
-    private	String	dpname	; // 디자인픽 이름
-    private	BigInteger	dpsize	; // 디자인픽 사이즈
-
-    @Lob 
-    @ToString.Exclude 
-    private byte[] 	dpdata	; // 디자인픽 데이타
-
-    private	String	dptype	; // 디자인픽 타입
 
     private	BigInteger	tno	; // 티셔츠no
     private	String	tname	; // 티셔츠 이름

@@ -12,4 +12,5 @@ import com.example.entity.TshirtColor;
 public interface TshirtColorRepository extends JpaRepository<TshirtColor, BigInteger>{
     
     List<TshirtColor> findByTshirt_tno(BigInteger tno);
+
 }

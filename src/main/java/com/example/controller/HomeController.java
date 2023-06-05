@@ -91,7 +91,7 @@ public class HomeController {
             member.setMpw(bcpe.encode(member.getMpw()));
             // log.info("암호화완료 => {}", member.toString()); //OK 
             mRepository.save(member);
-            return "redirect:/join.do";
+            return "redirect:/login.do";
         }
         catch(Exception e){
             e.printStackTrace();

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,25 +31,33 @@ import com.example.dto.PsidePicSorting;
 import com.example.dto.TshirtColorDTO;
 import com.example.dto.TshirtPrintingSidePicViewDTO;
 import com.example.dto.TshirtSizeDTO;
+import com.example.entity.DesignOne;
 import com.example.entity.File;
+import com.example.entity.Member;
 import com.example.entity.Printing;
 import com.example.entity.PrintingSide;
 import com.example.entity.PsidePic;
+import com.example.entity.TsDesignView;
 import com.example.entity.Tshirt;
 import com.example.entity.TshirtColor;
 import com.example.entity.TshirtContentView;
 import com.example.entity.TshirtImage;
 import com.example.entity.TshirtPrintingSidePicView;
 import com.example.entity.TshirtSize;
+import com.example.entity.TshirtView01;
+import com.example.repository.DesignOneRepository;
 import com.example.repository.FileRepository;
+import com.example.repository.MemberRepository;
 import com.example.repository.PrintingRepository;
 import com.example.repository.PrintingSideRepository;
 import com.example.repository.PsidePicRepository;
+import com.example.repository.TsDesignViewRepository;
 import com.example.repository.TshirtColorRepository;
 import com.example.repository.TshirtContentViewRepository;
 import com.example.repository.TshirtImageRepository;
 import com.example.repository.TshirtPrintingSidePicViewRepository;
 import com.example.repository.TshirtSizeRepository;
+import com.example.repository.TshirtView01Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +80,12 @@ public class HomeProductController {
     final TshirtContentViewRepository tcvRepository;
     final ResourceLoader resourceLoader;
 
+    final TsDesignViewRepository tsdvRepository;
+    final TshirtView01Repository tView01Repository;
+    final MemberRepository mRepository;
+    final DesignOneRepository dOneRepository;
+
+
 
     // 127.0.0.1:9090/CUSTOM/product/image?ino=1
     @GetMapping(value = "/image")
@@ -88,7 +103,6 @@ public class HomeProductController {
         InputStream is = resourceLoader.getResource("./img/no-image.png").getInputStream(); //?
         headers.setContentType(MediaType.IMAGE_PNG);
         return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
-        
     }
 
     @GetMapping(value = "/psidepic")
@@ -153,7 +167,7 @@ public class HomeProductController {
 
             psdto1.setList(pspic);
             model.addAttribute("psdto1", psdto1);
-            log.info("tno로 가져온 뷰 정보 => {}", psdto1.toString());
+            //log.info("tno로 가져온 뷰 정보 => {}", psdto1.toString());
 
             model.addAttribute("search", obj);
 
@@ -222,17 +236,53 @@ public class HomeProductController {
     // 127.0.0.1:9090/CUSTOM/product/making.do
     @PostMapping(value = "/making.do")
     public String makingPOST(
-            @ModelAttribute File obj,
-            @RequestParam(name = "tmpFile") MultipartFile file){
+        @RequestParam(name = "tno") long tno,
+        @RequestParam(name = "psno") long psno,
+        @RequestParam(name = "selectpmethod") String selectpmethod,
+        @RequestParam(name = "selectcolor") String selectcolor,
+        @RequestParam(name = "selectsize") String selectsize,
+
+        @ModelAttribute File obj,
+        @RequestParam(name = "file") MultipartFile file,
+
+        @ModelAttribute TsDesignView tsdv,
+        @ModelAttribute Tshirt tshirt,
+        @ModelAttribute DesignOne dOne,
+        @RequestParam(name="mid") String mid
+        // @AuthenticationPrincipal MemberUser user
+        ){
         try {
-
+            log.info("mid => {}", mid);
             // 파일 저장 (파일 선택하고 업로드)
-
-            // 디자인 저장
+            log.info("selectcolor => {}", selectcolor.toString());
+            log.info("tno => {}", tno);
+            obj.setFname(file.getOriginalFilename());
+            obj.setFsize(BigInteger.valueOf(file.getSize()));
+            obj.setFtype(file .getContentType());
+            obj.setFdata(file.getInputStream().readAllBytes());
+            // log.info("파일정보 => {}", obj.toString());
+            fRepository.save(obj);
             
-            // 파일정보 // post에서 보내야함
+            // 컬러 사이즈
+            TshirtView01 tView01 = tView01Repository.findByTcolornameAndTnoAndTssize(selectcolor, BigInteger.valueOf(tno), selectsize );
+            // 프린팅 방식
+            Printing printing = pRepository.findByPmethod(selectpmethod);
+            //log.info("컬러 => {}",printing);
+            Member member = mRepository.findByMid(mid);
 
-            return "redirect:product/making.do";
+            dOne.setFno(obj.getFno());
+            dOne.setTno(tView01.getTno()); // 여기에 컬러랑 사이즈랑 프린팅방식이 안담기지 않나 //
+            dOne.setPsno(BigInteger.valueOf(psno));
+            dOne.setPno(printing.getPno());
+            dOne.setMember(member);
+            log.info("디자인원111 => {}", dOne.toString());
+            
+            dOneRepository.save(dOne);
+            // + "&tcolorno=" + tView01.getTcolorno() + "&tsno=" + tView01.getTsno()
+            return "redirect:/product/order.do?tno=" + tno + "&psno=" + psno + "&tcolorno="
+                    + tView01.getTcolorno() + "&tsno=" + tView01.getTsno()
+                    + "&pno=" + printing.getPno() + "&fno=" + obj.getFno();
+            // return "redirect:/product/order.do";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
@@ -241,10 +291,20 @@ public class HomeProductController {
 
     @GetMapping(value = "/order.do")
     public String orderGET(Model model, 
-            @RequestParam(name="tno") long tno, 
-            @RequestParam(name="psno") long psno){
+            @AuthenticationPrincipal MemberUser user,
+            @RequestParam(name="tsno") long tsno, // 티셔츠사이즈
+            @RequestParam(name="fno") long fno, // 파일
+            @RequestParam(name="pno") long pno, // 프린팅방식
+            @RequestParam(name="tno") long tno,  // 티셔츠
+            @RequestParam(name="psno") long psno // 프린팅사이드
+            ){
         try {
-            
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
+                }
+            model.addAttribute("user", user);
+
             return "product/order";
         } catch (Exception e) {
             e.printStackTrace();
@@ -252,7 +312,17 @@ public class HomeProductController {
         }
     }
 
-
+    @PostMapping(value = "/order.do")
+    public String orderPOST(
+            
+    ){
+        try {
+            
+            return "home";
+        } catch (Exception e) {
+            return "home";
+        }
+    }
 
     // 관리자
 

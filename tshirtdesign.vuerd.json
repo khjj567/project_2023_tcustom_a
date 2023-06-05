@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 3500,
     "height": 3500,
-    "scrollTop": -656.6666197776817,
-    "scrollLeft": -646.1666586862668,
-    "zoomLevel": 0.9,
+    "scrollTop": -953.3332746558752,
+    "scrollLeft": -816.1666519310766,
+    "zoomLevel": 0.8,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -344,7 +344,7 @@
           "active": false,
           "left": 90.1527,
           "top": 1060.8673,
-          "zIndex": 26,
+          "zIndex": 24,
           "widthName": 60,
           "widthComment": 60,
           "color": "#00FF2F"
@@ -562,7 +562,7 @@
           "active": false,
           "left": 118.9576,
           "top": 893.3344,
-          "zIndex": 30,
+          "zIndex": 28,
           "widthName": 60,
           "widthComment": 60,
           "color": "#B9FDB6"
@@ -596,29 +596,6 @@
               "widthDefault": 102.59130859375
             },
             "id": "0f50e569-fb45-44dd-9c67-c44f49aa797e"
-          },
-          {
-            "name": "dpno",
-            "comment": "디자인 사진 번호",
-            "dataType": "NUMBER",
-            "default": "SEQ_DESIGNPIC_NO",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": true,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 102.140625,
-              "widthDataType": 60,
-              "widthDefault": 121.77392578125
-            },
-            "id": "c2112b87-6725-4d26-a3ea-3beda8d459a3"
           },
           {
             "name": "tno",
@@ -763,7 +740,7 @@
           "active": false,
           "left": 883.2654,
           "top": 711.9217,
-          "zIndex": 31,
+          "zIndex": 29,
           "widthName": 63.216796875,
           "widthComment": 71.5703125,
           "color": "#00811D"
@@ -918,7 +895,7 @@
           "active": false,
           "left": 579.5062,
           "top": 6.614,
-          "zIndex": 25,
+          "zIndex": 23,
           "widthName": 68.498046875,
           "widthComment": 84.5703125,
           "color": "#00747E"
@@ -1400,7 +1377,7 @@
           "active": false,
           "left": 844.4436,
           "top": 363.152,
-          "zIndex": 24,
+          "zIndex": 22,
           "widthName": 60,
           "widthComment": 60,
           "color": "#00FEFF"
@@ -1463,168 +1440,13 @@
           "active": false,
           "left": 313.3572,
           "top": 1272.8723,
-          "zIndex": 29,
+          "zIndex": 27,
           "widthName": 71.75439453125,
           "widthComment": 60,
           "color": "#5C9B5E"
         },
         "visible": true,
         "id": "d23b564d-2b03-4e84-bc7a-05de01170b9f"
-      },
-      {
-        "name": "design pic",
-        "comment": "디자인 위치 사진",
-        "columns": [
-          {
-            "name": "dpno",
-            "comment": "디자인 사진 번호",
-            "dataType": "NUMBER",
-            "default": "SEQ_DESIGNPIC_NO",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": true,
-              "unique": false,
-              "notNull": true
-            },
-            "ui": {
-              "active": false,
-              "pk": true,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 102.140625,
-              "widthDataType": 60,
-              "widthDefault": 121.77392578125
-            },
-            "id": "d58bb554-8deb-40f5-b1b9-d8e35f4bba01"
-          },
-          {
-            "name": "dpname",
-            "comment": "디자인 사진 이름",
-            "dataType": "VARCHAR2(100)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 102.140625,
-              "widthDataType": 96.453125,
-              "widthDefault": 60
-            },
-            "id": "3e92b026-9aca-456b-aa87-1c806b1cc5f6"
-          },
-          {
-            "name": "dpsize",
-            "comment": "디자인 사진 사이즈",
-            "dataType": "NUMBER",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 115.140625,
-              "widthDataType": 60,
-              "widthDefault": 60
-            },
-            "id": "12c8d1fd-3c8c-44e9-be19-58ae9b073e75"
-          },
-          {
-            "name": "dpdata",
-            "comment": "디자인 사진 데이터",
-            "dataType": "BLOB",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 115.140625,
-              "widthDataType": 60,
-              "widthDefault": 60
-            },
-            "id": "e17fbd06-5672-44f0-a7d1-2bbd6cf7e589"
-          },
-          {
-            "name": "dptype",
-            "comment": "디자인 사진 타입",
-            "dataType": "VARCHAR2(50)",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 102.140625,
-              "widthDataType": 89.29296875,
-              "widthDefault": 60
-            },
-            "id": "8a86f59f-e0e1-4c60-a5e1-87593c41c5ee"
-          },
-          {
-            "name": "dpregdate",
-            "comment": "디자인 사진 날짜",
-            "dataType": "TIMESTAMP",
-            "default": "current_timestamp",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 62.7470703125,
-              "widthComment": 102.140625,
-              "widthDataType": 71.93212890625,
-              "widthDefault": 111.35107421875
-            },
-            "id": "acff06c8-ad1d-433f-b6dc-4546ecdc215a"
-          }
-        ],
-        "ui": {
-          "active": false,
-          "left": 1547.0238,
-          "top": 461.2971,
-          "zIndex": 23,
-          "widthName": 62.67724609375,
-          "widthComment": 102.140625,
-          "color": "#93BF93"
-        },
-        "visible": true,
-        "id": "4683b2be-5c1b-49fc-ad24-f6480e037fbc"
       },
       {
         "name": "tshirtcontent",
@@ -2198,7 +2020,7 @@
           "active": false,
           "left": 68.9691,
           "top": 547.9173,
-          "zIndex": 27,
+          "zIndex": 25,
           "widthName": 60,
           "widthComment": 60,
           "color": "#5B8A85"
@@ -4408,7 +4230,7 @@
           "active": false,
           "left": 0,
           "top": 648.5719,
-          "zIndex": 28,
+          "zIndex": 26,
           "widthName": 60,
           "widthComment": 80,
           "color": "#FFFFFF"
@@ -4443,7 +4265,7 @@
             "22b00b07-a1e9-4ee4-9cb7-70195bab237f"
           ],
           "x": 883.2654,
-          "y": 828.4216999999999,
+          "y": 818.1717000000001,
           "direction": "left"
         },
         "constraintName": "fk_file_to_designone",
@@ -4469,7 +4291,7 @@
             "097e1f88-231c-423c-989d-3bd0fc7db9b2"
           ],
           "x": 883.2654,
-          "y": 750.7550333333332,
+          "y": 747.3383666666667,
           "direction": "left"
         },
         "constraintName": "fk_printing_to_designone",
@@ -4485,8 +4307,8 @@
           "columnIds": [
             "0f50e569-fb45-44dd-9c67-c44f49aa797e"
           ],
-          "x": 1126.949237890625,
-          "y": 944.9217,
+          "x": 1112.60670859375,
+          "y": 924.4217,
           "direction": "bottom"
         },
         "end": {
@@ -4546,7 +4368,7 @@
           "columnIds": [
             "cb30c0c5-ce1a-43f3-8025-c92658c5305d"
           ],
-          "x": 1126.949237890625,
+          "x": 1112.60670859375,
           "y": 711.9217,
           "direction": "top"
         },
@@ -4651,38 +4473,12 @@
             "cb4b76f6-07ce-4603-8f04-0bd0baf887bc"
           ],
           "x": 883.2654,
-          "y": 906.0883666666665,
+          "y": 889.0050333333335,
           "direction": "left"
         },
         "constraintName": "fk_pside_to_designone",
         "visible": true,
         "id": "1c244f48-90f1-4895-87c9-7aa33646c7de"
-      },
-      {
-        "identification": false,
-        "relationshipType": "OneN",
-        "startRelationshipType": "Dash",
-        "start": {
-          "tableId": "4683b2be-5c1b-49fc-ad24-f6480e037fbc",
-          "columnIds": [
-            "d58bb554-8deb-40f5-b1b9-d8e35f4bba01"
-          ],
-          "x": 1547.0238,
-          "y": 557.2971,
-          "direction": "left"
-        },
-        "end": {
-          "tableId": "9a8c66eb-3786-422a-889b-b06ceb5ef1ba",
-          "columnIds": [
-            "c2112b87-6725-4d26-a3ea-3beda8d459a3"
-          ],
-          "x": 1370.63307578125,
-          "y": 750.7550333333332,
-          "direction": "right"
-        },
-        "constraintName": "fk_design pic_to_designone",
-        "visible": true,
-        "id": "6b462e34-3b52-4feb-981e-cda5ea6942c2"
       },
       {
         "identification": false,
@@ -4754,8 +4550,8 @@
           "columnIds": [
             "c3ad4f70-e7fc-4942-b88b-4cc3a05f31be"
           ],
-          "x": 1370.63307578125,
-          "y": 906.0883666666665,
+          "x": 1341.9480171875,
+          "y": 871.2967,
           "direction": "right"
         },
         "constraintName": "fk_member_to_designone",
@@ -4771,8 +4567,8 @@
           "columnIds": [
             "0f50e569-fb45-44dd-9c67-c44f49aa797e"
           ],
-          "x": 1370.63307578125,
-          "y": 828.4216999999999,
+          "x": 1341.9480171875,
+          "y": 765.0467,
           "direction": "right"
         },
         "end": {

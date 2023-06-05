@@ -29,7 +29,8 @@
             </div> 
             <div>
                 <div class="nav_role">
-                    <p class="hello" th:text="${user.name + '님 환영합니다'}"></p>
+                    <p class="hello" name="name" th:text="${user.name + '님 환영합니다'}"></p>
+                    <input type="hidden" name="id" th:value="${user.username}">
                     <a class="mylogin" th:href="@{/member/mypage.do}">mypage</a>
                     
                     <form th:action="@{/logout.do}" method="post">

@@ -166,7 +166,7 @@ function readURL(input) {
                             </th:block>
                         </div>
                     </form>
-                    <input type="file" onchange="readURL(this);">
+                    
                     <th:block th:each="tmp : ${psdto1.list}" >
                         <form th:action="@{/product/making.do(tno=${param.tno},psno=${tmp.psno})}" method="get">
                             <div id="image_p2" >
@@ -182,6 +182,10 @@ function readURL(input) {
                 <!-- 우측 선택사항 -->
                 <div id="base_right">
                     <form  th:action="@{/product/making.do}" method="post"  enctype="multipart/form-data">
+                        <input type="file" name="file" onchange="readURL(this);">
+                        <input type="hidden" name="psno" th:value="${param.psno}">
+                        <input type="hidden" name="tno" th:value="${param.tno}">
+                        <input type="hidden" name="mid" th:value="${user.username}">
                         <br/>
                         <!-- 프린팅방식 @@-->
                         <div class="smol_title">
@@ -207,9 +211,9 @@ function readURL(input) {
                             <option th:each="tmp : ${tsdto.list}" th:value="${tmp.tssize}" th:text="${tmp.tssize}" >종류</option>
                         </select>
                         <div style="margin: 20px;">
-                            <a class="select_btn2" th:text="주문하기"
+                            <input type="submit" class="select_btn2" value="주문하기"
                                 th:href="@{/product/order.do(tno=${param.tno},psno=${param.psno})}" >
-                            </a>
+                            </input>
                             <a class="select_btn2" th:text="디자인하기" 
                                 th:href="@{/member/mypage.do?menu=1}" >
                             </a>
