@@ -34,6 +34,8 @@ import com.example.dto.TshirtSizeDTO;
 import com.example.entity.DesignOne;
 import com.example.entity.File;
 import com.example.entity.Member;
+import com.example.entity.MemberAddress;
+import com.example.entity.Orders;
 import com.example.entity.Printing;
 import com.example.entity.PrintingSide;
 import com.example.entity.PsidePic;
@@ -47,7 +49,9 @@ import com.example.entity.TshirtSize;
 import com.example.entity.TshirtView01;
 import com.example.repository.DesignOneRepository;
 import com.example.repository.FileRepository;
+import com.example.repository.MemberAddressRepository;
 import com.example.repository.MemberRepository;
+import com.example.repository.OrdersRepository;
 import com.example.repository.PrintingRepository;
 import com.example.repository.PrintingSideRepository;
 import com.example.repository.PsidePicRepository;
@@ -84,7 +88,9 @@ public class HomeProductController {
     final TshirtView01Repository tView01Repository;
     final MemberRepository mRepository;
     final DesignOneRepository dOneRepository;
-
+    
+    final OrdersRepository ordersRepository;
+    final MemberAddressRepository mAddressRepository;
 
 
     // 127.0.0.1:9090/CUSTOM/product/image?ino=1
@@ -279,9 +285,13 @@ public class HomeProductController {
             
             dOneRepository.save(dOne);
             // + "&tcolorno=" + tView01.getTcolorno() + "&tsno=" + tView01.getTsno()
-            return "redirect:/product/order.do?tno=" + tno + "&psno=" + psno + "&tcolorno="
-                    + tView01.getTcolorno() + "&tsno=" + tView01.getTsno()
-                    + "&pno=" + printing.getPno() + "&fno=" + obj.getFno();
+            return "redirect:/product/order.do?tno=" + tno + 
+                                            "&psno=" + psno + 
+                                            "&tcolorno=" + tView01.getTcolorno() + 
+                                            "&tsno=" + tView01.getTsno() + 
+                                            "&pno=" + printing.getPno() + 
+                                            "&fno=" + obj.getFno() + 
+                                            "&mid=" + mid;
             // return "redirect:/product/order.do";
         } catch (Exception e) {
             e.printStackTrace();
@@ -292,33 +302,68 @@ public class HomeProductController {
     @GetMapping(value = "/order.do")
     public String orderGET(Model model, 
             @AuthenticationPrincipal MemberUser user,
-            @RequestParam(name="tsno") long tsno, // 티셔츠사이즈
-            @RequestParam(name="fno") long fno, // 파일
-            @RequestParam(name="pno") long pno, // 프린팅방식
-            @RequestParam(name="tno") long tno,  // 티셔츠
-            @RequestParam(name="psno") long psno // 프린팅사이드
-            ){
+            @RequestParam(name="mid") String mid,
+            @RequestParam(name="tsno") BigInteger tsno, // 티셔츠사이즈
+            @RequestParam(name="fno") BigInteger fno, // 파일
+            @RequestParam(name="pno") BigInteger pno, // 프린팅방식
+            @RequestParam(name="tcolorno") BigInteger tcolorno, // 프린팅방식
+            @RequestParam(name="tno") BigInteger tno,  // 티셔츠
+            @RequestParam(name="psno") BigInteger psno // 프린팅사이드
+            ) {
         try {
-            if(user != null){ // 로그인 되었음
-                log.info("로그인user => {}", user); 
-                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
-                }
-            model.addAttribute("user", user);
+            log.info("psno => {}", psno); 
+
+            TsDesignView tsdv = tsdvRepository.selectOneTsDesignGroupByDno(mid, tno, psno, tcolorno, tsno, pno, fno);
+            log.info("tsdv => {}", tsdv); 
+
+            model.addAttribute("tsdv", tsdv);
 
             return "product/order";
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception occurred while processing order GET request", e);
             return "redirect:/home.do";
         }
     }
 
     @PostMapping(value = "/order.do")
     public String orderPOST(
-            
+            Model model,
+            @ModelAttribute MemberAddress mAddress,
+            @ModelAttribute Orders orders,
+            @RequestParam(name="mid") String mid,
+            HttpServletRequest request,
+            @RequestParam(name = "aname") String aname,
+            @RequestParam(name = "aphone") String aphone,
+            @RequestParam(name = "dno") long dno,
+            @RequestParam(name = "ocnt") long ocnt
     ){
         try {
-            
-            return "home";
+            // log.info("값오니 => {}", aname);
+
+            // orders :  ocnt dno o
+            DesignOne designOne = dOneRepository.findByDno(BigInteger.valueOf(dno));
+            orders.setOcnt(BigInteger.valueOf(ocnt));
+            orders.setDesignOne(designOne);
+            // log.info("orders 값 => {}", orders.toString());
+
+            ordersRepository.save(orders);
+
+            // memberAddress : ANO MID ANAME APHONE APOSTCODE AADDRESS
+            Member member = mRepository.findByMid(mid);
+            mAddress.setMember(member);
+            mAddress.setAname(aname);
+            mAddress.setAphone(aphone);
+            mAddress.setApostcode(request.getParameter("postcode"));
+            mAddress.setAaddress(request.getParameter("address") + request.getParameter("detailAddress")+request.getParameter("extraAddress"));
+            // log.info("mAddress 값 => {}", mAddress.toString());
+		
+            mAddressRepository.save(mAddress);
+
+            // 2023-06-07 02:03:36.681  WARN 10292 --- [nio-9090-exec-5] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 23502, SQLState: 23502
+            // 2023-06-07 02:03:36.681 ERROR 10292 --- [nio-9090-exec-5] o.h.engine.jdbc.spi.SqlExceptionHelper   : NULL not allowed for column "OCONDITION"; SQL statement:
+            // insert into orders (dno, ocnt, ocondition, oregdate, ono) values (?, ?, ?, ?, ?) [23502-214]
+
+            return "redirect:/member/mypage.do?menu=3";
         } catch (Exception e) {
             return "home";
         }

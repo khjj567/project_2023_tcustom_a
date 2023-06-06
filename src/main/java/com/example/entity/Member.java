@@ -39,4 +39,10 @@ public class Member {
     @ToString.Exclude
     @OneToMany(mappedBy = "member", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     private List<DesignOne> list = new ArrayList<>();
+        
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "member", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    private List<MemberAddress> list2 = new ArrayList<>();
+
 }

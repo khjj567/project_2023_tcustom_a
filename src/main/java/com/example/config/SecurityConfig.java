@@ -39,7 +39,7 @@ public class SecurityConfig {
             
             // .antMatchers("/seller", "/seller/*").hasAuthority("ROLE_SELLER")
             .antMatchers("/member","/member/*").hasAuthority("ROLE_MEMBER") // 주소가 9090/ROOT/admin ~~ 모든 것
-            .antMatchers("/","/home/*").hasAnyAuthority("ROLE_NO")
+            // .antMatchers("/","/home/*").hasAnyAuthority("ROLE_NO")
             .anyRequest().permitAll(); // 풀어놔서 로그인은 들어갈 수 있음 // 지정해주지 않아도 되는건가요?
             
             // 이후에 고객으로 로그인 하고 seller/home.do 페이지로 가면

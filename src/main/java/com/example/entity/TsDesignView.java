@@ -3,6 +3,7 @@ package com.example.entity;
 import java.math.BigInteger;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -20,6 +21,7 @@ import lombok.ToString;
 public class TsDesignView {
 
     @Id
+    @Column(name="DNO")
     private	BigInteger	dno	;
 
     private	String	mid	;

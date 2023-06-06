@@ -9,10 +9,71 @@
             <div class="clear"></div>
             <div class="bar"></div>
             <div class="body">
-                order page
-                주문정보 확인
-                배송정보 입력
-                주문하기
+                <div class="mid_title">
+                    주문하기
+                </div>
+                <hr />
+                <div class="order_image">
+                    <!-- 티셔츠와 파일 이미지가 합성된 이미ㅣㅈ-->
+                    <img src="${pageContext.request.contextPath}/resources/images/images.png" id="img" style="width: 600px; height: 600px; cursor: pointer;"> 
+                </div>
+                
+                <div class="order_box" th:object="${tsdv}">
+                    <div class="mid_title" style="margin-top: 15px;">
+                        주문정보 확인 및 수량
+                    </div>
+                    <p class="p_conts_mid">제품명: <span th:text="${tsdv.tname}"></span></p>
+                    <p class="p_conts_mid">사이즈: <span th:text="${tsdv.tssize}"></span></p>
+                    <p class="p_conts_mid">프린팅방식: <span th:text="${tsdv.pmethod}"></span></p>
+                    <p class="p_conts_mid">프린팅면: <span th:text="${tsdv.psidename}"></span></p>
+                    <p class="p_conts_mid">티셔츠색: <span th:text="${tsdv.tcolorname}"></span></p>
+                    <p class="p_conts_mid">프린팅가격: <span th:text="${tsdv.pprice}"></span></p>
+                    <p class="p_conts_last">티셔츠가격: <span th:text="${tsdv.tprice}"></span></p>
+                    
+                </div>
+                <div class="order_box">
+                    <div class="mid_title" style="margin-top: 15px;">
+                        수령인 정보 및 배송지 정보
+                    </div>
+
+                    <form th:action="@{/product/order.do}" method="post">
+                        <input type="hidden" name="dno" th:value="${tsdv.dno}"/>
+                        <input type="hidden" name="mid" th:value="${param.mid}"/>
+
+                        <div class="orderlabel_box">
+                            <label class="p_conts_mid" for="formGroupExampleInput">수량</label>
+                            <input type="number" name="ocnt" placeholder="구매하실 수량" value="2"/>
+                        </div>
+                        <div class="orderlabel_box">
+                            <label class="p_conts_mid" for="formGroupExampleInput">수령인 이름</label>
+                            <input name="aname" type="text" placeholder="수령인 이름을 적어주세요" value="AAA"/ >
+                        </div>
+                        <div class="orderlabel_box">
+                            <label class="p_conts_mid" for="formGroupExampleInput2" >수령인 휴대폰 번호</label>
+                            <input name="aphone" type="number" placeholder="숫자만 적어주세요" value="01012354852"/>
+                        </div>
+                        <div class="orderlabel_box">
+                            <label for="inputPostcode" class="p_conts_mid">우편번호</label>
+                            <input name="postcode" type="text" class="form-control" id="sample6_postcode" placeholder="우편번호" />
+                            <input type="button" class="btn btn-light" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" /><br>
+                        </div>
+                        <div class="orderlabel_box">
+                            <label for="inputAddress" class="p_conts_mid">주소</label>
+                            <input name="address" type="text" class="form-control" id="sample6_address" placeholder="주소" />
+                        </div>
+                        <div class="orderlabel_box">
+                            <label for="inputAddDetail" class="p_conts_mid">상세주소</label>
+                            <input name="detailadd" value="1102호" type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" />
+                        </div>
+                        <div class="orderlabel_box">
+                            <label for="inputAddExtra" class="p_conts_mid">참고항목</label>
+                            <input name="addextra" type="text" class="form-control" id="sample6_extraAddress" placeholder="참고항목" />
+                        </div>
+                        <div class="orderlabel_box">
+                            <input type="submit" value="결제하기" style="margin: 20px; padding: 3px 0 3px 0; float: left;" class="select_btn2"/>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -21,5 +82,69 @@
         <input type="file" /> -->
         <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
     </div>
+
+    <!--도로명 주소 팝업창-->           
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	
+	<script>
+		function sample6_execDaumPostcode() {
+			
+			// new daum.Postcode().open();
+	        new daum.Postcode({
+	            oncomplete: function(data) { //클릭했던 내용이 data
+	            	console.log(data); //전체데이타
+	            	console.log(data.address); // 일부데이터 추철:키를 이용
+	            	// var, let(변수생성)
+	            	// const (상수생성)
+	            	var addr = ''; // 주소 변수
+	                var extraAddr = ''; // 참고항목 변수
+	                
+	              	//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+	                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	                    addr = data.roadAddress;
+	                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	                    addr = data.jibunAddress;
+	                }
+	                
+	             // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+	                if(data.userSelectedType === 'R'){
+	                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+	                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+	                    
+	                    // 정규식, 정규표현식 패턴을 찾아서
+	                    // 예) 사용자가 입력한 이메일 주소가 정확한지 확인하려면 패턴을 입력해서 비교하게 해야한다
+	                    // /[동|로|가]$/g.test(data.bname): data.bname안에 있는게 동로가로 끝나는 것이면!
+	                    
+	                    // ===가 ==보다 더 엄격한 비교. ===를 쓰면 type도 비교한다. 1과 '1'이 ==에선 같지만 ===에선 다르다.
+	                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	                        extraAddr += data.bname;
+	                    }
+	                    // 건물명이 있고, 공동주택일 경우 추가한다.
+	                    if(data.buildingName !== '' && data.apartment === 'Y'){
+	                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	                    }
+	                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+	                    if(extraAddr !== ''){
+	                        extraAddr = ' (' + extraAddr + ')';
+	                    }
+	                    // 조합된 참고항목을 해당 필드에 넣는다.
+	                    document.getElementById("sample6_extraAddress").value = extraAddr;
+	                    
+	                } else {
+	                    document.getElementById("sample6_extraAddress").value = '';
+	                }
+	             // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	             // getElementById: 위에서 해당하는 아이디나 클래스를 찾는다
+	                document.getElementById('sample6_postcode').value = data.zonecode;
+	                document.getElementById("sample6_address").value = addr;
+	                // 커서를 상세주소 필드로 이동한다.
+	                document.getElementById("sample6_detailAddress").focus();
+	            }
+	        }).open();
+		}
+    
+	</script>
+	<!-- Include the Quill library -->
+	<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 </body>
 </html>

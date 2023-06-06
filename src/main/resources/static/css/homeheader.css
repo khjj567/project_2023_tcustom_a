@@ -540,6 +540,31 @@ input[type=file]::file-selector-button:hover {
     /* background-color: rgb(222, 233, 255); */
     margin-top: 20px;
 }
+.orderlabel_box{
+    color: black;
+    font-family: NanumSquare;
+    font-size: 25px;
+    font-weight: bold;
+    width: 100%;
+    height: auto;
+    padding: 3px 0 3px 0;
+    float: left;
+    /* background-color: rgb(222, 233, 255); */
+    margin-top: 20px;
+}
+
+.order_box{
+    color: black;
+    font-family: NanumSquare;
+    font-size: 25px;
+    font-weight: bold;
+    width: 100%;
+    height: auto;
+    padding: 5px 10px 5px 10px;
+    float: left;
+    background-color: rgba(242, 242, 242, 1);
+    margin-top: 20px;
+}
 
 .p_conts_one{
     font-size: 17px;

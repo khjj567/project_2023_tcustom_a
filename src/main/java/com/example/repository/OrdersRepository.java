@@ -5,10 +5,9 @@ import java.math.BigInteger;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.entity.DesignOne;
+import com.example.entity.Orders;
 
 @Repository
-public interface DesignOneRepository extends JpaRepository<DesignOne, BigInteger> {
+public interface OrdersRepository extends JpaRepository<Orders, BigInteger>{
     
-    DesignOne findByDno(BigInteger dno);
 }
