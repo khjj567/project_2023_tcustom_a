@@ -181,11 +181,7 @@ public class MemberController {
                 }
             model.addAttribute("user", user);
 
-            File file = fRepository.findByFno(BigInteger.valueOf(fno));
-            if( file != null ){ 
-                file.setImageUrl(request.getContextPath() + "/member/image?fno=" + file.getFno());
-            }
-            model.addAttribute("file", file);
+      
 
             return "/member/image";
         } catch (Exception e) {

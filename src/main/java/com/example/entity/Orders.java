@@ -57,6 +57,14 @@ public class Orders {
     @Transient
     private BigInteger dno;
 
+    @Transient
+    private BigInteger pspicno;
+
+    @Transient
+    private String imageUrl1;
+    @Transient
+    private String imageUrl2;
+
     @ManyToOne
     @JoinColumn(name = "dno", referencedColumnName = "dno")
     private DesignOne designOne;

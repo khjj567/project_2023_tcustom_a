@@ -32,6 +32,9 @@ public class PsidePic {
     @ToString.Exclude
     private	byte[]	pspicdata	;
     private	String	pspictype	;
+    
+    @Transient
+    private String imageUrl2;
 
     @ManyToOne
     @JoinColumn(name = "tno", referencedColumnName = "tno")

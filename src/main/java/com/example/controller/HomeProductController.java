@@ -93,6 +93,7 @@ public class HomeProductController {
     final MemberAddressRepository mAddressRepository;
 
     final TshirtRepository tRepository;
+    final PsidePicRepository pspRepository;
 
     // 127.0.0.1:9090/CUSTOM/product/image?ino=1
     @GetMapping(value = "/image")
@@ -128,6 +129,23 @@ public class HomeProductController {
         headers.setContentType(MediaType.IMAGE_PNG);
         return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
         
+    }
+
+    @GetMapping(value = "/image2")
+    public ResponseEntity<byte[]> image2(@RequestParam(name = "fno", defaultValue = "0") BigInteger fno) throws IOException{
+        File obj = fRepository.findById(fno).orElse(null);
+        //log.info("objobj => {}", obj);
+        HttpHeaders headers = new HttpHeaders(); // import org.springframework.http.HttpHeaders;
+        if(obj != null){ // 이미지가 존재하는지 확인
+            if(obj.getFsize() != null){
+                headers.setContentType( MediaType.parseMediaType(obj.getFtype()));
+                return new ResponseEntity<>(obj.getFdata(), headers, HttpStatus.OK);
+            }
+        }
+        // 이미지가 없을 경우
+        InputStream is = resourceLoader.getResource("./img/no-image.png").getInputStream(); //?
+        headers.setContentType(MediaType.IMAGE_PNG);
+        return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
     }
 
     //127.0.0.1:9090/CUSTOM/product/making.do
@@ -533,14 +551,17 @@ public class HomeProductController {
             orders.setPmethod(printing.getPmethod());
             orders.setPprice(printing.getPprice());
 
+
             PrintingSide pside = psRepository.findByPsno(orders.getDesignOne().getPrintingSide().getPsno());
             orders.setPsidename(pside.getPsidename());
+
+            PsidePic psidePic = pspRepository.findByPrintingSide_PsnoAndTshirt_Tno(pside.getPsno(), tshirt.getTno());
+            orders.setPspicno(psidePic.getPspicno());
+            orders.setImageUrl2(psidePic.getImageUrl2());
             
             File file = fRepository.findByFno(orders.getDesignOne().getFile().getFno());
             orders.setFno(file.getFno());
-            
-            // DesignOne dOne = dOneRepository.find
-            // orders.setDno();
+            orders.setImageUrl1(file.getImageUrl());
 
             model.addAttribute("orders", orders);
             
