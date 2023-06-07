@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
+
+<!-- draggable3 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<!-- resizable -->
+<script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+<!-- 라이트박스 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js"></script>
+<!-- 이미지 특정id로 그부분만 캡처 하기 : designonepic -->
+<script src="../js/html2canvas.min.js"></script>
+
+<style>
+    /* image_p : id일때만 draggable 돼 */
+#image_p2{
+    float: left;
+    width: 100%;
+    height: auto;
+    background-color: rgba(217, 217, 217, 1);
+    
+}
+/* draggable */
+.draggable { 
+    width: auto; 
+    height: auto; 
+    float: left; 
+}
+.timage{
+    float: left;
+    width: 100%;
+    height: auto;
+    margin: auto 0px; 
+    position: relative;
+    object-fit: contain;
+    /* background-color: rgba(217, 217, 217, 1); */
+}
+.resizable {
+    width: auto;
+    height: auto;
+    /* border-radius: 0.75rem;
+    padding: 20px;
+    margin: 1rem; */
+    background-color: #29e;
+    color: white;
+    font-size: 20px;
+    font-family: sans-serif;
+    overflow: hidden;
+
+    touch-action: none;
+
+    /* This makes things *much* easier */
+    box-sizing: border-box;
+}
+</style>
+
+<script>
+    // draggable3
+$( function() {
+    $( "#draggable3" ).draggable({ containment: "#image_p2", scroll: false });
+} );
+
+    // resizable
+interact('.resizable')
+.resizable({
+modifiers: [
+interact.modifiers.aspectRatio({
+    ratio: 'preserve',
+    modifiers: [
+    interact.modifiers.restrictEdges({ outer: 'parent' })
+    ]
+})
+],
+edges: { top: true, left: true, bottom: true, right: true },
+listeners: {
+move: function (event) {
+    let { x, y } = event.target.dataset
+
+    x = (parseFloat(x) || 0) + event.deltaRect.left
+    y = (parseFloat(y) || 0) + event.deltaRect.top
+
+    Object.assign(event.target.style, {
+    width: `${event.rect.width}px`,
+    height: `${event.rect.height}px`,
+    transform: `translate(${x}px, ${y}px)`
+    })
+
+    Object.assign(event.target.dataset, { x, y })
+}
+}
+}).on('resizemove', function (event) {
+var target = event.target,
+    x = (parseFloat(target.getAttribute('data-x')) || 0),
+    y = (parseFloat(target.getAttribute('data-y')) || 0);
+
+// update the element's style
+target.style.width  = event.rect.width + 'px';
+target.style.height = event.rect.height + 'px';
+
+// translate when resizing from top or left edges
+x += event.deltaRect.left;
+y += event.deltaRect.top;
+
+target.style.webkitTransform = target.style.transform =
+    'translate(' + x + 'px,' + y + 'px)';
+
+target.setAttribute('data-x', x);
+target.setAttribute('data-y', y);
+target.textContent = event.rect.width + '×' + event.rect.height;
+});
+
+
+function dragMoveListener (event) {
+var target = event.target,
+    // keep the dragged position in the data-x/data-y attributes
+    x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+    y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+// translate the element
+target.style.webkitTransform =
+target.style.transform =
+    'translate(' + x + 'px, ' + y + 'px)';
+
+// update the posiion attributes
+target.setAttribute('data-x', x);
+target.setAttribute('data-y', y);
+}
+
+   // lightbox
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+        document.getElementById('img_preview').src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        document.getElementById('img_preview').src = "";
+    }
+    }
+</script>
+
+<body>
+    <div id="all">
+        <div class="all_center">
+            <th:block th:replace="~{/fragments/hometitlenav :: navFragment}"></th:block>
+            <div class="clear"></div>
+            <div class="bar"></div>
+            <div class="body">
+                <div class="mid_title">
+                    디자인하기
+                </div>
+                <!-- 좌측 프린팅사이드 이미지 -->
+                <div class="base">                   
+                    <div id="image_p2" >
+                        <img class="timage" th:value="${file.fno}" th:src="${file.imageUrl}">
+                    </div>
+                </div>
+                <!-- 우측 선택사항 -->
+                <div id="base_right">
+                    <p class="p_conts_one">파일번호: <span th:text="${file.fno}"></span></p>
+                    <p class="p_conts_one">파일명: <span th:text="${file.fname}"></span></p>
+                    <p class="p_conts_one">파일사이즈: <span th:text="${file.fsize}"></span></p>
+                    <p class="p_conts_one">파일업로드일자: <span th:text="${file.fregdate}"></span></p>
+                </div> 
+            </div>
+        </div>
+        <div class="clear"></div>
+        <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
+    </div>
+</body>
+</html>

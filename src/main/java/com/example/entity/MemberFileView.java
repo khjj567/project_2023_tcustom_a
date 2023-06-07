@@ -18,44 +18,24 @@ import lombok.ToString;
 
 @Data
 @Entity
-@Table(name = "TSDESIGNVIEW")
+@Table(name="MEMBERFILEVIEW")
 @Immutable
-public class TsDesignView {
+public class MemberFileView {
 
     @Id
     @Column(name="DNO")
     private	BigInteger	dno	;
-
     private	String	mid	;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    @CreationTimestamp 
-    private	Date	dregdate	;
-
-    private	BigInteger	pno	;
-    private	BigInteger	pprice	;
-    private	String	pmethod	;
-
     private	BigInteger	fno	;
+    private	String	mname	;
     private	String	fname	;
     private	BigInteger	fsize	;
     @Lob
     @ToString.Exclude
     private	byte[]	fdata	;
     private	String	ftype	;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @CreationTimestamp 
+    private	Date	fregdate	;
 
-    private	BigInteger	psno	;
-    private	String	psidename	;
-
-    private	BigInteger	tno	;
-    private	String	tname	;
-    private	BigInteger	tprice	;
-    private	BigInteger	tquantity	;
-
-    private	BigInteger	tsno	;
-    private	String	tssize	;
-    
-    private	BigInteger	tcolorno	;
-    private	String	tcolorname	;
-    
 }

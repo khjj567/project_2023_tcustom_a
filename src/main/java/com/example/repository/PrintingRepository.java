@@ -12,4 +12,5 @@ import java.util.List;
 @Repository
 public interface PrintingRepository extends JpaRepository<Printing, BigInteger>{
     Printing findByPmethod(String pmethod);
+    Printing findBypno(BigInteger pno);
 }

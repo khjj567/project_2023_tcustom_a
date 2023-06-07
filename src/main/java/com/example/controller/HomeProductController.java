@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +59,7 @@ import com.example.repository.TshirtColorRepository;
 import com.example.repository.TshirtContentViewRepository;
 import com.example.repository.TshirtImageRepository;
 import com.example.repository.TshirtPrintingSidePicViewRepository;
+import com.example.repository.TshirtRepository;
 import com.example.repository.TshirtSizeRepository;
 import com.example.repository.TshirtView01Repository;
 
@@ -92,6 +92,7 @@ public class HomeProductController {
     final OrdersRepository ordersRepository;
     final MemberAddressRepository mAddressRepository;
 
+    final TshirtRepository tRepository;
 
     // 127.0.0.1:9090/CUSTOM/product/image?ino=1
     @GetMapping(value = "/image")
@@ -238,6 +239,98 @@ public class HomeProductController {
             return "redirect:/home.do";
         }
     }
+    
+    @GetMapping(value = "/making1.do")
+    public String making1GET(
+            Model model,
+            HttpServletRequest request,
+            @AuthenticationPrincipal MemberUser user,
+            @RequestParam(name="tno") long tno,
+            @RequestParam(name="psno") long psno,
+            @RequestParam(name="dno") long dno
+    ){
+        try {
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
+                }
+            model.addAttribute("user", user);
+
+            // log.info("dno => {}", dno);
+
+
+            // 앞면뒷면에 따라 앞면뒷면 사진가져오기
+            // 1. 앞면 뒷면 나오게 하기
+            TshirtPrintingSidePicViewDTO psdto2 = new TshirtPrintingSidePicViewDTO();
+            List<TshirtPrintingSidePicView> pspicList = tpspvRepository.findByTno(BigInteger.valueOf(tno));
+            // log.info("pspicList => {}", pspicList);
+            psdto2.setList(pspicList);
+            // log.info("psdto2 => {}", psdto2);
+            model.addAttribute("psdto2", psdto2);
+
+            TshirtPrintingSidePicViewDTO psdto1 = new TshirtPrintingSidePicViewDTO();
+            List<TshirtPrintingSidePicView> tpspicView1 =  tpspvRepository.findByPsnoAndTno(BigInteger.valueOf(psno),  BigInteger.valueOf(tno));
+            // log.info("앞뒤 => {}", tpspicView1.toString());
+            model.addAttribute("tpspicView1", tpspicView1);
+
+            // imageUrl 호출
+            if( tpspicView1 != null ){ 
+                for(TshirtPrintingSidePicView tmp : tpspicView1){
+                    tmp.setImageUrl(request.getContextPath() + "/product/psidepic?pspicno=" + tmp.getPspicno());
+                }
+            }
+            
+            psdto1.setList(tpspicView1);
+            // log.info("psdto1 => {}", psdto1.toString());
+            model.addAttribute("psdto1", psdto1);
+
+            DesignOne dOne = dOneRepository.findByDno(BigInteger.valueOf(dno));
+            // log.info("디자인정보 =>{}", dOne);
+            model.addAttribute("dOne", dOne);
+
+            // 컬러(콤보박스)
+            TshirtColorDTO tcdto = new TshirtColorDTO();
+            List<TshirtColor> tclist = tcRepository.findByTshirt_tno(BigInteger.valueOf(tno));
+            tcdto.setList(tclist);
+            model.addAttribute("tcdto", tcdto);
+            //log.info("컬러정보 => {}", tclist.toString());
+
+            // 프린팅방식 printing 테이블의 pmethod를 가져옴
+            PrintingDTO pdto = new PrintingDTO();
+            List<Printing> plist = pRepository.findAll();
+            pdto.setList(plist);
+            model.addAttribute("pdto", pdto);
+            // log.info("프린팅방식 => {}", pdto);
+
+            // 사이즈
+            TshirtSizeDTO tsdto = new TshirtSizeDTO(); // select에서 사용해야하는 selectsize변수와 List<TshirtSize> list가 들어가 있는 TshirtSizeDTO
+            List<TshirtSize> list = tsRepository.findByTshirt_tno(BigInteger.valueOf(tno));
+            tsdto.setList(list); // 위에서 생성한 list를 tsdto의 list에 set해 준다
+            model.addAttribute("tsdto", tsdto);
+            //log.info("티셔츠사이즈정보 => {}", list.toString()); // 모든 정보가 나옴
+
+            // 티셔츠 전체이미지 가져오기
+            List<String> imageList = new ArrayList<>();
+            List<TshirtImage> list1 = tiRepository.findByTshirt_tnoOrderByInoAsc(BigInteger.valueOf(tno));
+            // log.info("what=> {}", list1.toString());
+            if( !list1.isEmpty() ){ // 리스트 비어있지 않은ㅇ지 확인
+                for(TshirtImage tmp : list1){
+                    //127.0.0.1:9090/CUSTOM/product/image?ino=1
+                    imageList.add( request.getContextPath() + "/product/image?ino=" + tmp.getIno() );
+                }
+            }
+            model.addAttribute("imageList", imageList);
+
+             // 티셔츠 INFO
+            TshirtContentView tcvobj = tcvRepository.findByTno(BigInteger.valueOf(tno));
+            model.addAttribute("tcvobj", tcvobj);
+
+            return "product/making1";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "home";
+        }
+    }
 
     // 127.0.0.1:9090/CUSTOM/product/making.do
     @PostMapping(value = "/making.do")
@@ -249,38 +342,51 @@ public class HomeProductController {
         @RequestParam(name = "selectsize") String selectsize,
 
         @ModelAttribute File obj,
-        @RequestParam(name = "file") MultipartFile file,
+        @RequestParam(name = "file1") MultipartFile file1,
 
         @ModelAttribute TsDesignView tsdv,
         @ModelAttribute Tshirt tshirt,
+
+        @ModelAttribute File file2,
+        @ModelAttribute Printing printing,
+        @ModelAttribute PrintingSide printingSide,
+        
         @ModelAttribute DesignOne dOne,
         @RequestParam(name="mid") String mid
         // @AuthenticationPrincipal MemberUser user
         ){
         try {
-            log.info("mid => {}", mid);
+            //log.info("mid => {}", mid);
             // 파일 저장 (파일 선택하고 업로드)
-            log.info("selectcolor => {}", selectcolor.toString());
-            log.info("tno => {}", tno);
-            obj.setFname(file.getOriginalFilename());
-            obj.setFsize(BigInteger.valueOf(file.getSize()));
-            obj.setFtype(file .getContentType());
-            obj.setFdata(file.getInputStream().readAllBytes());
+            // log.info("selectcolor => {}", selectcolor.toString());
+            // log.info("tno => {}", tno);
+            obj.setFname(file1.getOriginalFilename());
+            obj.setFsize(BigInteger.valueOf(file1.getSize()));
+            obj.setFtype(file1.getContentType());
+            obj.setFdata(file1.getInputStream().readAllBytes());
             // log.info("파일정보 => {}", obj.toString());
             fRepository.save(obj);
             
             // 컬러 사이즈
             TshirtView01 tView01 = tView01Repository.findByTcolornameAndTnoAndTssize(selectcolor, BigInteger.valueOf(tno), selectsize );
             // 프린팅 방식
-            Printing printing = pRepository.findByPmethod(selectpmethod);
-            //log.info("컬러 => {}",printing);
+            Printing printing1 = pRepository.findByPmethod(selectpmethod);
+            //log.info("컬러 사이즈 => {}",tView01);
             Member member = mRepository.findByMid(mid);
 
-            dOne.setFno(obj.getFno());
-            dOne.setTno(tView01.getTno()); // 여기에 컬러랑 사이즈랑 프린팅방식이 안담기지 않나 //
-            dOne.setPsno(BigInteger.valueOf(psno));
-            dOne.setPno(printing.getPno());
+            // Member member = new Member();
+            printing.setPno(printing1.getPno());
+            file2.setFno(obj.getFno());
+            printingSide.setPsno(BigInteger.valueOf(psno));
+            tshirt.setTno(tView01.getTno());
+
+            dOne.setFile(file2);
+            dOne.setTshirt(tshirt); // 여기에 컬러랑 사이즈랑 프린팅방식이 안담기지 않나 //
+            dOne.setPrintingSide(printingSide);
+            dOne.setPrinting(printing);
             dOne.setMember(member);
+            dOne.setTcolorno(tView01.getTcolorno());
+            dOne.setTsno(tView01.getTsno());
             log.info("디자인원111 => {}", dOne.toString());
             
             dOneRepository.save(dOne);
@@ -299,6 +405,74 @@ public class HomeProductController {
         }
     }
 
+    // 127.0.0.1:9090/CUSTOM/product/making.do
+    @PostMapping(value = "/making1.do")
+    public String making1POST(
+        @RequestParam(name = "tno") long tno,
+        @RequestParam(name = "psno") long psno,
+        @RequestParam(name = "printing.pmethod") String pmethod,
+        @RequestParam(name = "selectcolor") String selectcolor,
+        @RequestParam(name = "selectsize") String selectsize,
+
+        @ModelAttribute File obj,
+        @RequestParam(name = "file1") MultipartFile file1,
+
+        @ModelAttribute TsDesignView tsdv,
+        @ModelAttribute Tshirt tshirt,
+
+        @ModelAttribute File file2,
+        @ModelAttribute Printing printing,
+        @ModelAttribute PrintingSide printingSide,
+        
+        @ModelAttribute DesignOne dOne,
+        @RequestParam(name="mid") String mid
+    ){
+        try {
+            
+            // log.info("pmethod => {}", pmethod);
+            // 파일 저장 (파일 선택하고 업로드)
+            obj.setFname(file1.getOriginalFilename());
+            obj.setFsize(BigInteger.valueOf(file1.getSize()));
+            obj.setFtype(file1.getContentType());
+            obj.setFdata(file1.getInputStream().readAllBytes());
+            // log.info("파일정보 => {}", obj.toString());
+            fRepository.save(obj);
+
+            // 컬러 사이즈
+            TshirtView01 tView01 = tView01Repository.findByTcolornameAndTnoAndTssize(selectcolor, BigInteger.valueOf(tno), selectsize );
+            // log.info("티셔츠뷰 => {}",tView01);
+            // 프린팅 방식
+            Printing printing1 = pRepository.findByPmethod(pmethod);
+            Member member = mRepository.findByMid(mid);
+
+            // Member member = new Member();
+            printing.setPno(printing1.getPno());
+            file2.setFno(obj.getFno());
+            printingSide.setPsno(BigInteger.valueOf(psno));
+            tshirt.setTno(tView01.getTno());
+
+            dOne.setFile(file2);
+            dOne.setTshirt(tshirt); // 여기에 컬러랑 사이즈랑 프린팅방식이 안담기지 않나 //
+            dOne.setPrintingSide(printingSide);
+            dOne.setPrinting(printing);
+            dOne.setMember(member);
+            log.info("디자인원222 => {}", dOne.toString());
+
+            dOneRepository.save(dOne);
+
+            return "redirect:/product/order.do?tno=" + tno + 
+                                            "&psno=" + psno + 
+                                            "&tcolorno=" + tView01.getTcolorno() + 
+                                            "&tsno=" + tView01.getTsno() + 
+                                            "&pno=" + printing.getPno() + 
+                                            "&fno=" + obj.getFno() + 
+                                            "&mid=" + mid;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "home";
+        }
+    }
+
     @GetMapping(value = "/order.do")
     public String orderGET(Model model, 
             @AuthenticationPrincipal MemberUser user,
@@ -311,10 +485,16 @@ public class HomeProductController {
             @RequestParam(name="psno") BigInteger psno // 프린팅사이드
             ) {
         try {
-            log.info("psno => {}", psno); 
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
+                }
+            model.addAttribute("user", user);
+
+            // log.info("psno => {}", psno); 
 
             TsDesignView tsdv = tsdvRepository.selectOneTsDesignGroupByDno(mid, tno, psno, tcolorno, tsno, pno, fno);
-            log.info("tsdv => {}", tsdv); 
+            // log.info("tsdv => {}", tsdv); 
 
             model.addAttribute("tsdv", tsdv);
 
@@ -325,9 +505,54 @@ public class HomeProductController {
         }
     }
 
+    @GetMapping(value = "/order1.do")
+    public String order1GET(
+        Model model,
+        @AuthenticationPrincipal MemberUser user,
+        @RequestParam(name = "ono") long ono
+    ){
+        try {
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
+                }
+            model.addAttribute("user", user);
+
+            Orders orders = ordersRepository.findByOno(BigInteger.valueOf(ono));
+            TshirtColor tcolor = tcRepository.findByTcolorno(orders.getDesignOne().getTcolorno());
+            orders.setTcolorname(tcolor.getTcolorname());
+
+            TshirtSize tSize = tsRepository.findByTsno(orders.getDesignOne().getTsno());
+            orders.setTssize(tSize.getTssize());
+
+            Tshirt tshirt = tRepository.findByTno(orders.getDesignOne().getTshirt().getTno());
+            orders.setTname(tshirt.getTname());
+            orders.setTprice(tshirt.getTprice());
+
+            Printing printing = pRepository.findBypno(orders.getDesignOne().getPrinting().getPno());
+            orders.setPmethod(printing.getPmethod());
+            orders.setPprice(printing.getPprice());
+
+            PrintingSide pside = psRepository.findByPsno(orders.getDesignOne().getPrintingSide().getPsno());
+            orders.setPsidename(pside.getPsidename());
+            
+            File file = fRepository.findByFno(orders.getDesignOne().getFile().getFno());
+            orders.setFno(file.getFno());
+            
+            // DesignOne dOne = dOneRepository.find
+            // orders.setDno();
+
+            model.addAttribute("orders", orders);
+            
+            return "product/order1";
+        } catch (Exception e) {
+            log.error("Exception occurred while processing order GET request", e);
+            return "redirect:/home.do";
+        }
+    }
+
     @PostMapping(value = "/order.do")
     public String orderPOST(
-            Model model,
             @ModelAttribute MemberAddress mAddress,
             @ModelAttribute Orders orders,
             @RequestParam(name="mid") String mid,
@@ -335,15 +560,19 @@ public class HomeProductController {
             @RequestParam(name = "aname") String aname,
             @RequestParam(name = "aphone") String aphone,
             @RequestParam(name = "dno") long dno,
+            @RequestParam(name = "ocondition") long ocondition,
             @RequestParam(name = "ocnt") long ocnt
     ){
         try {
-            // log.info("값오니 => {}", aname);
+            // log.info("값오니 => {}", tcolorno);
 
             // orders :  ocnt dno o
             DesignOne designOne = dOneRepository.findByDno(BigInteger.valueOf(dno));
             orders.setOcnt(BigInteger.valueOf(ocnt));
             orders.setDesignOne(designOne);
+            orders.setOcondition(BigInteger.valueOf(ocondition));
+            // orders.setTcolorno(tcolorno);
+            // orders.setTsno(tsno);
             // log.info("orders 값 => {}", orders.toString());
 
             ordersRepository.save(orders);
@@ -359,9 +588,44 @@ public class HomeProductController {
 		
             mAddressRepository.save(mAddress);
 
-            // 2023-06-07 02:03:36.681  WARN 10292 --- [nio-9090-exec-5] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 23502, SQLState: 23502
-            // 2023-06-07 02:03:36.681 ERROR 10292 --- [nio-9090-exec-5] o.h.engine.jdbc.spi.SqlExceptionHelper   : NULL not allowed for column "OCONDITION"; SQL statement:
-            // insert into orders (dno, ocnt, ocondition, oregdate, ono) values (?, ?, ?, ?, ?) [23502-214]
+            return "redirect:/member/mypage.do?menu=3";
+        } catch (Exception e) {
+            return "home";
+        }
+    }
+
+    @PostMapping(value = "/order1.do")
+    public String order1POST(
+            @ModelAttribute MemberAddress mAddress,
+            @ModelAttribute Orders orders,
+            @RequestParam(name="mid") String mid,
+            HttpServletRequest request,
+            @RequestParam(name = "aname") String aname,
+            @RequestParam(name = "aphone") String aphone,
+            @RequestParam(name = "dno") long dno,
+            @RequestParam(name = "ocondition") long ocondition,
+            @RequestParam(name = "ocnt") long ocnt
+    ){
+        try {
+            // log.info("값오니 => {}", tcolorno);
+
+            DesignOne designOne = dOneRepository.findByDno(BigInteger.valueOf(dno));
+            orders.setOcnt(BigInteger.valueOf(ocnt));
+            orders.setDesignOne(designOne);
+            orders.setOcondition(BigInteger.valueOf(ocondition));
+
+            ordersRepository.save(orders);
+
+            // memberAddress : ANO MID ANAME APHONE APOSTCODE AADDRESS
+            Member member = mRepository.findByMid(mid);
+            mAddress.setMember(member);
+            mAddress.setAname(aname);
+            mAddress.setAphone(aphone);
+            mAddress.setApostcode(request.getParameter("postcode"));
+            mAddress.setAaddress(request.getParameter("address") + request.getParameter("detailAddress")+request.getParameter("extraAddress"));
+            // log.info("mAddress 값 => {}", mAddress.toString());
+		
+            mAddressRepository.save(mAddress);
 
             return "redirect:/member/mypage.do?menu=3";
         } catch (Exception e) {

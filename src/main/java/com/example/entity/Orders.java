@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,6 +34,28 @@ public class Orders {
     @CreationTimestamp // 변경 시 날짜 정보 변경
     private	Date	oregdate	; // 자동
     private	BigInteger	ocondition	; // 자동
+
+    // 임시변수
+    @Transient
+    private String tname;
+    @Transient
+    private String tcolorname;
+    @Transient
+    private String tssize;
+    @Transient
+    private String pmethod;
+    @Transient
+    private String psidename;
+    @Transient
+    private BigInteger tprice;
+    @Transient
+    private BigInteger pprice;
+
+    @Transient
+    private BigInteger fno;
+
+    @Transient
+    private BigInteger dno;
 
     @ManyToOne
     @JoinColumn(name = "dno", referencedColumnName = "dno")

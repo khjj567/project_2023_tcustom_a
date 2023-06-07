@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <th:block th:fragment="mypage3Fragment">
+        <div class="my_title">
+            디자인목록
+        </div>
+        <a th:href="@{/product.do}"><button>옷보러가기</button></a>
+        <table >
+            <thead>
+                <th>주문번호</th>
+                <th>제품이름</th>
+                <th>색상</th>
+                <th>사이즈</th>
+                <th>수량</th>
+                <th>프린팅방법</th>
+                <th>프린팅면</th>
+                <th>주문날짜</th>
+                <th>티셔츠가격</th>
+                <th>프린팅가격</th>
+                <!-- <th>파일생성일자</th> -->
+                <th>##</th>
+            </thead>
+            <tbody>
+                <tr th:each="obj : ${obj3}">
+                    <td th:text="${obj.ono}"></td><!-- 주문번호ono -->
+                    <td th:text="${obj.tname}"></td><!-- 제품이름tshirt.tname -->
+                    <td th:text="${obj.tcolorname}"></td><!-- 색상tcolorno -->
+                    <td th:text="${obj.tssize}"></td><!-- 사이즈tsno -->
+                    <td th:text="${obj.ocnt}"></td><!-- 수량ocnt -->
+                    <td th:text="${obj.pmethod}"></td><!-- 프린팅방법 -->
+                    <td th:text="${obj.psidename}"></td><!-- 프린팅면 -->
+                    <td th:text="${obj.oregdate}"></td> <!-- 주문날짜oregdate -->
+                    <td th:text="${obj.tprice}"></td> <!-- 가격 -->
+                    <td th:text="${obj.pprice}"></td> <!-- 가격 -->
+                    <td>
+                        <a th:href="@{/product/order1.do(ono=${obj.ono})}"><button>다시주문하기</button></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </th:block>
+</html>

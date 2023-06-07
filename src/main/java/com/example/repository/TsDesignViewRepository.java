@@ -22,6 +22,6 @@ public interface TsDesignViewRepository extends JpaRepository<TsDesignView, BigI
         @Param("tsno") BigInteger tsno,
         @Param("pno") BigInteger pno,
         @Param("fno") BigInteger fno
-         );
+        );
 
 }

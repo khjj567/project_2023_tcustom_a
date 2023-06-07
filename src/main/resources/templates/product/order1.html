@@ -18,17 +18,17 @@
                     <img src="${pageContext.request.contextPath}/resources/images/images.png" id="img" style="width: 600px; height: 600px; cursor: pointer;"> 
                 </div>
                 
-                <div class="order_box" th:object="${tsdv}">
+                <div class="order_box" th:object="${orders}">
                     <div class="mid_title" style="margin-top: 15px;">
                         주문정보 확인 및 수량
                     </div>
-                    <p class="p_conts_mid">제품명: <span th:text="${tsdv.tname}"></span></p>
-                    <p class="p_conts_mid">사이즈: <span th:text="${tsdv.tssize}"></span></p>
-                    <p class="p_conts_mid">프린팅방식: <span th:text="${tsdv.pmethod}"></span></p>
-                    <p class="p_conts_mid">프린팅면: <span th:text="${tsdv.psidename}"></span></p>
-                    <p class="p_conts_mid">티셔츠색: <span th:text="${tsdv.tcolorname}"></span></p>
-                    <p class="p_conts_mid">프린팅가격: <span th:text="${tsdv.pprice}"></span></p>
-                    <p class="p_conts_last">티셔츠가격: <span th:text="${tsdv.tprice}"></span></p>
+                    <p class="p_conts_mid">제품명: <span th:text="${orders.tname}"></span></p>
+                    <p class="p_conts_mid">사이즈: <span th:text="${orders.tssize}"></span></p>
+                    <p class="p_conts_mid">프린팅방식: <span th:text="${orders.pmethod}"></span></p>
+                    <p class="p_conts_mid">프린팅면: <span th:text="${orders.psidename}"></span></p>
+                    <p class="p_conts_mid">티셔츠색: <span th:text="${orders.tcolorname}"></span></p>
+                    <p class="p_conts_mid">프린팅가격: <span th:text="${orders.pprice}"></span></p>
+                    <p class="p_conts_last">티셔츠가격: <span th:text="${orders.tprice}"></span></p>
                     
                 </div>
                 <div class="order_box">
@@ -36,8 +36,8 @@
                         수령인 정보 및 배송지 정보
                     </div>
 
-                    <form th:action="@{/product/order.do}" method="post">
-                        <input type="hidden" name="dno" th:value="${tsdv.dno}"/>
+                    <form th:action="@{/product/order1.do}" method="post">
+                        <input type="hidden" name="dno" th:value="${orders.designOne.dno}"/>
                         <input type="hidden" name="mid" th:value="${param.mid}"/>
                         <input type="hidden" name="ocondition" th:value="1"/>
 

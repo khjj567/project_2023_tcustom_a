@@ -18,9 +18,9 @@ import lombok.ToString;
 
 @Data
 @Entity
-@Table(name = "TSDESIGNVIEW")
+@Table(name = "TSORDERSDESIGNVIEW")
 @Immutable
-public class TsDesignView {
+public class TsOrdersDesignView {
 
     @Id
     @Column(name="DNO")
@@ -58,4 +58,14 @@ public class TsDesignView {
     private	BigInteger	tcolorno	;
     private	String	tcolorname	;
     
+    private	BigInteger	ono	;
+    private	BigInteger	ocnt	;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @CreationTimestamp 
+    private	Date	oregdate	;
+
+    private	BigInteger	ocondition	;
+
+    private BigInteger totalprice;
 }

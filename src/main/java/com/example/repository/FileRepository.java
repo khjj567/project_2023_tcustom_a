@@ -10,4 +10,5 @@ import com.example.entity.File;
 @Repository
 public interface FileRepository extends JpaRepository<File, BigInteger>{
     
+    File findByFno(BigInteger fno);
 }

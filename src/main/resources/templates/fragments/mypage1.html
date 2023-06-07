@@ -4,37 +4,25 @@
         <div class="my_title">
             디자인목록
         </div>
-        <a th:href="@{/product.do}"><button>디자인하러가기</button></a>
-        <table>
+        <a th:href="@{/product.do}"><button>옷보러가기</button></a>
+        <table >
+            <thead>
+                <th>#</th>
+                <th>프린팅면</th>
+                <th>제품명</th>
+                <th>프린팅방식</th>
+                <th>##</th>
+            </thead>
             <tbody>
-                <form th:action="@{/member/mypage.do(menu=1)}" method="post" id="form">
-                    <tr th:each="obj : ${list}">
-                        <td><!-- 체크박스 -->
-                            <input type="checkbox" name="chk[]" th:value="${obj.no.longValue()}"/>
-                        </td>
-                        <td><input src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." ></td>
-                        <td th:text="${obj.dno}"></td><!-- 디자인번호 -->
-                        <td th:text="${obj.tcolorname}"></td><!-- color -->
-                        <td th:text="${obj.psidename}"></td><!-- side -->
-                        <td th:text="${obj.tname}"></td><!-- 티셔츠이름 -->
-                        <td th:text="${obj.ttname}"></td><!-- 티셔츠타입이름 -->
-                        <td th:text="${obj.tssize}"></td><!-- 티셔츠사이즈 -->
-                        <td th:text="${obj.pmethod}"></td><!-- 프린팅방식 -->
-                        <td><!-- 총 가격 -->
-                            <fmt:formatNumber th:vlaue="${obj.totalprice}" pattern="#,###"></fmt:formatNumber>
-                        </td>
-                        <td><!-- 디자인 생성 날짜 -->
-                            <fmt:formatDate th:vlaue="${obj.dregdate}" pattern="yyyy-MM-dd hh:mm:ss"></fmt:formatNumber>
-                        </td>
-                        <td>
-                            <a th:href="@{/seller/productupload.do(dno=${obj.dno})}"><button>상품만들기</button></a>
-                        </td>
-                    </tr>
-                    <input type="hidden" name="btn" id="btn" />
-                    <input type="button" value="일괄삭제" onclick="deleteItemAction()"/>
-                    <input type="button" value="일괄수정" onclick="updateItemAction()"/>
-                    <input type="button" value="일괄주문" onclick="orderItemAction()"/>
-                </form>
+                <tr th:each="obj : ${obj}">
+                    <td th:text="${obj.dno}"></td><!-- 디자인번호 -->
+                    <td th:text="${obj.printingSide.psidename}"></td><!-- side -->
+                    <td th:text="${obj.tshirt.tname}"></td><!-- 티셔츠이름 -->
+                    <td th:text="${obj.printing.pmethod}"></td><!-- 프린팅방식 -->
+                    <td>
+                        <a th:href="@{/product/making1.do(dno=${obj.dno},tno=${obj.tshirt.tno},psno=${obj.printingSide.psno})}"><button>만들러가기</button></a>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </th:block>

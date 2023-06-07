@@ -12,5 +12,5 @@ import com.example.entity.TshirtDesignView;
 public interface TshirtDesignViewRepository  extends JpaRepository<TshirtDesignView, BigInteger>{
     
 
-    public List<TshirtDesignView> findByMidOrderByDregdateDesc(String mid);
+    // public List<TshirtDesignView> findByMidOrderByDnoDesc(String mid);
 }

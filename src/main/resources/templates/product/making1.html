@@ -154,26 +154,25 @@ function readURL(input) {
                 </div>
                 <!-- 좌측 프린팅사이드 이미지 -->
                 <div class="base">
-                    <form th:action="@{/product/making.do}" method="get" th:object="${tmp}">
-                        <div class="button" th:field="${psdto1.selectpside}">
+                    <form th:action="@{/product/making1.do}" method="get" th:object="${tmp}">
+                        <div class="button" th:field="${psdto2.selectpside}">
                             <th:block th:each="tmp : ${psdto2.list}" >
                                 <a id="select_btn" 
                                     th:value="${tmp.psidename}" th:text="${tmp.psidename}" 
                                     style="background: transparent; 
                                     background-color:#f2f2f2;"
-                                    th:href="@{/product/making.do(tno=${param.tno},psno=${tmp.psno})}">
+                                    th:href="@{/product/making1.do(dno=${param.dno},tno=${param.tno},psno=${tmp.psno})}">
                                 </a>
                             </th:block>
                         </div>
                     </form>
                     
                     <th:block th:each="tmp : ${psdto2.list}" >
-                        <form th:action="@{/product/making.do(tno=${param.tno},psno=${tmp.psno})}" method="get">
+                        <form th:action="@{/product/making1.do(dno=${param.dno},tno=${param.tno},psno=${tmp.psno})}" method="get">
                             <div id="image_p2" >
                                 <img class="timage" th:value="${tmp.psno}" th:src="${tmp.imageUrl}">
-                                <!-- 이미지 DRAGGABLE 테스트 -->
                                 <div id="draggable3" class="draggable ui-widget-content">
-                                    <img class="resizable" id="img_preview"  >
+                                    <img class="resizable" id="img_preview" >
                                 </div>
                             </div>
                         </form>
@@ -181,7 +180,7 @@ function readURL(input) {
                 </div>
                 <!-- 우측 선택사항 -->
                 <div id="base_right">
-                    <form  th:action="@{/product/making.do}" method="post"  enctype="multipart/form-data">
+                    <form  th:action="@{/product/making1.do}" method="post"  enctype="multipart/form-data">
                         <input type="file" name="file1" onchange="readURL(this);">
                         <input type="hidden" name="psno" th:value="${param.psno}">
                         <input type="hidden" name="tno" th:value="${param.tno}">
@@ -192,7 +191,8 @@ function readURL(input) {
                         <div class="smol_title">
                             프린팅 방식 선택
                         </div>
-                        <select th:object="${pdto}" th:field="${pdto.selectpmethod}"> 
+                        <select th:object="${pdto}" th:field="${dOne.printing.pmethod}"> 
+                            <!-- 뭘로 받아야할지 모르겠으면 page소스보기를 들어가서 name값을 뭘로 받고 있는지 확인하고 그걸 받기 -->
                             <option th:each="tmp : ${pdto.list}" th:value="${tmp.pmethod}" th:text="${tmp.pmethod}" >종류</option>
                         </select>
                         <hr/>
@@ -212,12 +212,11 @@ function readURL(input) {
                             <option th:each="tmp : ${tsdto.list}" th:value="${tmp.tssize}" th:text="${tmp.tssize}" >종류</option>
                         </select>
                         <div style="margin: 20px;">
-                            <input type="submit" class="select_btn2" value="주문하기"
-                                th:href="@{/product/order.do(tno=${param.tno},psno=${param.psno})}" >
+                            <input type="submit" class="select_btn2" value="주문하기" >
                             </input>
                         </div>
                     </form>
-                </div> 
+                </div>
                 <!-- 전체 사진 출력 -->
                 <div class = "img_list" >
                     <a th:each="tmp : ${imageList}" data-lightbox="tmp"th:href="${tmp}">
@@ -227,49 +226,51 @@ function readURL(input) {
                 </div>
                 <!-- 상품상세 -->
                 <div class="p_box" th:object="${tcvobj}">
-                <!-- tcvobj는 tno로 받아와야함 -->
-                    <div class="mid_title">
-                        상품 상세
+                    <!-- tcvobj는 tno로 받아와야함 -->
+                        <div class="mid_title">
+                            상품 상세
+                        </div>
+                        <h3 th:text="${tcvobj.tname}"></h3>
+    
+                        <p class="p_conts_one" 
+                        th:text="${tcvobj.tcinfo}" ></p>
+    
+                        <p class="p_conts_one" 
+                        th:text="${tcvobj.tcmaterial}" ></p>
+    
+                        <p class="p_conts_one" 
+                        th:text="${tcvobj.tcmanufacomp}" ></p>
+    
+                        <p class="p_conts_one" 
+                        th:text="${tcvobj.tcmanufacunt}" ></p>
+    
+                        <p class="p_conts_one" 
+                        th:text="${tcvobj.tcsize}" ></p>
+    
+                        <p class="p_conts_one" 
+                        th:text="${tcvobj.tcfit}" ></p>
+                        
+                        <p class="p_conts_one" 
+                        th:text="${tcvobj.tcflexi}" ></p>
+                        
+                        <p class="p_conts_one" 
+                        th:text="${tcvobj.tctexture}" ></p>
+                        
+                        <p class="p_conts_one" 
+                        th:text="${tcvobj.tcthick}" ></p>
+                        
+                        <p class="p_conts_one" 
+                        th:text="${tcvobj.tccaution}" ></p>
+                        
+                        <p class="p_conts_one" 
+                        th:text="${tcvobj.tcwash}" ></p>
+    
                     </div>
-                    <h3 th:text="${tcvobj.tname}"></h3>
-
-                    <p class="p_conts_one" 
-                    th:text="${tcvobj.tcinfo}" ></p>
-
-                    <p class="p_conts_one" 
-                    th:text="${tcvobj.tcmaterial}" ></p>
-
-                    <p class="p_conts_one" 
-                    th:text="${tcvobj.tcmanufacomp}" ></p>
-
-                    <p class="p_conts_one" 
-                    th:text="${tcvobj.tcmanufacunt}" ></p>
-
-                    <p class="p_conts_one" 
-                    th:text="${tcvobj.tcsize}" ></p>
-
-                    <p class="p_conts_one" 
-                    th:text="${tcvobj.tcfit}" ></p>
-                    
-                    <p class="p_conts_one" 
-                    th:text="${tcvobj.tcflexi}" ></p>
-                    
-                    <p class="p_conts_one" 
-                    th:text="${tcvobj.tctexture}" ></p>
-                    
-                    <p class="p_conts_one" 
-                    th:text="${tcvobj.tcthick}" ></p>
-                    
-                    <p class="p_conts_one" 
-                    th:text="${tcvobj.tccaution}" ></p>
-                    
-                    <p class="p_conts_one" 
-                    th:text="${tcvobj.tcwash}" ></p>
-
-                </div>
             </div>
         </div>
         <div class="clear"></div>
+        <!-- <img class="resizable" id="img_preview"  >
+        <input type="file" /> -->
         <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
     </div>
 </body>

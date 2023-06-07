@@ -1,15 +1,21 @@
 package com.example.entity;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -36,7 +42,14 @@ public class File {
 
     private	String	ftype	; // 파일타입
 
+    @Transient
+    private String imageUrl;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @CreationTimestamp 
     private Date fregdate	; // 파일등록일
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "file", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    private List<DesignOne> list4 = new ArrayList<>();
 }

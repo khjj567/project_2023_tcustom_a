@@ -34,5 +34,9 @@ public class PrintingSide {
     @ToString.Exclude
     @OneToMany(mappedBy = "printingSide", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     private List<PsidePic> list = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "printingSide", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    private List<DesignOne> list4 = new ArrayList<>();
 }   
 

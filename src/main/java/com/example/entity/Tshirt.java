@@ -51,6 +51,10 @@ public class Tshirt {
     @OneToMany(mappedBy = "tshirt", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
     private List<PsidePic> list3 = new ArrayList<>();
 
+    @ToString.Exclude
+    @OneToMany(mappedBy = "tshirt", cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+    private List<DesignOne> list4 = new ArrayList<>();
+
     @Transient //임시변수 :컬럼이 생성되지 않는다. mybatis의 dto개념 // javax 추가함
     private String imageUrl;
 }
