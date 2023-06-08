@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
+
+<body>
+    <div id="all">
+        <div class="all_center">
+            <th:block th:replace="~{/fragments/hometitlenav :: navFragment}"></th:block>
+            <div class="clear"></div>
+            <div class="bar"></div>
+            <div class="body">
+                <div class="mid_title">
+                    질문등록
+                </div>
+                <a th:href="@{/fqa.do?menu=3}"><button>FQA</button></a>
+                <form th:action="@{/fqa/fqaone.do}" method="post">
+					제목: <input type="text" name="hquestion" value="t"/><br/>
+					내용: <textarea type="text" name="hanswer" value="c"></textarea><br/>
+					<input type="hidden" name="mid" th:value="${user.username}" />
+					<input type="submit" value="등록"/>
+				</form>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
+    </div>
+
+</body>
+</html>

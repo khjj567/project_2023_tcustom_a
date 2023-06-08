@@ -48,7 +48,7 @@
             공지사항
         </div>
         <div>                   
-            <a th:href="@{fqa/insertannounce.do}"><button>공지등록</button></a>
+            <a th:href="@{/fqa/announce.do}"><button>공지등록</button></a>
             <table >
                 <thead>
                     <th>#</th>
@@ -59,14 +59,12 @@
                     <!-- <th>버튼</th> -->
                 </thead>
                 <tbody>
-                    <tr th:each="obj : ${obj}">
-                        <!-- <td th:text="${obj.dno}"></td>
-                        <td th:text="${obj.printingSide.psidename}"></td>
-                        <td th:text="${obj.tshirt.tname}"></td>
-                        <td th:text="${obj.printing.pmethod}"></td>
-                        <td>
-                            <a th:href="@{/product/making1.do(dno=${obj.dno},tno=${obj.tshirt.tno},psno=${obj.printingSide.psno})}"><button>만들러가기</button></a>
-                        </td> -->
+                    <tr th:each="obj : ${hAnlist}">
+                        <td th:text="${obj.hanno}"></td>
+                        <td th:text="관리자"></td>
+                        <td th:text="${obj.hantitle}"></td>
+                        <td th:text="${obj.hanregdate}"></td>
+                        <td th:text="${obj.hanhit}"></td>
                     </tr>
                 </tbody>
             </table>                   

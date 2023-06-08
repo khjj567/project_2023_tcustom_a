@@ -52,6 +52,12 @@
 				<div class="clear"></div>
 				<!-- <div class="body"> -->
 					
+                    <div th:if="${#strings.equals(param.menu, null)}">
+                    <!-- menu가 지정되지 않았을때 : null 
+                        => 컨트롤러에서: if(menu ==1 || menu == 0) why? menu를 int로 받았다 -->
+                        <th:block th:replace="~{/fqa/announcelist :: fqa1Fragment}"></th:block>
+                    </div>
+                    
 					<div th:if="${#strings.equals(param.menu, '1')}">
 						<th:block th:replace="~{/fqa/announcelist :: fqa1Fragment}"></th:block>
 					</div>
@@ -61,7 +67,7 @@
 					</div>
 
 					<div th:if="${#strings.equals(param.menu, '3')}">
-						<th:block th:replace="~{/fqa/fqa3 :: fqa3Fragment}"></th:block>
+						<th:block th:replace="~{/fqa/fqalist :: fqa3Fragment}"></th:block>
 					</div>
 
 				<!-- </div> -->

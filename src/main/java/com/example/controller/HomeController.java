@@ -24,16 +24,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.MemberUser;
 import com.example.dto.TshirtProductSorting;
+import com.example.entity.HomeAnnounce;
+import com.example.entity.HomeAsk;
+import com.example.entity.HomeFqa;
 import com.example.entity.Member;
 import com.example.entity.TshirtImage;
 import com.example.entity.TshirtView4;
+import com.example.repository.HomeAnnounceRepository;
+import com.example.repository.HomeAskRepository;
+import com.example.repository.HomeFqaRepository;
 import com.example.repository.MemberRepository;
 import com.example.repository.TshirtImageRepository;
 import com.example.repository.TshirtRepository;
 import com.example.repository.TshirtView1Repository;
 import com.example.repository.TshirtView2Repository;
 import com.example.repository.TshirtView4Repository;
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +58,11 @@ public class HomeController {
     final TshirtRepository tRepository;
     final ResourceLoader resourceLoader; 
     final HttpSession httpSession;   
+    final HomeAskRepository hAskRepository;
+    final HomeAnnounceRepository hAnRepository;
+    final HomeFqaRepository hFqaRepository;
+
+
 
     //127.0.0.1:9090/CUSTOM/home.do
     @GetMapping(value = "/home.do")  
@@ -76,7 +86,6 @@ public class HomeController {
         // 이전 페이지 정보가 없으면 기본 홈 페이지로 리디렉션
         return "home";
     } // OK : 05/17
-
     
     // 127.0.0.1:9090/CUSTOM/join.do
     @GetMapping(value = "/join.do")
@@ -123,21 +132,6 @@ public class HomeController {
     // SecurityConfig에 비밀번호 인코딩 설정 안해놔서 오류
     // html에서는 post로 보내고, controller에서는 get만 쓴다. 로그인 하는 post는 SecurityConfig에서 처리한다.
 
-    // @PostMapping(value = "/login.do")
-    // public String loginPOST(
-    //     HttpServletRequest request, HttpSession session
-    // ){
-    //     try {
-    //         // 세션에 이전 페이지 정보 저장
-    //         String referer = request.getHeader("Referer");
-    //         session.setAttribute("prevPage", referer);
-    //         return "redirect:/home.do";
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return "redirect:/home.do";
-    //     }
-    // }
-
     // 127.0.0.1:9090/CUSTOM/logout.do
     @GetMapping(value = "/logout.do")
     public String logoutGET(){
@@ -170,6 +164,51 @@ public class HomeController {
         return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/fqa.do")
+    public String fqapageGET(
+        Model model, 
+        @AuthenticationPrincipal MemberUser user,
+        @RequestParam(name="menu", required = false, defaultValue = "0") int menu
+    ){
+        try {
+            if(user != null){ // 로그인 되었음
+                    log.info("로그인user => {}", user); 
+                    //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
+                    }
+                model.addAttribute("user", user);
+
+            // menu가 없거나 1일때
+            if(menu ==1 || menu == 0){
+                // 공지사항 목록
+                // 표 디자인주기
+                List<HomeAnnounce> hAnlist = hAnRepository.findAll();
+                log.info("리스트 => {}", hAnlist);
+                model.addAttribute("hAnlist", hAnlist);
+            }
+
+            if(menu == 2){
+                // 고객게시글 목록
+                // 표 디자인주기
+                List<HomeAsk> hAsklist = hAskRepository.findAll();
+                log.info("리스트 => {}", hAsklist);
+                model.addAttribute("hAsklist", hAsklist);
+
+            }
+
+            if(menu == 3){
+                // FQA 목록
+                // 아코디언으로 만들고 싶은데
+                List<HomeFqa> hFqalist = hFqaRepository.findAll();
+                log.info("리스트 => {}", hFqalist);
+                model.addAttribute("hFqalist", hFqalist);
+            }
+            return "fqa";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "home";
+        }
+    }
 
     // 127.0.0.1:9090/CUSTOM/product.do
     @GetMapping(value = "/product.do")

@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import java.math.BigInteger;
-import java.util.List;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -12,63 +11,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.MemberUser;
+import com.example.entity.HomeAnnounce;
 import com.example.entity.HomeAsk;
+import com.example.entity.HomeFqa;
+import com.example.repository.HomeAnnounceRepository;
 import com.example.repository.HomeAskRepository;
+import com.example.repository.HomeFqaRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-
-    // HomeAnnounce 
-    // homeFQA
-
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-// @RequestMapping
+@RequestMapping(value = "/fqa")
 public class HomeFqaController {
     
+    final HomeAskRepository hAskRepository;
+    final HomeAnnounceRepository hAnRepository;
+    final HomeFqaRepository hFqaRepository;
+
     // homeAsk (게시판고객질문등록 게시판고객질문 마이페이지고객질문목록)
     // homeAskAnswer (게시판에 답변하기 : 관리자권한)
     
-    final HomeAskRepository hAskRepository;
-    @GetMapping(value = "/fqa.do")
-    public String fqapageGET(
-        Model model, 
-        @AuthenticationPrincipal MemberUser user,
-        @RequestParam(name="menu", required = false, defaultValue = "0") int menu
-    ){
-        try {
-            if(user != null){ // 로그인 되었음
-                    log.info("로그인user => {}", user); 
-                    //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
-                    }
-                model.addAttribute("user", user);
-
-                log.info("고객 =>{}", user);
-            if(menu ==1){
-                
-            }
-
-            if(menu == 2){
-                // 고객게시글 목록
-                List<HomeAsk> hAsklist = hAskRepository.findAll();
-                log.info("리스트 => {}", hAsklist);
-                model.addAttribute("hAsklist", hAsklist);
-
-            }
-
-            if(menu == 3){
-                
-            }
-            return "fqa";
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "home";
-        }
-    }
-
     @GetMapping(value = "/ask.do")
     public String askGET(
         Model model, 
@@ -94,8 +59,7 @@ public class HomeFqaController {
         @AuthenticationPrincipal MemberUser user,
         @RequestParam(name="hasktitle") String hasktitle,
         @RequestParam(name="content") String haskcontent,
-        @RequestParam(name="mid") String mid,
-        @RequestParam(name="menu", required = false, defaultValue = "0") int menu
+        @RequestParam(name="mid") String mid
     ){
         try {
             if(user != null){ // 로그인 되었음
@@ -121,4 +85,104 @@ public class HomeFqaController {
             return "home";
         }
     }
+
+    @GetMapping(value="/announce.do")
+    public String announceGET(Model model, 
+    @AuthenticationPrincipal MemberUser user) {
+        try {
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
+                }
+            model.addAttribute("user", user);
+
+            return "/fqa/announce";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "home";
+        }
+    }
+    
+    @PostMapping(value="/announceone.do")
+    public String announceonePOST(
+        Model model, 
+        @AuthenticationPrincipal MemberUser user,
+        @RequestParam(name="hantitle") String hantitle,
+        @RequestParam(name="hancontent") String hancontent,
+        @RequestParam(name="mid") String mid
+    ) {
+        try {
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
+            }
+            model.addAttribute("user", user);
+            
+            log.info("hancontent => {}", hancontent);
+            log.info("hantitle => {}", hantitle);
+
+            HomeAnnounce hAnnounce = new HomeAnnounce();
+            hAnnounce.setHantitle(hantitle);
+            hAnnounce.setHancontent(hancontent);
+            hAnnounce.setHanhit(BigInteger.valueOf(1));
+            hAnRepository.save(hAnnounce);
+
+            return "redirect:/fqa.do?menu=1";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+
+    @GetMapping(value="/fqaup.do")
+    public String fqaupGET(
+        Model model, 
+        @AuthenticationPrincipal MemberUser user
+    ) {
+        try {
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
+            }
+            model.addAttribute("user", user);
+
+            return "/fqa/fqaup";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "home";
+        }
+    }
+
+    @PostMapping(value = "/fqaone.do")
+    public String fqaonePOST(
+        Model model, 
+        @AuthenticationPrincipal MemberUser user,
+        @RequestParam(name="hquestion") String hquestion,
+        @RequestParam(name="hanswer") String hanswer,
+        @RequestParam(name="mid") String mid
+    ){
+        try {
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
+            }
+            model.addAttribute("user", user);
+            
+            log.info("hquestion => {}", hquestion);
+            log.info("hanswer => {}", hanswer);
+
+            HomeFqa hFqa = new HomeFqa();
+            hFqa.setHquestion(hquestion);
+            hFqa.setHanswer(hanswer);
+            
+            hFqaRepository.save(hFqa);
+
+            return "redirect:/fqa.do?menu=3";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+    
 }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <th:block th:fragment="fqa3Fragment">
+    <style>
+        .accordion-btn {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+        }
+
+        .accordion-active, .accordion-btn:hover {
+            background-color: #ccc;
+        }
+
+        .panel-content {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+    </style>
+    <body>
+        <div class="mid_title">
+            FQA
+        </div>
+        <div>                   
+            <a th:href="@{/fqa/fqaup.do}"><button>FQA등록</button></a>
+            <form th:action="@{/fqa.do?menu=3}" method="get" id="form" >
+                <th:block th:each="tmp : ${hFqalist}">
+                    <button class="accordion-btn">
+                        <p class="p_conts_one"><span th:text="${tmp.hquestion}"></span></p>
+                    </button>
+                    <div class="panel-content">
+                        <p class="p_conts_one"><span th:text="${tmp.hanswer}"></span></p>
+                    </div>
+                </th:block>
+            </form>
+        </div> 
+
+        <script>
+            var acc = document.getElementsByClassName("accordion-btn");
+            var i;
+    
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function(event) {
+                    event.preventDefault(); // 기본 동작 취소
+                    this.classList.toggle("accordion-active");
+                    var panel = this.nextElementSibling;
+                    if (panel.style.maxHeight) {
+                        panel.style.maxHeight = null;
+                    } else {
+                        panel.style.maxHeight = panel.scrollHeight + "px";
+                    }
+                });
+            }
+        </script>
+    </body>
+</th:block>
+</html>
