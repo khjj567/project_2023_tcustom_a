@@ -63,7 +63,17 @@ public class HomeController {
         }
         
         model.addAttribute("user", user);
+        // user에서 값을 꺼낼때는 MemberUser에서 임의로 지정한 값을 사용하여야 한다.
+        // user.mid (x)  ->  user.id
+        // user.mname (x)  ->  user.name
 
+        // String prevPage = (String) session.getAttribute("prevPage");
+        // if (prevPage != null && !prevPage.isEmpty()) {
+        //     session.removeAttribute("prevPage"); // 이전 페이지 정보 삭제
+        //     log.info("직페 => {}", prevPage);
+        //     // return "redirect:" + prevPage;
+        // }
+        // 이전 페이지 정보가 없으면 기본 홈 페이지로 리디렉션
         return "home";
     } // OK : 05/17
 
@@ -160,25 +170,6 @@ public class HomeController {
         return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
     }
 
-    @GetMapping(value="/fqa.do")
-    public String fqaGET(
-        @AuthenticationPrincipal MemberUser user,
-        Model model
-
-    ) {
-        try {
-            if(user != null){ // 로그인 되었음
-                log.info("로그인user => {}", user); 
-                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
-                }
-            model.addAttribute("user", user);
-
-            return "fqa";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "home";
-        }
-    }
 
     // 127.0.0.1:9090/CUSTOM/product.do
     @GetMapping(value = "/product.do")

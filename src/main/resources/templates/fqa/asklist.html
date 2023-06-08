@@ -55,19 +55,20 @@
                     <th>아이디</th>
                     <th>제목</th>
                     <th>문의일자</th>
-                    <th>답변상황</th> <!-- 답변상황 컬럼? -->
+                    <!-- <th>답변상황</th> 답변상황 컬럼? -->
                     <th>조회수</th>
                     <th>버튼</th>
                 </thead>
                 <tbody>
-                    <tr th:each="obj : ${obj}">
-                        <!-- <td th:text="${obj.dno}"></td>
-                        <td th:text="${obj.printingSide.psidename}"></td>
-                        <td th:text="${obj.tshirt.tname}"></td>
-                        <td th:text="${obj.printing.pmethod}"></td>
+                    <tr th:each="obj : ${hAsklist}">
+                        <td th:text="${obj.haskno}"></td>
+                        <td th:text="${obj.mid}"></td>
+                        <td th:text="${obj.hasktitle}"></td>
+                        <td th:text="${obj.haskregdate}"></td>
+                        <td th:text="${obj.haskhit}"></td>
                         <td>
-                            <a th:href="@{/product/making1.do(dno=${obj.dno},tno=${obj.tshirt.tno},psno=${obj.printingSide.psno})}"><button>만들러가기</button></a>
-                        </td> -->
+                            <a th:href="@{/fqa/ask1.do(haskno=${obj.haskno})}"><button>보기</button></a>
+                        </td>
                     </tr>
                 </tbody>
             </table>                   
