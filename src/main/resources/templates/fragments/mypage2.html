@@ -2,7 +2,7 @@
 <html>
     <th:block th:fragment="mypage2Fragment">
         <div class="my_title">
-            디자인목록
+            파일목록
         </div>
         <a th:href="@{/product.do}"><button>옷보러가기</button></a>
         <table >
@@ -11,17 +11,15 @@
                 <th>미리보기</th>
                 <th>파일명</th>
                 <th>파일생성일자</th>
-                <th>##</th>
             </thead>
             <tbody>
                 <tr th:each="obj : ${obj2}">
                     <td th:text="${obj.fno}"></td><!-- 파일번호 -->
                     <td th:text="${obj.fno}"></td><!-- 미리보기 이미지 -->
-                    <td th:text="${obj.fname}"></td><!-- 파일명 -->
-                    <td th:text="${obj.fregdate}"></td><!-- 파일생성일자 -->
                     <td>
-                        <a th:href="@{/member/image.do(fno=${obj.fno})}"><button>파일상세정보</button></a>
+                        <a th:href="@{/member/image.do(fno=${obj.fno})}" th:text="${obj.fname}"><button></button></a>
                     </td>
+                    <td th:text="${#dates.format(obj.fregdate, 'yyyy/MM/dd')}"></td><!-- 파일생성날짜 -->
                 </tr>
             </tbody>
         </table>

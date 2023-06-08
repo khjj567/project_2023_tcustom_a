@@ -63,7 +63,7 @@
                         <td th:text="${obj.hanno}"></td>
                         <td th:text="관리자"></td>
                         <td th:text="${obj.hantitle}"></td>
-                        <td th:text="${obj.hanregdate}"></td>
+                        <td th:text="${#dates.format(obj.hanregdate, 'yyyy/MM/dd')}"></td><!-- 파일생성날짜 -->
                         <td th:text="${obj.hanhit}"></td>
                     </tr>
                 </tbody>

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.dto.MemberUser;
 import com.example.entity.DesignOne;
 import com.example.entity.File;
+import com.example.entity.HomeAsk;
 import com.example.entity.MemberFileView;
 import com.example.entity.Orders;
 import com.example.entity.Printing;
@@ -32,6 +33,7 @@ import com.example.entity.TshirtColor;
 import com.example.entity.TshirtSize;
 import com.example.repository.DesignOneRepository;
 import com.example.repository.FileRepository;
+import com.example.repository.HomeAskRepository;
 import com.example.repository.MemberFileViewRepository;
 import com.example.repository.MemberRepository;
 import com.example.repository.OrdersRepository;
@@ -71,6 +73,8 @@ public class MemberController {
 
     final ResourceLoader resourceLoader;
 
+    final HomeAskRepository hAskRepository;
+
 
     @GetMapping(value = "/mypage.do")
     public String mypageGET(
@@ -85,7 +89,7 @@ public class MemberController {
                     }
                 model.addAttribute("user", user);
 
-            if(menu ==1){
+            if(menu ==1 || menu == 0){
                 // log.info(format, user.getUsername());
                 // 세션에서 아이디정보 꺼내서 mapper에 조회
                 List<DesignOne> obj = dOneRepository.findByMember_MidOrderByDnoDesc(user.getUsername());
@@ -126,6 +130,13 @@ public class MemberController {
                 log.info("주문목록 => {}", obj3);
                 
                 model.addAttribute("obj3", obj3);
+            }
+
+            // 문의내역확인
+            if(menu == 4){
+                List<HomeAsk> hAsks = hAskRepository.findByMid(user.getUsername());
+                log.info("문의목록 => {}", hAsks);
+                model.addAttribute("hAsks", hAsks);
             }
             return "/member/mypage";
         } catch (Exception e) {

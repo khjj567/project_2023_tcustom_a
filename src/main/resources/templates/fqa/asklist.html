@@ -57,17 +57,19 @@
                     <th>문의일자</th>
                     <!-- <th>답변상황</th> 답변상황 컬럼? -->
                     <th>조회수</th>
-                    <th>버튼</th>
+                    <th>수정하기</th>
                 </thead>
                 <tbody>
                     <tr th:each="obj : ${hAsklist}">
                         <td th:text="${obj.haskno}"></td>
                         <td th:text="${obj.mid}"></td>
-                        <td th:text="${obj.hasktitle}"></td>
-                        <td th:text="${obj.haskregdate}"></td>
+                        <td>
+                            <a th:href="@{/fqa/ask1.do(haskno=${obj.haskno})}" th:text="${obj.hasktitle}"></a>
+                        </td><!-- 문의글제목 -->
+                        <td th:text="${#dates.format(obj.haskregdate, 'yyyy/MM/dd')}"></td><!-- 문의날짜 -->
                         <td th:text="${obj.haskhit}"></td>
                         <td>
-                            <a th:href="@{/fqa/ask1.do(haskno=${obj.haskno})}"><button>보기</button></a>
+                            <a th:href="@{/fqa/ask1update.do(haskno=${obj.haskno})}" ><button>수정하기</button></a>
                         </td>
                     </tr>
                 </tbody>

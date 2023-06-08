@@ -145,7 +145,6 @@ public class HomeController {
     } // OK : 5/17
     // 이것도 역시 html에서는 post로 보내고, controller에서는 get만 쓴다.
 
-
     // 127.0.0.1:9090/CUSTOM/home/image?ino=1
     @GetMapping(value = "/image")
     public ResponseEntity<byte[]> image(@RequestParam(name = "ino", defaultValue = "0") BigInteger ino) throws IOException{

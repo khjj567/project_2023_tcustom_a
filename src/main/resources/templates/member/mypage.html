@@ -45,7 +45,6 @@
                 </div >
 				<!-- style="background: transparent; background-color:rgba(242, 242, 242, 1);"  -->
 				<div class="mypage_button" >
-					<a id="mypage_btn" th:href="@{/home.do}">홈으로</a>
 					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=1)}" >디자인목록</a>
 					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=2)}" >파일목록</a>
 					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=3)}" >주문내역</a>
@@ -56,6 +55,10 @@
 				<div class="clear"></div>
 				<!-- <div class="body"> -->
 					
+					<div th:if="${#strings.equals(param.menu, null)}">
+						<th:block th:replace="~{/fragments/mypage1 :: mypage1Fragment}"></th:block>
+					</div>
+
 					<div th:if="${#strings.equals(param.menu, '1')}">
 						<th:block th:replace="~{/fragments/mypage1 :: mypage1Fragment}"></th:block>
 					</div>
