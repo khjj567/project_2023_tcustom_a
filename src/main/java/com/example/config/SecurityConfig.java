@@ -38,7 +38,7 @@ public class SecurityConfig {
             // .antMatchers("/").permitAll()
             
             // .antMatchers("/seller", "/seller/*").hasAuthority("ROLE_SELLER")
-            .antMatchers("/member","/member/*").hasAuthority("ROLE_MEMBER") // 주소가 9090/ROOT/admin ~~ 모든 것
+            .antMatchers("/member","/member/*","/product/design.do").hasAuthority("ROLE_MEMBER") // 주소가 9090/ROOT/admin ~~ 모든 것
             // .antMatchers("/","/home/*").hasAnyAuthority("ROLE_NO")
             .anyRequest().permitAll(); // 풀어놔서 로그인은 들어갈 수 있음 // 지정해주지 않아도 되는건가요?
             
@@ -56,7 +56,7 @@ public class SecurityConfig {
             .usernameParameter("mid") // id의 name값은 뭐야? 
             .passwordParameter("mpw") // password의 name값은 뭐야? 
             .successHandler(new MemberLoginSuccessHandler()) // 특정 타입만 들어갈 수 있음 : AuthenticationSuccessHandler
-            .defaultSuccessUrl("/home.do") // 로그인 성공시 이동할 페이지
+            // .defaultSuccessUrl("/home.do") // 로그인 성공시 이동할 페이지
             .permitAll();
 
             // 로그아웃 처리(GET안됨 POST로 처리)

@@ -43,7 +43,7 @@ public class File {
     private	String	ftype	; // 파일타입
 
     @Transient
-    private String imageUrl;
+    private String imageUrl1;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @CreationTimestamp 

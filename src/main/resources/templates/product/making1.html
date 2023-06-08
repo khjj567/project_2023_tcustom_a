@@ -154,7 +154,7 @@ function readURL(input) {
                 </div>
                 <!-- 좌측 프린팅사이드 이미지 -->
                 <div class="base">
-                    <form th:action="@{/product/making1.do}" method="get" th:object="${tmp}">
+                    <form th:action="@{/product/design1.do}" method="get" th:object="${tmp}">
                         <div class="button" th:field="${psdto2.selectpside}">
                             <th:block th:each="tmp : ${psdto2.list}" >
                                 <a id="select_btn" 

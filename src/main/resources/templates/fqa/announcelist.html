@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <th:block th:fragment="fqa1Fragment">
+    <style>
+        /* image_p : id일때만 draggable 돼 */
+    #image_p2{
+        float: left;
+        width: 100%;
+        height: auto;
+        background-color: rgba(217, 217, 217, 1);
+        
+    }
+    /* draggable */
+    .draggable { 
+        width: auto; 
+        height: auto; 
+        float: left; 
+    }
+    .timage{
+        float: left;
+        width: 100%;
+        height: auto;
+        margin: auto 0px; 
+        position: relative;
+        object-fit: contain;
+        /* background-color: rgba(217, 217, 217, 1); */
+    }
+    .resizable {
+        width: auto;
+        height: auto;
+        /* border-radius: 0.75rem;
+        padding: 20px;
+        margin: 1rem; */
+        background-color: #29e;
+        color: white;
+        font-size: 20px;
+        font-family: sans-serif;
+        overflow: hidden;
+
+        touch-action: none;
+
+        /* This makes things *much* easier */
+        box-sizing: border-box;
+    }
+    </style>
+    <body>
+        <div class="mid_title">
+            공지사항
+        </div>
+        <div>                   
+            <a th:href="@{fqa/insertannounce.do}"><button>공지등록</button></a>
+            <table >
+                <thead>
+                    <th>#</th>
+                    <th>작성자</th>
+                    <th>제목</th>
+                    <th>일자</th>
+                    <th>조회수</th>
+                    <!-- <th>버튼</th> -->
+                </thead>
+                <tbody>
+                    <tr th:each="obj : ${obj}">
+                        <!-- <td th:text="${obj.dno}"></td>
+                        <td th:text="${obj.printingSide.psidename}"></td>
+                        <td th:text="${obj.tshirt.tname}"></td>
+                        <td th:text="${obj.printing.pmethod}"></td>
+                        <td>
+                            <a th:href="@{/product/making1.do(dno=${obj.dno},tno=${obj.tshirt.tno},psno=${obj.printingSide.psno})}"><button>만들러가기</button></a>
+                        </td> -->
+                    </tr>
+                </tbody>
+            </table>                   
+        </div> 
+    </body>
+</th:block>
+</html>

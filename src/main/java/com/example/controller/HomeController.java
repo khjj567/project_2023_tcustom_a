@@ -33,6 +33,7 @@ import com.example.repository.TshirtRepository;
 import com.example.repository.TshirtView1Repository;
 import com.example.repository.TshirtView2Repository;
 import com.example.repository.TshirtView4Repository;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,15 +56,14 @@ public class HomeController {
 
     //127.0.0.1:9090/CUSTOM/home.do
     @GetMapping(value = "/home.do")  
-    public String homeGET(Model model, @AuthenticationPrincipal MemberUser user){
+    public String homeGET(Model model, @AuthenticationPrincipal MemberUser user, HttpSession session){
         if(user != null){ // 로그인 되었음
         log.info("로그인user => {}", user); 
         //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
         }
+        
         model.addAttribute("user", user);
-        // user에서 값을 꺼낼때는 MemberUser에서 임의로 지정한 값을 사용하여야 한다.
-        // user.mid (x)  ->  user.id
-        // user.mname (x)  ->  user.name
+
         return "home";
     } // OK : 05/17
 
@@ -99,32 +99,47 @@ public class HomeController {
         } //OK : 05/17
     }
 
-        // 127.0.0.1:9090/CUSTOM/login.do
-        @GetMapping(value = "/login.do")
-        public String loginGET(){
-            try{
-                return "login";
-            }
-            catch(Exception e){
-                e.printStackTrace();
-                return "redirect:/home.do";
-            }
-        } // OK : 5/17
-        // SecurityConfig에 비밀번호 인코딩 설정 안해놔서 오류
-        // html에서는 post로 보내고, controller에서는 get만 쓴다. 로그인 하는 post는 SecurityConfig에서 처리한다.
+    // 127.0.0.1:9090/CUSTOM/login.do
+    @GetMapping(value = "/login.do")
+    public String loginGET(){
+        try{
+            return "login";
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    } // OK : 5/17
+    // SecurityConfig에 비밀번호 인코딩 설정 안해놔서 오류
+    // html에서는 post로 보내고, controller에서는 get만 쓴다. 로그인 하는 post는 SecurityConfig에서 처리한다.
 
-        // 127.0.0.1:9090/CUSTOM/logout.do
-        @GetMapping(value = "/logout.do")
-        public String logoutGET(){
-            try{
-                return "home";
-            }
-            catch(Exception e){
-                e.printStackTrace();
-                return "redirect:/home.do";
-            }
-        } // OK : 5/17
-        // 이것도 역시 html에서는 post로 보내고, controller에서는 get만 쓴다.
+    // @PostMapping(value = "/login.do")
+    // public String loginPOST(
+    //     HttpServletRequest request, HttpSession session
+    // ){
+    //     try {
+    //         // 세션에 이전 페이지 정보 저장
+    //         String referer = request.getHeader("Referer");
+    //         session.setAttribute("prevPage", referer);
+    //         return "redirect:/home.do";
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return "redirect:/home.do";
+    //     }
+    // }
+
+    // 127.0.0.1:9090/CUSTOM/logout.do
+    @GetMapping(value = "/logout.do")
+    public String logoutGET(){
+        try{
+            return "home";
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    } // OK : 5/17
+    // 이것도 역시 html에서는 post로 보내고, controller에서는 get만 쓴다.
 
 
     // 127.0.0.1:9090/CUSTOM/home/image?ino=1
@@ -145,75 +160,95 @@ public class HomeController {
         return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
     }
 
-        // 127.0.0.1:9090/CUSTOM/product.do
-        @GetMapping(value = "/product.do")
-        public String  productGET(Model model, 
-                @ModelAttribute TshirtProductSorting obj, 
-                @RequestParam(name="typeCode", defaultValue = "0") int typeCode,
-                HttpServletRequest request,
-                @AuthenticationPrincipal MemberUser user
-                ){
-            try{
-                // 로그인
-                if(user != null){ 
-                    log.info("로그인user => {}", user); 
-                    }
-                model.addAttribute("user", user);
+    @GetMapping(value="/fqa.do")
+    public String fqaGET(
+        @AuthenticationPrincipal MemberUser user,
+        Model model
 
-                // 1. 전부 호출
-                List<TshirtView4> list2 = tv4Repository.findAll();
-                
-                // 2. 타입코드에 따라 구분 
-                if(typeCode > 0){ 
-                    list2 = tv4Repository.findByTtnoOrderByTnoDesc(BigInteger.valueOf(typeCode)); // 티셔츠뷰 중 일부를 호출
-                }   
-
-                // 3. 티셔츠 이미지 호출
-                if( list2 != null ){ 
-                    for(TshirtView4 tmp : list2){
-                        tmp.setImageUrl(request.getContextPath() + "/image?ino=" + tmp.getIno());
-                    }
-                    log.info("리스트 => {}", list2.toString());
+    ) {
+        try {
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
                 }
+            model.addAttribute("user", user);
 
-                // 4. 값 보냄
-                model.addAttribute("search", obj);
-                model.addAttribute("list", list2);
-
-                return "product";
-            }
-            catch(Exception e){
-                e.printStackTrace();
-                return "redirect:/home.do";
-            }
+            return "fqa";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "home";
         }
+    }
 
-        // 127.0.0.1:9090/CUSTOM/product.do
-        @PostMapping(value = "/product.do")
-        public String productPOST(){
-            try {
+    // 127.0.0.1:9090/CUSTOM/product.do
+    @GetMapping(value = "/product.do")
+    public String  productGET(Model model, 
+            @ModelAttribute TshirtProductSorting obj, 
+            @RequestParam(name="typeCode", defaultValue = "0") int typeCode,
+            HttpServletRequest request,
+            @AuthenticationPrincipal MemberUser user
+            ){
+        try{
+            // 로그인
+            if(user != null){ 
+                log.info("로그인user => {}", user); 
+                }
+            model.addAttribute("user", user);
 
-                return "redirect:/product.do";
-            } catch (Exception e) {
-                e.printStackTrace();
+            // 1. 전부 호출
+            List<TshirtView4> list2 = tv4Repository.findAll();
+            
+            // 2. 타입코드에 따라 구분 
+            if(typeCode > 0){ 
+                list2 = tv4Repository.findByTtnoOrderByTnoDesc(BigInteger.valueOf(typeCode)); // 티셔츠뷰 중 일부를 호출
+            }   
+
+            // 3. 티셔츠 이미지 호출
+            if( list2 != null ){ 
+                for(TshirtView4 tmp : list2){
+                    tmp.setImageUrl(request.getContextPath() + "/image?ino=" + tmp.getIno());
+                }
+                log.info("리스트 => {}", list2.toString());
             }
+
+            // 4. 값 보냄
+            model.addAttribute("search", obj);
+            model.addAttribute("list", list2);
+
+            return "product";
+        }
+        catch(Exception e){
+            e.printStackTrace();
             return "redirect:/home.do";
         }
+    }
 
-        @GetMapping(value = "/printing.do")
-        public String printingGET(Model model, @AuthenticationPrincipal MemberUser user){
-            try {
-                if(user != null){ // 로그인 되었음
-                    log.info("로그인user => {}", user); 
-                    //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
-                    }
-                    model.addAttribute("user", user);
-                return "printing";
-            } catch (Exception e) {
-                e.printStackTrace();
-                return "redirect:/home.do";
-            }
+    // 127.0.0.1:9090/CUSTOM/product.do
+    @PostMapping(value = "/product.do")
+    public String productPOST(){
+        try {
+
+            return "redirect:/product.do";
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return "redirect:/home.do";
+    }
+
+    @GetMapping(value = "/printing.do")
+    public String printingGET(Model model, @AuthenticationPrincipal MemberUser user){
+        try {
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
+                }
+                model.addAttribute("user", user);
+            return "printing";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
 
     @GetMapping(value = "/403page.do")
     public String page3GET(){

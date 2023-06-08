@@ -181,11 +181,11 @@ function readURL(input) {
                 </div>
                 <!-- 우측 선택사항 -->
                 <div id="base_right">
-                    <form  th:action="@{/product/making.do}" method="post"  enctype="multipart/form-data">
+                    <form  th:action="@{/product/design.do}" method="post"  enctype="multipart/form-data">
                         <input type="file" name="file1" onchange="readURL(this);">
                         <input type="hidden" name="psno" th:value="${param.psno}">
                         <input type="hidden" name="tno" th:value="${param.tno}">
-                        <input type="hidden" name="mid" th:value="${user.username}">
+                        <!-- <input type="hidden" name="mid" th:value="${user.username}"> -->
                         
                         <br/>
                         <!-- 프린팅방식 @@-->
@@ -212,8 +212,7 @@ function readURL(input) {
                             <option th:each="tmp : ${tsdto.list}" th:value="${tmp.tssize}" th:text="${tmp.tssize}" >종류</option>
                         </select>
                         <div style="margin: 20px;">
-                            <input type="submit" class="select_btn2" value="주문하기"
-                                th:href="@{/product/order.do(tno=${param.tno},psno=${param.psno})}" >
+                            <input type="submit" class="select_btn2" value="주문하기" >
                             </input>
                         </div>
                     </form>

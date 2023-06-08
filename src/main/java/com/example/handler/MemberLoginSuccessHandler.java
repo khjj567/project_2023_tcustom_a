@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.example.filter.UrlFilter;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,16 +27,19 @@ public class MemberLoginSuccessHandler implements AuthenticationSuccessHandler{
 
             // 여기서 이전페이지 정보를 가져옴
             HttpSession httpSession = request.getSession();
+            // "url"이 맞음 : UrlFilter에서 "url"로 만들었음 그리고 세션에 넣음
             String backUrl = (String) httpSession.getAttribute("url");
+                log.info("이전주소=>{}", backUrl);
 
-            // 필요시 이전 페이지로 이동함
-            // 로그인성공핸들러_role => ROLE_CUSTOMER
-            if(role.equals("ROLE_MEMBER")){ // 권한이 고객일때
-                response.sendRedirect(request.getContextPath() + "/member/home.do");
+            if(backUrl != null){
+                if(role.equals("ROLE_MEMBER")){ // 권한이 고객일때
+                    response.sendRedirect(backUrl);
+                }
+                else{ // 위의 권한이 아닌 경우
+                    response.sendRedirect(request.getContextPath() + "/home.do");
+                }
             }
-            else{ // 위의 권한이 아닌 경우
-                response.sendRedirect(request.getContextPath() + "/home.do");
-            }
+            
         }
     }
     

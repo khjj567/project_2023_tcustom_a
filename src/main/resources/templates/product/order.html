@@ -12,10 +12,15 @@
                 <div class="mid_title">
                     주문하기
                 </div>
-                <hr />
-                <div class="order_image">
-                    <!-- 티셔츠와 파일 이미지가 합성된 이미ㅣㅈ-->
-                    <img src="${pageContext.request.contextPath}/resources/images/images.png" id="img" style="width: 600px; height: 600px; cursor: pointer;"> 
+                <div class="base">
+                    <div class="image_p2">
+                        <img class="timage" th:value="${psidePic.pspicno}" th:src="${psidePic.imageUrl2}">
+                    </div>
+                </div>
+                <div id="base_right">
+                    <div class="image_p2">
+                        <img class="timage" th:value="${file1.fno}" th:src="${file1.imageUrl1}">
+                    </div>
                 </div>
                 
                 <div class="order_box" th:object="${tsdv}">

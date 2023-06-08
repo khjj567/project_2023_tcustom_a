@@ -351,9 +351,10 @@ public class HomeProductController {
     }
 
     // 127.0.0.1:9090/CUSTOM/product/making.do
-    @PostMapping(value = "/making.do")
+    @PostMapping(value = "/design.do")
     public String makingPOST(
         @RequestParam(name = "tno") long tno,
+        @AuthenticationPrincipal MemberUser user,
         @RequestParam(name = "psno") long psno,
         @RequestParam(name = "selectpmethod") String selectpmethod,
         @RequestParam(name = "selectcolor") String selectcolor,
@@ -369,15 +370,12 @@ public class HomeProductController {
         @ModelAttribute Printing printing,
         @ModelAttribute PrintingSide printingSide,
         
-        @ModelAttribute DesignOne dOne,
-        @RequestParam(name="mid") String mid
+        @ModelAttribute DesignOne dOne
+        // @RequestParam(name="mid") String mid
         // @AuthenticationPrincipal MemberUser user
         ){
         try {
-            //log.info("mid => {}", mid);
-            // 파일 저장 (파일 선택하고 업로드)
-            // log.info("selectcolor => {}", selectcolor.toString());
-            // log.info("tno => {}", tno);
+            
             obj.setFname(file1.getOriginalFilename());
             obj.setFsize(BigInteger.valueOf(file1.getSize()));
             obj.setFtype(file1.getContentType());
@@ -390,7 +388,11 @@ public class HomeProductController {
             // 프린팅 방식
             Printing printing1 = pRepository.findByPmethod(selectpmethod);
             //log.info("컬러 사이즈 => {}",tView01);
-            Member member = mRepository.findByMid(mid);
+
+            if(user.getUsername() == null){
+                return "redirect:/login.do";
+            }
+            Member member = mRepository.findByMid(user.getUsername());
 
             // Member member = new Member();
             printing.setPno(printing1.getPno());
@@ -415,8 +417,7 @@ public class HomeProductController {
                                             "&tsno=" + tView01.getTsno() + 
                                             "&pno=" + printing.getPno() + 
                                             "&fno=" + obj.getFno() + 
-                                            "&mid=" + mid;
-            // return "redirect:/product/order.do";
+                                            "&mid=" + member.getMid();
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
@@ -424,7 +425,7 @@ public class HomeProductController {
     }
 
     // 127.0.0.1:9090/CUSTOM/product/making.do
-    @PostMapping(value = "/making1.do")
+    @PostMapping(value = "/design1.do")
     public String making1POST(
         @RequestParam(name = "tno") long tno,
         @RequestParam(name = "psno") long psno,
@@ -493,6 +494,7 @@ public class HomeProductController {
 
     @GetMapping(value = "/order.do")
     public String orderGET(Model model, 
+            HttpServletRequest request,
             @AuthenticationPrincipal MemberUser user,
             @RequestParam(name="mid") String mid,
             @RequestParam(name="tsno") BigInteger tsno, // 티셔츠사이즈
@@ -516,6 +518,23 @@ public class HomeProductController {
 
             model.addAttribute("tsdv", tsdv);
 
+            DesignOne dOne = dOneRepository.findByDno(tsdv.getDno());
+            PsidePic psidePic = pspRepository.findByPrintingSide_PsnoAndTshirt_Tno(psno , tno);
+            File file = fRepository.findByFno(dOne.getFile().getFno());
+            // PsidePic imageUrl 호출
+            if( psidePic != null ){ 
+                psidePic.setImageUrl2(request.getContextPath() + "/product/psidepic?pspicno=" + psidePic.getPspicno());
+            }
+            model.addAttribute("psidePic", psidePic);
+            log.info("psidePic=> {}", psidePic);
+            
+            // file imageUrl 호출
+            if( file != null ){ 
+                file.setImageUrl1(request.getContextPath() + "/product/image2?fno=" + file.getFno());
+            }
+            model.addAttribute("file1", file);
+            log.info("file=> {}", file);
+
             return "product/order";
         } catch (Exception e) {
             log.error("Exception occurred while processing order GET request", e);
@@ -526,6 +545,7 @@ public class HomeProductController {
     @GetMapping(value = "/order1.do")
     public String order1GET(
         Model model,
+        HttpServletRequest request,
         @AuthenticationPrincipal MemberUser user,
         @RequestParam(name = "ono") long ono
     ){
@@ -551,7 +571,6 @@ public class HomeProductController {
             orders.setPmethod(printing.getPmethod());
             orders.setPprice(printing.getPprice());
 
-
             PrintingSide pside = psRepository.findByPsno(orders.getDesignOne().getPrintingSide().getPsno());
             orders.setPsidename(pside.getPsidename());
 
@@ -561,10 +580,24 @@ public class HomeProductController {
             
             File file = fRepository.findByFno(orders.getDesignOne().getFile().getFno());
             orders.setFno(file.getFno());
-            orders.setImageUrl1(file.getImageUrl());
+            orders.setImageUrl1(file.getImageUrl1());
 
             model.addAttribute("orders", orders);
+
+            // PsidePic imageUrl 호출
+            if( psidePic != null ){ 
+                psidePic.setImageUrl2(request.getContextPath() + "/product/psidepic?pspicno=" + psidePic.getPspicno());
+            }
+            model.addAttribute("psidePic", psidePic);
+            log.info("psidePic=> {}", psidePic);
             
+            // file imageUrl 호출
+            if( file != null ){ 
+                file.setImageUrl1(request.getContextPath() + "/product/image2?fno=" + file.getFno());
+            }
+            model.addAttribute("file1", file);
+            log.info("file=> {}", file);
+
             return "product/order1";
         } catch (Exception e) {
             log.error("Exception occurred while processing order GET request", e);
@@ -592,9 +625,6 @@ public class HomeProductController {
             orders.setOcnt(BigInteger.valueOf(ocnt));
             orders.setDesignOne(designOne);
             orders.setOcondition(BigInteger.valueOf(ocondition));
-            // orders.setTcolorno(tcolorno);
-            // orders.setTsno(tsno);
-            // log.info("orders 값 => {}", orders.toString());
 
             ordersRepository.save(orders);
 
@@ -611,6 +641,7 @@ public class HomeProductController {
 
             return "redirect:/member/mypage.do?menu=3";
         } catch (Exception e) {
+            e.printStackTrace();
             return "home";
         }
     }

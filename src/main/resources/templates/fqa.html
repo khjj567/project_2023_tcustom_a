@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
+<link rel= "stylesheet" href="css/jquery.lightbox.css">
+<style>
+	.mypage_button{
+    float: left; 
+    width: auto;
+    height: auto;
+    padding: 3px;
+    /* background-color: rgb(255, 197, 197); */
+}
+
+#mypage_btn{
+	border: solid 2px #000000;
+	font-size: 16px;
+    background-color: rgba(217, 217, 217, 1);
+    width: auto;
+    height: auto;
+    border-radius: 30px;
+    padding: 5px 15px 5px 15px;
+    margin: 5px;
+	font-family: "NanumSquare";
+	float: left;
+}
+
+#mypage_btn:hover{
+	border: solid 2px rgba(217, 217, 217, 1);
+    color: rgb(0, 0, 0);
+    background-color: pink;
+}
+</style>
+<body>
+	<div id="all">
+        <div class="all_center">
+            <th:block th:replace="~{/fragments/hometitlenav :: navFragment}"></th:block>
+        
+			<div class="clear"></div>
+        
+            <div class="bar"></div>
+
+			<div class="body">
+                <div class="mid_title">
+                    게시판
+                </div >
+				<!-- style="background: transparent; background-color:rgba(242, 242, 242, 1);"  -->
+				<div class="mypage_button" >
+					<a id="mypage_btn" th:href="@{/fqa/fqa.do(menu=1)}" >공지사항</a>
+					<a id="mypage_btn" th:href="@{/fqa/fqa.do(menu=2)}" >고객문의</a>
+					<a id="mypage_btn" th:href="@{/fqa/fqa.do(menu=3)}" >FQA</a>
+				</div>
+				<div class="clear"></div>
+				<!-- <div class="body"> -->
+					
+					<div th:if="${#strings.equals(param.menu, '1')}">
+						<th:block th:replace="~{/fqa/announcelist :: fqa1Fragment}"></th:block>
+					</div>
+
+					<div th:if="${#strings.equals(param.menu, '2')}">
+						<th:block th:replace="~{/fqa/asklist :: fqa2Fragment}"></th:block>
+					</div>
+
+					<div th:if="${#strings.equals(param.menu, '3')}">
+						<th:block th:replace="~{/fqa/fqa3 :: fqa3Fragment}"></th:block>
+					</div>
+
+				<!-- </div> -->
+				
+			</div>
+		</div>
+	</div>
+    
+<div class="clear"></div>
+<th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
+
+</body>
+</html>

@@ -1,25 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
+
+<style>
+    /* image_p : id일때만 draggable 돼 */
+#image_p2{
+    float: left;
+    width: 100%;
+    height: auto;
+    background-color: rgba(217, 217, 217, 1);
+    
+}
+/* draggable */
+.draggable { 
+    width: auto; 
+    height: auto; 
+    float: left; 
+}
+.timage{
+    float: left;
+    width: 100%;
+    height: auto;
+    margin: auto 0px; 
+    position: relative;
+    object-fit: contain;
+    /* background-color: rgba(217, 217, 217, 1); */
+}
+.resizable {
+    width: auto;
+    height: auto;
+    /* border-radius: 0.75rem;
+    padding: 20px;
+    margin: 1rem; */
+    background-color: #29e;
+    color: white;
+    font-size: 20px;
+    font-family: sans-serif;
+    overflow: hidden;
+
+    touch-action: none;
+
+    /* This makes things *much* easier */
+    box-sizing: border-box;
+}
+</style>
+
 <body>
-    <!-- 127.0.0.1:9090/CUSTOM/join.do -->
-    <!-- OK : 05/17-->
-    <h2>회원가입</h2>
-    <a th:href="@{/home.do}">홈으로</a>
-    <hr/>
-    <form th:action="@{/join.do}" method="post">
-    <!-- name값은 항상 dto의 값과 같아야 한다는 점을 주의하자: 현재는 Member-->
-        아이디: <input type="text" name="mid" value="aaa" autofocus/><br />
-        비밀번호: <input type="text" name="mpw" value="aaa" /><br />
-        이메일 <input type="text" name="memail" value="aaa"v/><br />
-        이름: <input type="text" name="mname" value="aaa" /><br />
-        전화번호 : <input type="text" name="mphone" value="010-0000-0000"/><br />
-        <input type="submit" value="회원가입"/>
-    </form>
+    <div id="all">
+        <div class="all_center">
+            <th:block th:replace="~{/fragments/hometitlenav :: navFragment}"></th:block>
+            <div class="clear"></div>
+            <div class="bar"></div>
+            <div class="body">
+                <div class="mid_title">
+                    회원가입
+                </div>
+                <!-- 중앙으로 이동 및 마진 -->
+                <div>                   
+                    <form th:action="@{/join.do}" method="post">
+                    <!-- name값은 항상 dto의 값과 같아야 한다는 점을 주의하자: 현재는 Member-->
+                        아이디: <input type="text" name="mid" value="aaa" autofocus/><br />
+                        비밀번호: <input type="text" name="mpw" value="aaa" /><br />
+                        이메일 <input type="text" name="memail" value="aaa"v/><br />
+                        이름: <input type="text" name="mname" value="aaa" /><br />
+                        전화번호 : <input type="text" name="mphone" value="010-0000-0000"/><br />
+                        <input type="submit" value="회원가입"/>
+                    </form>
+                </div> 
+            </div>
+        </div>
+        <div class="clear"></div>
+        <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
+    </div>
 </body>
-</html>
+</html><section></section>

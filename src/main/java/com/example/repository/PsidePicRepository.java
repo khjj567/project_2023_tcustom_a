@@ -16,4 +16,5 @@ public interface PsidePicRepository extends JpaRepository<PsidePic, BigInteger>{
 
     PsidePic findByPrintingSide_PsnoAndTshirt_Tno(BigInteger psno, BigInteger tno);
     
+    // PsidePic findByPrintingSide_PsnoAndTshirt_Tno(BigInteger psno, BigInteger tno);
 }

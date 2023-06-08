@@ -28,7 +28,8 @@ public class UrlFilter extends OncePerRequestFilter{
             String path = request.getServletPath(); // /api/student2/update.json?id=q
             String query = request.getQueryString(); // id=q
 
-            log.info("{},{},{}", contextPath, path, query); // /ROOT,/api/student2/login.json,null
+            log.info("직전주소 => {},{},{}", contextPath, path, query); 
+            // 직전주소 => /CUSTOM,/product/making.do,tno=1006&psno=1
 
             // url에 login, logout이 포함되지 않는 경우
             if(!path.contains("login") && !path.contains("logout")){
@@ -36,13 +37,13 @@ public class UrlFilter extends OncePerRequestFilter{
             HttpSession httpSession = request.getSession();
 
             if(query == null){
-                httpSession.setAttribute("url", path);
+                httpSession.setAttribute("url", contextPath + path + query);
             }
             else{
-                httpSession.setAttribute("url", path +"?" +query);
+                // 쿼리가 있을때 직전주소 url => httpSession저장하는 곳
+                httpSession.setAttribute("url", contextPath +  path + "?" +query);
             }
         }
-            //httpSession.setAttribute("url", );
 
             // 아래 명령어가 실행되어서 정상적인 컨트롤러로 진입가능
             filterChain.doFilter(request, response);
