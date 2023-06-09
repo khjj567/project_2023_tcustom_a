@@ -33,6 +33,14 @@
                     <td th:text="${obj.tprice}"></td> <!-- 가격 -->
                     <td th:text="${obj.pprice}"></td> <!-- 가격 -->
                     <td>
+                        <script th:inline="javascript">
+                            var tprice = /*[[${obj.tprice}]]*/ 0; // 첫 번째 숫자 값
+                            var pprice = /*[[${obj.pprice}]]*/ 0; // 두 번째 숫자 값
+                            var sum = tprice + pprice; // 두 숫자를 더한 값
+                            document.write(sum); // 더한 값을 표시
+                        </script>
+                    </td>
+                    <td>
                         <a th:href="@{/product/order1.do(ono=${obj.ono})}"><button>다시주문하기</button></a>
                     </td>
                 </tr>
