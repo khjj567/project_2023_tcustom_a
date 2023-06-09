@@ -38,15 +38,12 @@
                         <div class="one">
                             <div class="pic">
                                 <!-- <img src="https://via.placeholder.com/400x225" width="100%" focusable="false"> -->
-                                <img class="product_img" th:src="${one.imageUrl}" 
-                                    th:href="@{/product/making.do(tno=${one.tno})}"><br />
+                                <img class="product_img" th:src="${one.imageUrl}" ><br />
                             </div>
                             <div class="all_center">
-
                                 <div class="cont_name">
                                     <label class="conts" th:text="${one.tname}"></label>
                                 </div>
-
                                 <div>
                                     <label class="cont_price" th:text="${one.tprice} + 원"></label>
                                 </div>
@@ -54,9 +51,7 @@
                                 <div >
                                     <a class="select_bk" type="button" th:href="@{/product/making.do(tno=${one.tno},psno=1)}" >디자인하러가기</a>
                                 </div>
-                                
                             </div>
-                            
                         </div>
                     </th:block>    
                 </div>

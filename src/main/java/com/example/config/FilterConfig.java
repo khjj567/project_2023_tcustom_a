@@ -19,7 +19,7 @@ public class FilterConfig {
         FilterRegistrationBean<JwtFilter> filterReg = new FilterRegistrationBean<>();
         filterReg.setFilter(jwtFilter);
 
-        // 필터처리할 url 두개 걸어놈
+        // jwtFilter필터로 필터처리 할 url
         filterReg.addUrlPatterns("/member/update.json");
         filterReg.addUrlPatterns("/member/delete.json");
         // filterReg.addUrlPatterns("/api/*");
@@ -31,8 +31,13 @@ public class FilterConfig {
         log.info("filter => {}" , "filterConfig");
         FilterRegistrationBean<UrlFilter> filterReg = new FilterRegistrationBean<>();
         filterReg.setFilter(urlFilter);
+
+        // urlFilter로 필터처리할 url
         filterReg.addUrlPatterns("/product/making.do");   // *는 전체 url
-        // filterReg.addUrlPatterns("/product/*");   // *는 전체 url
+        filterReg.addUrlPatterns("/product.do");   // *는 전체 url
+        filterReg.addUrlPatterns("/printing.do");   // *는 전체 url
+        filterReg.addUrlPatterns("/fqa.do");   // *는 전체 url
+        // filterReg.addUrlPatterns("/member.do");   // *는 전체 url
 
         return filterReg;
     }

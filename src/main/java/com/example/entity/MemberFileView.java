@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.Immutable;
@@ -37,5 +38,7 @@ public class MemberFileView {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @CreationTimestamp 
     private	Date	fregdate	;
+    @Transient
+    private String imageUrl1;
 
 }

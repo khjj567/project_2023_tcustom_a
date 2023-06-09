@@ -25,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityConfig {
 
     final SecurityServiceMemberImpl memberDetailsService; // member 테이블과 연동되는 서비스
-    // final SecurityServiceImpl2 student2DetailsService1; // student2 테이블과 연동되는 서비스
 
     @Bean 
     @Order(value = 1)
@@ -38,7 +37,7 @@ public class SecurityConfig {
             // .antMatchers("/").permitAll()
             
             // .antMatchers("/seller", "/seller/*").hasAuthority("ROLE_SELLER")
-            .antMatchers("/member","/member/*","/product/design.do").hasAuthority("ROLE_MEMBER") // 주소가 9090/ROOT/admin ~~ 모든 것
+            .antMatchers("/member","/member/*","/product/design.do","/fqa/ask.do","/fqa/ask1update.do").hasAuthority("ROLE_MEMBER") // 주소가 9090/ROOT/admin ~~ 모든 것
             // .antMatchers("/","/home/*").hasAnyAuthority("ROLE_NO")
             .anyRequest().permitAll(); // 풀어놔서 로그인은 들어갈 수 있음 // 지정해주지 않아도 되는건가요?
             

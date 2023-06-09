@@ -33,17 +33,20 @@ public class UrlFilter extends OncePerRequestFilter{
 
             // url에 login, logout이 포함되지 않는 경우
             if(!path.contains("login") && !path.contains("logout")){
-            // 로그인 세션 가져오기 
-            HttpSession httpSession = request.getSession();
+                // 로그인 세션 가져오기 
+                HttpSession httpSession = request.getSession();
 
-            if(query == null){
-                httpSession.setAttribute("url", contextPath + path + query);
+                // 만약 맨뒤에 쿼리(.do?no=777)가 없으면 (path가 없는 경우는 없다. home이나 그러려나.)
+                if(query == null){
+                    
+                    httpSession.setAttribute("url", contextPath + path);
+                }
+                // 쿼리가 있으면
+                else{
+                    // 쿼리가 있을때 직전주소 url => httpSession저장하는 곳
+                    httpSession.setAttribute("url", contextPath +  path + "?" +query);
+                }
             }
-            else{
-                // 쿼리가 있을때 직전주소 url => httpSession저장하는 곳
-                httpSession.setAttribute("url", contextPath +  path + "?" +query);
-            }
-        }
 
             // 아래 명령어가 실행되어서 정상적인 컨트롤러로 진입가능
             filterChain.doFilter(request, response);

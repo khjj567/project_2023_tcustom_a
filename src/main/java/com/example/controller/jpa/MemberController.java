@@ -16,6 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -76,9 +77,28 @@ public class MemberController {
     final HomeAskRepository hAskRepository;
 
 
+    @GetMapping(value = "/image2")
+    public ResponseEntity<byte[]> image2(@RequestParam(name = "fno", defaultValue = "0") BigInteger fno) throws IOException{
+        File obj = fRepository.findById(fno).orElse(null);
+        //log.info("objobj => {}", obj);
+        HttpHeaders headers = new HttpHeaders(); // import org.springframework.http.HttpHeaders;
+        if(obj != null){ // 이미지가 존재하는지 확인
+            if(obj.getFsize() != null){
+                headers.setContentType( MediaType.parseMediaType(obj.getFtype()));
+                return new ResponseEntity<>(obj.getFdata(), headers, HttpStatus.OK);
+            }
+        }
+        // 이미지가 없을 경우
+        InputStream is = resourceLoader.getResource("./img/no-image.png").getInputStream(); //?
+        headers.setContentType(MediaType.IMAGE_PNG);
+        return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
+    }
+
+
     @GetMapping(value = "/mypage.do")
     public String mypageGET(
         Model model, 
+        HttpServletRequest request,
         @AuthenticationPrincipal MemberUser user,
         @RequestParam(name="menu", required = false, defaultValue = "0") int menu
     ){
@@ -99,6 +119,11 @@ public class MemberController {
 
             if(menu == 2){
                 List<MemberFileView> obj2 = mfvRepository.findByMidOrderByDnoDesc(user.getUsername());
+                for(MemberFileView obj2a : obj2){
+                    if( obj2 != null ){ 
+                        obj2a.setImageUrl1(request.getContextPath() + "/product/image2?fno=" + obj2a.getFno());
+                    }
+                }
                 log.info("TshirtDesignView => {}", obj2);
                 model.addAttribute("obj2", obj2);
             }

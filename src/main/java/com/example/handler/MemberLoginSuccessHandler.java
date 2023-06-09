@@ -10,8 +10,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import com.example.filter.UrlFilter;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
