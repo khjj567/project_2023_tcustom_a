@@ -58,15 +58,15 @@
                 <!-- 좌측 프린팅사이드 이미지 -->
                 <div class="base">                   
                     <div id="image_p2" >
-                        <img class="timage" th:value="${file.fno}" th:src="${file.imageUrl}">
+                        <img class="timage" th:value="${obj2.fno}" th:src="${obj2.imageUrl1}">
                     </div>
                 </div>
                 <!-- 우측 선택사항 -->
                 <div id="base_right">
-                    <p class="p_conts_one">파일번호: <span th:text="${file.fno}"></span></p>
-                    <p class="p_conts_one">파일명: <span th:text="${file.fname}"></span></p>
-                    <p class="p_conts_one">파일사이즈: <span th:text="${file.fsize}"></span></p>
-                    <p class="p_conts_one">파일업로드일자: <span th:text="${file.fregdate}"></span></p>
+                    <p class="p_conts_one">파일번호: <span th:text="${obj2.fno}"></span></p>
+                    <p class="p_conts_one">파일명: <span th:text="${obj2.fname}"></span></p>
+                    <p class="p_conts_one">파일사이즈: <span th:text="${obj2.fsize}"></span></p>
+                    <p class="p_conts_one">파일업로드일자: <span th:text="${obj2.fregdate}"></span></p>
                 </div> 
             </div>
         </div>

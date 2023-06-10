@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
+
+<body>
+    <div id="all">
+        <div class="all_center">
+            <th:block th:replace="~{/fragments/hometitlenav :: navFragment}"></th:block>
+            <div class="clear"></div>
+            <div class="bar"></div>
+            <div class="body">
+                <form th:action="@{/fqa/ask1update.do?(haskno=${obj.haskno})}" method="post">
+					<div>
+						제목 : <input type="text" name="hasktitle" th:value="${obj.hasktitle}" />
+					</div>
+					<div>
+						내용
+						<div style="margin-left: 30px;">
+							<textarea name="haskcontent" style="width: 700px; height: 200px;" id="content" th:text="${obj.haskcontent}" th:value="${obj.haskcontent}"></textarea>
+						</div>
+						<div class="mypage_button">
+							<input type="submit" id="mypage_btn" value="저장하기" />
+						</div>
+					</div>
+				</form>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
+    </div>
+	<script>
+		var content = document.getElementById('content');
+		content.value = stripHTMLTagsPreserveLineBreaks(content.value);
+	
+		function stripHTMLTagsPreserveLineBreaks(html) {
+			var tmp = document.createElement("div");
+			tmp.innerHTML = html.replace(/<[^>]+>/g, '');
+			return tmp.innerText;
+		}
+	</script>
+</body>
+</html>

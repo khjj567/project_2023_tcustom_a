@@ -1,19 +1,47 @@
 <!DOCTYPE html>
 <html>
+    <style>
+        .mypage_button{
+        float: left; 
+        width: auto;
+        height: auto;
+        padding: 3px;
+        /* background-color: rgb(255, 197, 197); */
+    }
+    
+    #mypage_btn{
+        border: solid 1px #000000;
+        font-size: 16px;
+        background-color: rgba(217, 217, 217, 1);
+        width: auto;
+        height: auto;
+        border-radius: 30px;
+        padding: 5px 15px 5px 15px;
+        margin: 5px;
+        font-family: "NanumSquare";
+        float: left;
+    }
+    
+    #mypage_btn:hover{
+        border: solid 1px rgba(217, 217, 217, 1);
+        color: rgb(95, 95, 95);
+        background-color: pink;
+    }
+    </style>
+
     <th:block th:fragment="mypage2Fragment">
         <div class="my_title">
             파일목록
         </div>
-        <a th:href="@{/product.do}"><button>옷보러가기</button></a>
         <div class="oneline">
             <th:block th:each="obj : ${obj2}" >
-                <div class="one">
+                <div class="one_file">
                     <div class="pic">
                         <img class="product_img" th:src="${obj.imageUrl1}"><br />
                     </div>
                     <div class="all_center">
                         <div class="cont_name">
-                            <a th:href="@{/member/image.do(fno=${obj.fno})}" th:text="${obj.fno}"></a>
+                            <a id="mypage_btn" th:href="@{/member/image.do(fno=${obj.fno})}" th:text="${obj.fno}"></a>
                         </div>
                         <div>
                             <label class="cont_price" th:text="${#dates.format(obj.fregdate, 'yyyy/MM/dd')}"></label>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
+<style>
+	.mypage_button{
+    float: left; 
+    width: auto;
+    height: auto;
+    padding: 3px;
+    /* background-color: rgb(255, 197, 197); */
+}
+
+#mypage_btn{
+	border: solid 1px #000000;
+	font-size: 16px;
+    background-color: rgba(217, 217, 217, 1);
+    width: auto;
+    height: auto;
+    border-radius: 30px;
+    padding: 5px 15px 5px 15px;
+    margin: 5px;
+	font-family: "NanumSquare";
+	float: left;
+}
+
+#mypage_btn:hover{
+	border: solid 1px rgba(217, 217, 217, 1);
+    color: rgb(95, 95, 95);
+    background-color: pink;
+}
+</style>
+<body>
+    <div id="all">
+        <div class="all_center">
+            <th:block th:replace="~{/fragments/hometitlenav :: navFragment}"></th:block>
+            <div class="clear"></div>
+            <div class="bar"></div>
+            <div class="body">
+                <div>
+					<p class="mid_title" ><span th:text="${obj1.hasktitle}"></span></p>
+                </div>
+				<input type="hidden" th:value="${obj1.haskno}"/>
+				<div>
+					<div style="margin-left: 30px;" >
+						<p class="p_conts_mid" th:utext="${obj1.haskcontent}"></p>
+					</div>
+					<div>		
+						<H6>작성자: <span th:text="${obj1.mid}"></span></H6>
+						<H6>작성일: <span th:text="${obj1.haskregdate}"></span></H6>
+					</div>
+					<div >
+						<a id="mypage_btn" th:href="@{/fqa/ask1update.do?(haskno=${obj1.haskno})}">수정하기</a>
+						<a id="mypage_btn" th:href="@{/fqa.do?menu=2}" >목록으로</a>
+					</div>
+				</div>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
+    </div>
+	<script>
+		function stripHTMLTagsPreserveLineBreaks(html) {
+			var tmp = document.createElement("div");
+			tmp.innerHTML = html.replace(/<[^>]+>/g, '');
+			return tmp.innerText;
+		}
+	</script>
+</body>
+</html>

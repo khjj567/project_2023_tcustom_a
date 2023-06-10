@@ -32,5 +32,4 @@ public class HomeAnnounce {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @CreationTimestamp 
     private	Date	hanregdate	;
-    private	BigInteger	managerno	;
 }

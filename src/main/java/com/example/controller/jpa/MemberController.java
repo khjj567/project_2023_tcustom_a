@@ -205,7 +205,7 @@ public class MemberController {
     
     @GetMapping(value = "/image.do")
     public String imageGET(
-        @RequestParam(name="fno") long fno, 
+        @RequestParam(name="fno") BigInteger fno, 
         Model model, 
         HttpServletRequest request,
         @AuthenticationPrincipal MemberUser user
@@ -216,8 +216,14 @@ public class MemberController {
                 //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
                 }
             model.addAttribute("user", user);
+            
+            File obj2 = fRepository.findByFno(fno);
+            if( obj2 != null ){ 
+                obj2.setImageUrl1(request.getContextPath() + "/product/image2?fno=" + obj2.getFno());
+            }
+            model.addAttribute("obj2", obj2);
 
-      
+            log.info("아왜안나와 => {}", obj2);
 
             return "/member/image";
         } catch (Exception e) {
