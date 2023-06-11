@@ -59,12 +59,13 @@
                 <div>                   
                     <form th:action="@{/join.do}" method="post">
                     <!-- name값은 항상 dto의 값과 같아야 한다는 점을 주의하자: 현재는 Member-->
-                        아이디: <input type="text" name="mid" value="aaa" autofocus/><br />
-                        비밀번호: <input type="text" name="mpw" value="aaa" /><br />
-                        이메일 <input type="text" name="memail" value="aaa"v/><br />
-                        이름: <input type="text" name="mname" value="aaa" /><br />
-                        전화번호 : <input type="text" name="mphone" value="010-0000-0000"/><br />
-                        <input type="submit" value="회원가입"/>
+                        아이디: <input type="text" id="id" name="mid" value="aaa" autofocus/><br />
+                        비밀번호: <input type="text" id="pass" name="mpw" value="aaa" /><br />
+                        비밀번호: <input type="text" id="pass1" value="aaa" /><br />
+                        이메일 <input type="text" id="email" name="memail" value="aaa"v/><br />
+                        이름: <input type="text" id="name" name="mname" value="aaa" /><br />
+                        전화번호 : <input type="text" id="phone" name="mphone" value="010-0000-0000"/><br />
+                        <input type="submit" value="회원가입" onclick="joinAction()"/>
                     </form>
                 </div> 
             </div>
@@ -72,5 +73,90 @@
         <div class="clear"></div>
         <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+	<script>
+	// 공통변수 : 함수가 2군데있는데 다 사용가능한 변수
+	var idcheck = 0; //1이면 사용가능, 0은 사용불가
+	
+	function joinAction() {
+		const id = document.getElementById("id");
+		const pass = document.getElementById("pass");
+		const pass1 = document.getElementById("pass1");
+		const email = document.getElementById("email");
+		const name = document.getElementById("name");
+		const phone = document.getElementById("phone");
+
+		if(id.value.length <=0){ 
+			alert('아이디를 입력하세요.');
+			id.focus();
+			return false; // 함수종료. 전송하지 않음.
+		}
+		if(idcheck === 0){ 
+			alert('사용가능한 아이디를 입력하세요');
+			id.focus();
+			return false; 
+		}
+		
+
+		if(pass.value.length <=0){ 
+			alert('비밀번호를 입력하세요.');
+			pass.focus();
+			return false; 
+		}
+		
+		if(pass1.value.length <=0){  // 0인지 먼저 확인할것
+			alert('비밀번호확인을 입력하세요.');
+			pass1.focus();
+			return false; 
+		}
+		if(pass.value !== pass1.value){  // 일치여부 판단
+			alert('비밀번호가 일치하지 않습니다');
+			pass1.focus();
+			return false; 
+		}
+
+		
+		if(name.value.length <=0){ 
+			alert('이름을 입력하세요.');
+			name.focus();
+			return false; // 함수종료. 전송하지 않음.
+		}
+		if(email.value.length <=0){ 
+			alert('이메일을 입력하세요.');
+			age.focus();
+			return false; // 함수종료. 전송하지 않음.
+		}
+
+		// 전송하기
+		document.getElementById("form").submit();
+	
+	}
+	async function ajaxIDCheck(e) {
+		console.log(e.value);
+		if (e.value.length>0){ // ID최소 한자는 되어야함
+			// rest api 호출
+			const url = '${pageContext.request.contextPath}/api/idcheck.json?id=' + e.value;
+			const headers = {"Content-Type":"application/json"};
+			const {data} = await axios.get(url, {headers}); 
+			// 결과값 받기 
+			console.log(data);
+			if(data.ret === 1){
+				idcheck = 0;
+				// 사용불가 (이미 1개 있음)
+				document.getElementById("lbl_check").innerText = '사용불가';
+			}
+			else if(data.ret === 0){
+				idcheck = 1;
+				// 사용가능
+				document.getElementById("lbl_check").innerText = '사용가능';
+			}	
+		}
+		else {
+			idcheck = 0;
+			document.getElementById("lbl_check").innerText = '아이디';
+		}
+	}    
+	</script>
 </body>
 </html><section></section>

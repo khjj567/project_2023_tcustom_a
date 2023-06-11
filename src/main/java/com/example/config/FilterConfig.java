@@ -37,7 +37,7 @@ public class FilterConfig {
         filterReg.addUrlPatterns("/product.do");   // *는 전체 url
         filterReg.addUrlPatterns("/printing.do");   // *는 전체 url
         filterReg.addUrlPatterns("/fqa.do");   // *는 전체 url
-        // filterReg.addUrlPatterns("/member.do");   // *는 전체 url
+        filterReg.addUrlPatterns("/member.do");   // *는 전체 url
 
         return filterReg;
     }

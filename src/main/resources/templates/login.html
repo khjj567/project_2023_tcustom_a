@@ -15,9 +15,9 @@
                 <!-- 중앙으로 이동 및 마진 -->
                 <div>                   
                     <form th:action="@{/loginaction.do}" method="post">
-                        아이디: <input type="text" name="mid" value="aaa" autofocus/><br />
-                        암호: <input type="text" name="mpw" value="aaa" /><br />
-                        <input type="submit" value="로그인"/>
+                        아이디: <input type="text" name="mid" id="id" value="aaa" autofocus/><br />
+                        암호: <input type="password" name="mpw" id="pass" value="aaa" /><br />
+                        <input type="submit" value="로그인" onclick="loginAction()"/>
                     </form>
                 </div> 
             </div>
@@ -25,5 +25,27 @@
         <div class="clear"></div>
         <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
     </div>
+    <!-- 뭐 쓸때 제발 스크립트 챙겨가 -->
+    <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+    <script>
+    async function loginAction() {
+
+        const id = document.getElementById("id");
+        const pass = document.getElementById("pass");
+
+        if (id.value.length <= 0) {
+            alert('아이디를 입력하세요');
+            id.focus();
+            return false; // 함수종료. 전송하지 않음
+        }
+        if (pass.value.length <= 0) {
+            alert('비밀번호를 입력하세요');
+            pass.focus();
+            return false; // 함수종료. 전송하지 않음
+        }
+        document.getElementById("form").submit();
+    }
+    </script>
 </body>
-</html><section></section>
+</html>

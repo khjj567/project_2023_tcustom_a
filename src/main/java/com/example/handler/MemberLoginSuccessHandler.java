@@ -37,6 +37,9 @@ public class MemberLoginSuccessHandler implements AuthenticationSuccessHandler{
                     response.sendRedirect(request.getContextPath() + "/home.do");
                 }
             }
+            else{
+                response.sendRedirect(request.getContextPath() + "/home.do");
+            }
             
         }
     }

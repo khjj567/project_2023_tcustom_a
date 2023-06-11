@@ -12,19 +12,19 @@
                 <div class="mid_title">
                     파일확인
                 </div>
-                <form th:action="@{/member/update.do}" method="post">
+                <form th:action="@{/member/updatepw.do}" method="post">
                     <div class="trm">
                         <p class="p_conts_one">
                             <label for="mpw">현재 비밀번호:</label>
-                            <input type="text" id="mpw" name="mpw" th:value="${obj.mpw}">
+                            <input type="text" id="mpw" name="mpw">
                         </p>
                         <p class="p_conts_one">
                             <label for="mpwnew">새 비밀번호:</label>
-                            <input type="text" id="mpwnew" name="mpwnew" th:value="${obj.mpwnew}">
+                            <input type="text" id="mpwnew" name="mpwnew">
                         </p>
                         <p class="p_conts_one">
                             <label for="mpwnew1">새 비밀번호 확인:</label>
-                            <input type="text" id="mpwnew1" name="mpwnew1" th:value="${obj.mpwnew1}">
+                            <input type="text" id="mpwnew1" name="mpwnew1">
                         </p>
                         <div class="clear"></div>
                         <div>

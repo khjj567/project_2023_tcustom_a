@@ -6,17 +6,21 @@ import java.math.BigInteger;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +30,7 @@ import com.example.entity.DesignOne;
 import com.example.entity.File;
 import com.example.entity.HomeAsk;
 import com.example.entity.Member;
+import com.example.entity.MemberAddress;
 import com.example.entity.MemberFileView;
 import com.example.entity.Orders;
 import com.example.entity.Printing;
@@ -36,6 +41,7 @@ import com.example.entity.TshirtSize;
 import com.example.repository.DesignOneRepository;
 import com.example.repository.FileRepository;
 import com.example.repository.HomeAskRepository;
+import com.example.repository.MemberAddressRepository;
 import com.example.repository.MemberFileViewRepository;
 import com.example.repository.MemberRepository;
 import com.example.repository.OrdersRepository;
@@ -77,6 +83,7 @@ public class MemberController {
 
     final HomeAskRepository hAskRepository;
 
+    final MemberAddressRepository mAddRepository;
 
     @GetMapping(value = "/image2")
     public ResponseEntity<byte[]> image2(@RequestParam(name = "fno", defaultValue = "0") BigInteger fno) throws IOException{
@@ -168,45 +175,21 @@ public class MemberController {
             // 개인정보 변경 get
             if(menu == 5){
                 Member obj = mRepository.findByMid(user.getUsername());
-                log.info("개인정보 => {}", obj);
+                // log.info("개인정보 => {}", obj);
                 model.addAttribute("obj", obj);
+            }
+
+            // 개인정보 변경 get
+            if(menu == 6){
+                Member member = mRepository.findByMid(user.getUsername());
+                List<MemberAddress> mAddList = mAddRepository.findByMember(member);
+                // log.info("개인정보 => {}", obj);
+                model.addAttribute("mAddList", mAddList);
             }
             return "/member/mypage";
         } catch (Exception e) {
             e.printStackTrace();
             return "home";
-        }
-    }
-
-    @PostMapping(value = "/update.do")
-    public String updatePOST(
-        Model model, 
-        // @RequestParam(name="mid") String mid,
-        @RequestParam(name="mname") String mname,
-        @RequestParam(name="mphone") String mphone,
-        @RequestParam(name="memail") String memail,
-        HttpServletRequest request,
-        @AuthenticationPrincipal MemberUser user,
-        @RequestParam(name="menu", required = false, defaultValue = "0") int menu
-    ){
-        try {
-            if(user != null){ // 로그인 되었음
-                log.info("로그인user => {}", user); 
-            }
-            model.addAttribute("user", user);
-            
-            // log.info("휴대폰번호 => {}", mphone);
-            Member member = mRepository.findByMid(user.getUsername());
-            member.setMemail(memail);
-            member.setMname(mname);
-            member.setMphone(mphone);
-
-            mRepository.save(member);
-
-            return "redirect:/member/mypage.do?menu=5";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/home.do";
         }
     }
 
@@ -230,6 +213,43 @@ public class MemberController {
         }
     }
 
+    @PostMapping(value = "/update.do")
+    public String updatePOST(
+        Model model, 
+        // @RequestParam(name="mid") String mid,
+        @RequestParam(name="mname") String mname,
+        @RequestParam(name="mphone") String mphone,
+        @RequestParam(name="memail") String memail,
+        @RequestParam(name="mpw") String mpw,
+        HttpServletRequest request,
+        @AuthenticationPrincipal MemberUser user,
+        @RequestParam(name="menu", required = false, defaultValue = "0") int menu
+    ){
+        try {
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+            }
+            model.addAttribute("user", user);
+            
+            // log.info("휴대폰번호 => {}", mphone);
+            Member member = mRepository.findByMid(user.getUsername());
+
+            BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+            if(bcpe.matches(mpw, member.getMpw())){
+                member.setMemail(memail);
+                member.setMname(mname);
+                member.setMphone(mphone);
+
+                mRepository.save(member);
+            }
+
+            return "redirect:/member/mypage.do?menu=5";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+
     @GetMapping(value = "/updatepw.do")
     public String updatepwGET(
         Model model, 
@@ -243,13 +263,74 @@ public class MemberController {
             }
             model.addAttribute("user", user);
 
-            Member obj = mRepository.findByMid(user.getUsername());
-            log.info("개인정보 => {}", obj);
-            model.addAttribute("obj", obj);
+            Member member = mRepository.findByMid(user.getUsername());
+
+            // log.info("개인정보 => {}", member);
+            model.addAttribute("obj", member);
+
             return "/member/updatepw";
         } catch (Exception e) {
             e.printStackTrace();
             return "home";
+        }
+    }
+
+    @PostMapping(value = "/updatepw.do")
+    public String updatepwPOST(
+        Model model, 
+        @RequestParam(name="mpw") String mpw,
+        @RequestParam(name="mpwnew") String mpwnew,
+        @RequestParam(name="mpwnew1") String mpwnew1,
+        HttpServletRequest request,
+        HttpServletResponse response,
+        @AuthenticationPrincipal MemberUser user
+    ){
+        try {
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+            }
+            model.addAttribute("user", user);
+
+            log.info("비번=> {}", mpw);
+            log.info("새 비번=> {}", mpwnew1);
+            
+            Member member = mRepository.findByMid(user.getUsername());
+            BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
+            if(bcpe.matches(mpw, member.getMpw())){
+                log.info("YES => {}", "YES!!!!!");
+
+                if(mpwnew.equals(mpwnew1)){
+                log.info("REALLY => {}", "YES!!!!!");
+
+                    member.setMpw(bcpe.encode(mpwnew1));
+                    mRepository.save(member); // 비밀번호 변경 후 회원 정보 저장
+
+                    // 비번 변경 성공시 로그아웃 성공
+                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                    if (auth != null) {
+                        new SecurityContextLogoutHandler().logout(request, response, auth);
+                    }
+                }
+            }
+            log.info("저기요=> {}", member);
+            return "redirect:/home.do";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+
+    @PostMapping(value = "/dropmadd.do")
+    public String dropmaddPOST(
+        @RequestParam(name="ano") BigInteger ano
+    ){
+        try {
+            log.info("ano => {}", ano);
+            mAddRepository.deleteByAno(ano);
+            return "redirect:/member/mypage.do?menu=6";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
         }
     }
 

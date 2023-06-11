@@ -105,12 +105,17 @@ public class HomeController {
         try{
             // log.info("회원가입입력정보=> {}", member.toString()); //OK 
             
-            // 암호화는 bcpe를 이용해 암호화하기
-            // 가입하는 학생이 입력한 password를 가져와서 bcpe로 encoding한 뒤 DB의 password에 set한다
-            member.setMpw(bcpe.encode(member.getMpw()));
-            // log.info("암호화완료 => {}", member.toString()); //OK 
-            mRepository.save(member);
-            return "redirect:/login.do";
+            if(member != null){
+                // 암호화는 bcpe를 이용해 암호화하기
+                // 가입하는 학생이 입력한 password를 가져와서 bcpe로 encoding한 뒤 DB의 password에 set한다
+                member.setMpw(bcpe.encode(member.getMpw()));
+                // log.info("암호화완료 => {}", member.toString()); //OK 
+                mRepository.save(member);
+            }
+            else{
+                return "redirect:/join.do";
+            }
+            return "redirect:/home.do";
         }
         catch(Exception e){
             e.printStackTrace();

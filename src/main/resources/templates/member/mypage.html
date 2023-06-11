@@ -39,44 +39,46 @@
             <div class="bar"></div>
 
 			<div class="body">
-                <div class="mid_title">
-                    마이페이지
-                </div>
-				<div class="mypage_button" >
-					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=1)}" >디자인목록</a>
-					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=2)}" >파일목록</a>
-					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=3)}" >주문내역</a>
-					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=4)}" >문의내역</a>
-					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=5)}" >개인정보변경</a>
-					<a id="mypage_btn" th:href="@{/member/mypage.do(menu=6)}" >주소관리</a>
-				</div>
-				<div class="clear"></div>
-				<div th:if="${#strings.equals(param.menu, null)}">
-					<th:block th:replace="~{/fragments/mypage1 :: mypage1Fragment}"></th:block>
-				</div>
+					<div class="mid_title">
+						마이페이지
+					</div>
+					<div class="mypage_button" >
+						<a id="mypage_btn" th:href="@{/member/mypage.do(menu=1)}" >디자인목록</a>
+						<a id="mypage_btn" th:href="@{/member/mypage.do(menu=2)}" >파일목록</a>
+						<a id="mypage_btn" th:href="@{/member/mypage.do(menu=3)}" >주문내역</a>
+						<a id="mypage_btn" th:href="@{/member/mypage.do(menu=4)}" >문의내역</a>
+						<a id="mypage_btn" th:href="@{/member/mypage.do(menu=5)}" >개인정보변경</a>
+						<a id="mypage_btn" th:href="@{/member/mypage.do(menu=6)}" >주소관리</a>
+					</div>
+				<div class="p_box">
+					<!-- <div class="clear"></div> -->
+					<div th:if="${#strings.equals(param.menu, null)}">
+						<th:block th:replace="~{/fragments/mypage1 :: mypage1Fragment}"></th:block>
+					</div>
 
-				<div th:if="${#strings.equals(param.menu, '1')}">
-					<th:block th:replace="~{/fragments/mypage1 :: mypage1Fragment}"></th:block>
-				</div>
+					<div th:if="${#strings.equals(param.menu, '1')}">
+						<th:block th:replace="~{/fragments/mypage1 :: mypage1Fragment}"></th:block>
+					</div>
 
-				<div th:if="${#strings.equals(param.menu, '2')}">
-					<th:block th:replace="~{/fragments/mypage2 :: mypage2Fragment}"></th:block>
-				</div>
+					<div th:if="${#strings.equals(param.menu, '2')}">
+						<th:block th:replace="~{/fragments/mypage2 :: mypage2Fragment}"></th:block>
+					</div>
 
-				<div th:if="${#strings.equals(param.menu, '3')}">
-					<th:block th:replace="~{/fragments/mypage3 :: mypage3Fragment}"></th:block>
-				</div>
+					<div th:if="${#strings.equals(param.menu, '3')}">
+						<th:block th:replace="~{/fragments/mypage3 :: mypage3Fragment}"></th:block>
+					</div>
 
-				<div th:if="${#strings.equals(param.menu, '4')}">
-					<th:block th:replace="~{/fragments/mypage4 :: mypage4Fragment}"></th:block>
-				</div>
+					<div th:if="${#strings.equals(param.menu, '4')}">
+						<th:block th:replace="~{/fragments/mypage4 :: mypage4Fragment}"></th:block>
+					</div>
 
-				<div th:if="${#strings.equals(param.menu, '5')}">
-					<th:block th:replace="~{/fragments/mypage5 :: mypage5Fragment}"></th:block>
-				</div>
+					<div th:if="${#strings.equals(param.menu, '5')}">
+						<th:block th:replace="~{/fragments/mypage5 :: mypage5Fragment}"></th:block>
+					</div>
 
-				<div th:if="${#strings.equals(param.menu, '6')}">
-					<th:block th:replace="~{/fragments/mypage6 :: mypage6Fragment}"></th:block>
+					<div th:if="${#strings.equals(param.menu, '6')}">
+						<th:block th:replace="~{/fragments/mypage6 :: mypage6Fragment}"></th:block>
+					</div>
 				</div>
 			</div>
 		</div>

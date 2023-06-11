@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <th:block th:fragment="mypage6Fragment">
+        <div class="my_title">
+            주문목록
+        </div>
+        <a th:href="@{/product.do}"><button>옷보러가기</button></a>
+        <table class="trm">
+            <thead>
+                <th>수령인</th>
+                <th>휴대폰 번호</th>
+                <th>우편번호</th>
+                <th>주소</th>
+                <th>삭제</th>
+            </thead>
+            <tbody>
+                <tr th:each="obj : ${mAddList}">
+                    <td th:text="${obj.aname}"></td><!-- 주문번호ono -->
+                    <td th:text="${obj.aphone}"></td><!-- 제품이름tshirt.tname -->
+                    <td th:text="${obj.apostcode}"></td><!-- 색상tcolorno -->
+                    <td th:text="${obj.aaddress}"></td><!-- 사이즈tsno -->
+                    <form th:action="@{/member/dropmadd.do}" method="post">
+                        <td>
+                            <input type="submit" value="삭제" />
+                        </td>
+                        <td>
+                            <input type="hidden" name="ano" th:value="${obj.ano}"/>
+                        </td><!-- 주소번호 -->
+                    </form>
+                </tr>
+            </tbody>
+        </table>
+    </th:block>
+</html>
