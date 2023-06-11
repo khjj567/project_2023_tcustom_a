@@ -25,6 +25,7 @@ import com.example.dto.MemberUser;
 import com.example.entity.DesignOne;
 import com.example.entity.File;
 import com.example.entity.HomeAsk;
+import com.example.entity.Member;
 import com.example.entity.MemberFileView;
 import com.example.entity.Orders;
 import com.example.entity.Printing;
@@ -106,8 +107,8 @@ public class MemberController {
             if(user != null){ // 로그인 되었음
                     log.info("로그인user => {}", user); 
                     //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
-                    }
-                model.addAttribute("user", user);
+                }
+            model.addAttribute("user", user);
 
             if(menu ==1 || menu == 0){
                 // log.info(format, user.getUsername());
@@ -163,6 +164,13 @@ public class MemberController {
                 log.info("문의목록 => {}", hAsks);
                 model.addAttribute("hAsks", hAsks);
             }
+
+            // 개인정보 변경 get
+            if(menu == 5){
+                Member obj = mRepository.findByMid(user.getUsername());
+                log.info("개인정보 => {}", obj);
+                model.addAttribute("obj", obj);
+            }
             return "/member/mypage";
         } catch (Exception e) {
             e.printStackTrace();
@@ -170,16 +178,75 @@ public class MemberController {
         }
     }
 
-    @PostMapping(value = "/mypage")
-    public String mypagePOST(
+    @PostMapping(value = "/update.do")
+    public String updatePOST(
         Model model, 
+        // @RequestParam(name="mid") String mid,
+        @RequestParam(name="mname") String mname,
+        @RequestParam(name="mphone") String mphone,
+        @RequestParam(name="memail") String memail,
+        HttpServletRequest request,
+        @AuthenticationPrincipal MemberUser user,
         @RequestParam(name="menu", required = false, defaultValue = "0") int menu
     ){
         try {
-            if(menu == 3){
-
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
             }
+            model.addAttribute("user", user);
+            
+            // log.info("휴대폰번호 => {}", mphone);
+            Member member = mRepository.findByMid(user.getUsername());
+            member.setMemail(memail);
+            member.setMname(mname);
+            member.setMphone(mphone);
+
+            mRepository.save(member);
+
+            return "redirect:/member/mypage.do?menu=5";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+
+    @PostMapping(value = "/mypage")
+    public String mypagePOST(
+        Model model, 
+        HttpServletRequest request,
+        @AuthenticationPrincipal MemberUser user,
+        @RequestParam(name="menu", required = false, defaultValue = "0") int menu
+    ){
+        try {
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+            }
+            model.addAttribute("user", user);
+
             return "redirect:/mypage.do";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "home";
+        }
+    }
+
+    @GetMapping(value = "/updatepw.do")
+    public String updatepwGET(
+        Model model, 
+        HttpServletRequest request,
+        @AuthenticationPrincipal MemberUser user
+    ){
+        try {
+            if(user != null){ // 로그인 되었음
+                log.info("로그인user => {}", user); 
+                //로그인user => MemberUser(username=aaa, authorities=[ROLE_MEMBER], name=aaa)
+            }
+            model.addAttribute("user", user);
+
+            Member obj = mRepository.findByMid(user.getUsername());
+            log.info("개인정보 => {}", obj);
+            model.addAttribute("obj", obj);
+            return "/member/updatepw";
         } catch (Exception e) {
             e.printStackTrace();
             return "home";

@@ -1,7 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
+<style>
 
+#mypage_btn input[type="submit"] {
+	font-size: 16px;
+	background-color: rgba(217, 217, 217, 1);
+	border: solid 1px #000000;
+	border-radius: 30px !important; 
+	padding: 5px 15px;
+	margin: 5px;
+	font-family: "NanumSquare";
+	float: left;
+}
+
+
+#mypage_btn:hover{
+	border: solid 1px rgba(217, 217, 217, 1);
+	color: rgb(95, 95, 95);
+	background-color: pink;
+}
+</style>
 <body>
     <div id="all">
         <div class="all_center">
@@ -21,9 +40,10 @@
 						<div>		
 							<H6>작성자: 관리자</H6>
 						</div>
-						<div class="mypage_button">
-							<input type="submit" id="mypage_btn" value="저장하기" />
-						</div>
+					</div>
+					<!-- <div class="clear"></div> -->
+					<div>
+						<input id="mypage_btn" type="submit" value="저장하기" />
 					</div>
 				</form>
             </div>

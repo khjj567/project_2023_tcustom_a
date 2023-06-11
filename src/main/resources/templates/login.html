@@ -2,49 +2,6 @@
 <html lang="en">
 <th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
 
-<style>
-    /* image_p : id일때만 draggable 돼 */
-#image_p2{
-    float: left;
-    width: 100%;
-    height: auto;
-    background-color: rgba(217, 217, 217, 1);
-    
-}
-/* draggable */
-.draggable { 
-    width: auto; 
-    height: auto; 
-    float: left; 
-}
-.timage{
-    float: left;
-    width: 100%;
-    height: auto;
-    margin: auto 0px; 
-    position: relative;
-    object-fit: contain;
-    /* background-color: rgba(217, 217, 217, 1); */
-}
-.resizable {
-    width: auto;
-    height: auto;
-    /* border-radius: 0.75rem;
-    padding: 20px;
-    margin: 1rem; */
-    background-color: #29e;
-    color: white;
-    font-size: 20px;
-    font-family: sans-serif;
-    overflow: hidden;
-
-    touch-action: none;
-
-    /* This makes things *much* easier */
-    box-sizing: border-box;
-}
-</style>
-
 <body>
     <div id="all">
         <div class="all_center">

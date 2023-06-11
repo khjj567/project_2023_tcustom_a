@@ -33,24 +33,27 @@
         <div class="my_title">
             파일목록
         </div>
-        <div class="oneline">
-            <th:block th:each="obj : ${obj2}" >
-                <div class="one_file">
-                    <div class="pic">
-                        <img class="product_img" th:src="${obj.imageUrl1}"><br />
+        <div class="trm">
+            <div class="oneline">
+                <th:block th:each="obj : ${obj2}" >
+                    <div class="one_file">
+                        <div class="pic">
+                            <img class="product_img" th:src="${obj.imageUrl1}"><br />
+                        </div>
+                        <div class="all_center">
+                            <div class="cont_name">
+                                <a id="mypage_btn" th:href="@{/member/image.do(fno=${obj.fno})}" th:text="${obj.fno}"></a>
+                            </div>
+                            <div>
+                                <label class="cont_price" th:text="${#dates.format(obj.fregdate, 'yyyy/MM/dd')}"></label>
+                            </div>
+                            <div >
+                            </div>
+                        </div>
                     </div>
-                    <div class="all_center">
-                        <div class="cont_name">
-                            <a id="mypage_btn" th:href="@{/member/image.do(fno=${obj.fno})}" th:text="${obj.fno}"></a>
-                        </div>
-                        <div>
-                            <label class="cont_price" th:text="${#dates.format(obj.fregdate, 'yyyy/MM/dd')}"></label>
-                        </div>
-                        <div >
-                        </div>
-                    </div>
-                </div>
-            </th:block>    
+                </th:block>    
+            </div>
         </div>
+        
     </th:block>    
 </html>

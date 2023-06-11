@@ -660,7 +660,6 @@ input[type=file]::file-selector-button:hover {
     border-radius:  10px 10px 0 0;
 }
 
-
 .cont_name{
     position: relative;
     left: 50%;
@@ -764,7 +763,12 @@ input[type=file]::file-selector-button:hover {
     display: flex;
     /* background-size: cover; */
     object-fit: cover;
+}
 
+.trm{
+    margin-top: 5px;
+    /* padding: 5px; */
+    float: left;
 }
 
 .clear{
