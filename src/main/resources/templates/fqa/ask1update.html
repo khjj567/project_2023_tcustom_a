@@ -9,9 +9,9 @@
             <div class="clear"></div>
             <div class="bar"></div>
             <div class="body">
-                <form th:action="@{/fqa/ask1update.do?(haskno=${obj.haskno})}" method="post">
+                <form th:action="@{/fqa/ask1update.do?(haskno=${obj.haskno})}" method="post" id="form">
 					<div>
-						제목 : <input type="text" name="hasktitle" th:value="${obj.hasktitle}" />
+						제목 : <input type="text" name="hasktitle" id="title" th:value="${obj.hasktitle}" />
 					</div>
 					<div>
 						내용
@@ -19,7 +19,7 @@
 							<textarea name="haskcontent" style="width: 700px; height: 200px;" id="content" th:text="${obj.haskcontent}" th:value="${obj.haskcontent}"></textarea>
 						</div>
 						<div class="mypage_button">
-							<input type="submit" id="mypage_btn" value="저장하기" />
+							<input type="submit" id="mypage_btn" value="저장하기" onclick="updateCheck()"/>
 						</div>
 					</div>
 				</form>
@@ -36,6 +36,27 @@
 			var tmp = document.createElement("div");
 			tmp.innerHTML = html.replace(/<[^>]+>/g, '');
 			return tmp.innerText;
+		}
+
+		function updateCheck(){
+            event.preventDefault(); // 폼 제출 막기
+
+			const title = document.getElementById("title");
+			const content = document.getElementById("content");
+
+			if(title.value.length <= 2){
+				alert('제목을 3글자 이상 입력하세요');
+				title.focus();
+				return false;
+			}
+
+			if(content.value.length <= 7){
+				alert('내용을 8글자 이상 입력하세요');
+				content.focus();
+				return false;
+			}
+
+			document.getElementById('form').submit();
 		}
 	</script>
 </body>

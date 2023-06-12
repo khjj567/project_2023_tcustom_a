@@ -10,25 +10,25 @@
             <div class="bar"></div>
             <div class="body">
                 <div class="mid_title">
-                    파일확인
+                    비밀번호 변경
                 </div>
-                <form th:action="@{/member/updatepw.do}" method="post">
+                <form th:action="@{/member/updatepw.do}" method="post" id="form" onsubmit="return updateCheck(event);">
                     <div class="trm">
                         <p class="p_conts_one">
                             <label for="mpw">현재 비밀번호:</label>
-                            <input type="text" id="mpw" name="mpw">
+                            <input type="password" id="mpw" name="mpw">
                         </p>
                         <p class="p_conts_one">
                             <label for="mpwnew">새 비밀번호:</label>
-                            <input type="text" id="mpwnew" name="mpwnew">
+                            <input type="password" id="mpwnew" name="mpwnew">
                         </p>
                         <p class="p_conts_one">
                             <label for="mpwnew1">새 비밀번호 확인:</label>
-                            <input type="text" id="mpwnew1" name="mpwnew1">
+                            <input type="password" id="mpwnew1" name="mpwnew1">
                         </p>
                         <div class="clear"></div>
                         <div>
-                            <input id="mypage_btn" style="border: solid 1px #000000;" type="submit" value="저장하기" />
+                            <input id="mypage_btn" style="border: solid 1px #000000;" type="submit" value="저장하기" onclick="updateCheck()"/>
                         </div>
                     </div>
                 </form>
@@ -37,5 +37,41 @@
         <div class="clear"></div>
         <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
     </div>
+
+    <script>
+        function updateCheck(){
+            event.preventDefault(); // 폼 제출 막기
+    
+            const mpw = document.getElementById("mpw");
+            const mpwnew = document.getElementById("mpwnew");
+            const mpwnew1 = document.getElementById("mpwnew1");
+    
+            if(mpw.value.length <= 0){
+                alert('현재 비밀번호를 입력해 주세요');
+                mpw.focus();
+                return false;
+            }
+    
+            if(mpwnew.value.length <= 0){
+                alert('새 비밀번호를 입력해 주세요');
+                mpwnew.focus();
+                return false;
+            }
+    
+            if(mpwnew1.value.length <= 0){
+                alert('새 비밀번호 확인을 입력해주세요');
+                mpwnew1.focus();
+                return false;
+            }
+
+            if(mpwnew.value !== mpwnew1.value){
+                alert('새 비밀번호가 일치하지 않습니다');
+                mpwnew.focus();
+                return false;
+            }
+    
+            document.getElementById('form').submit();
+        }
+    </script>
 </body>
 </html>

@@ -42,22 +42,22 @@
                         수령인 정보 및 배송지 정보
                     </div>
 
-                    <form th:action="@{/product/order1.do}" method="post">
+                    <form th:action="@{/product/order1.do}" method="post" id="form">
                         <input type="hidden" name="dno" th:value="${orders.designOne.dno}"/>
                         <input type="hidden" name="mid" th:value="${param.mid}"/>
                         <input type="hidden" name="ocondition" th:value="1"/>
 
                         <div class="orderlabel_box">
                             <label class="p_conts_mid" for="formGroupExampleInput">수량</label>
-                            <input type="number" name="ocnt" placeholder="구매하실 수량" value="2"/>
+                            <input type="number" id="ocnt" name="ocnt" placeholder="구매하실 수량"/>
                         </div>
                         <div class="orderlabel_box">
                             <label class="p_conts_mid" for="formGroupExampleInput">수령인 이름</label>
-                            <input name="aname" type="text" placeholder="수령인 이름을 적어주세요" value="AAA"/ >
+                            <input name="aname" id="aname" type="text" placeholder="수령인 이름을 적어주세요"/>
                         </div>
                         <div class="orderlabel_box">
                             <label class="p_conts_mid" for="formGroupExampleInput2" >수령인 휴대폰 번호</label>
-                            <input name="aphone" type="number" placeholder="숫자만 적어주세요" value="01012354852"/>
+                            <input name="aphone" id="aphone" type="number" placeholder="숫자만 적어주세요" />
                         </div>
                         <div class="orderlabel_box">
                             <label for="inputPostcode" class="p_conts_mid">우편번호</label>
@@ -70,14 +70,14 @@
                         </div>
                         <div class="orderlabel_box">
                             <label for="inputAddDetail" class="p_conts_mid">상세주소</label>
-                            <input name="detailadd" value="1102호" type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" />
+                            <input name="detailadd" type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소" />
                         </div>
                         <div class="orderlabel_box">
                             <label for="inputAddExtra" class="p_conts_mid">참고항목</label>
                             <input name="addextra" type="text" class="form-control" id="sample6_extraAddress" placeholder="참고항목" />
                         </div>
                         <div class="orderlabel_box">
-                            <input type="submit" value="결제하기" style="margin: 20px; padding: 3px 0 3px 0; float: left;" class="select_btn2"/>
+                            <input type="submit" value="결제하기" style="margin: 20px; padding: 3px 0 3px 0; float: left;" class="select_btn2" onclick="OrderAction()"/>
                         </div>
                     </form>
                 </div>
@@ -149,9 +149,56 @@
 	            }
 	        }).open();
 		}
+
+        function OrderAction() {
+            event.preventDefault(); // 폼 제출 막기
     
-	</script>
-	<!-- Include the Quill library -->
-	<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+            const ocnt = document.getElementById("ocnt");
+            const aname = document.getElementById("aname");
+            const aphone = document.getElementById("aphone");
+            const sample6_postcode = document.getElementById("sample6_postcode");
+            const sample6_address = document.getElementById("sample6_address");
+            const sample6_detailAddress = document.getElementById("sample6_detailAddress");
+    
+        if(ocnt.value.length <=0){ 
+            alert('수량을 입력하세요.');
+            ocnt.focus();
+            return false; // 함수종료. 전송하지 않음.
+        }
+    
+        if(aname.value.length <=0){ 
+            alert('수령인 이름을 입력하세요.');
+            aname.focus();
+            return false; 
+        }
+    
+        if(aphone.value.length <=0){  // 0인지 먼저 확인할것
+            alert('수령인 휴대폰 번호를 입력하세요.');
+            aphone.focus();
+            return false; 
+        }
+    
+        if(sample6_postcode.value.length <=0){ 
+            alert('우편번호를 입력하세요.');
+            sample6_postcode.focus();
+            return false; // 함수종료. 전송하지 않음.
+        }
+    
+        if(sample6_address.value.length <=0){ 
+            alert('주소를 입력하세요.');
+            sample6_address.focus();
+            return false; // 함수종료. 전송하지 않음.
+        }
+    
+        if(sample6_detailAddress.value.length <=0){ 
+            alert('상세주소를 입력하세요.');
+            sample6_detailAddress.focus();
+            return false; // 함수종료. 전송하지 않음.
+        }
+    
+        document.getElementById("form").submit();
+    
+        }
+        </script>
 </body>
 </html>

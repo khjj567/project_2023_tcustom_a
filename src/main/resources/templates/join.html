@@ -57,15 +57,15 @@
                 </div>
                 <!-- 중앙으로 이동 및 마진 -->
                 <div>                   
-                    <form th:action="@{/join.do}" method="post">
+                    <form th:action="@{/join.do}" method="post" id="form">
                     <!-- name값은 항상 dto의 값과 같아야 한다는 점을 주의하자: 현재는 Member-->
-                        아이디: <input type="text" id="id" name="mid" value="aaa" autofocus/><br />
-                        비밀번호: <input type="text" id="pass" name="mpw" value="aaa" /><br />
-                        비밀번호: <input type="text" id="pass1" value="aaa" /><br />
-                        이메일 <input type="text" id="email" name="memail" value="aaa"v/><br />
-                        이름: <input type="text" id="name" name="mname" value="aaa" /><br />
-                        전화번호 : <input type="text" id="phone" name="mphone" value="010-0000-0000"/><br />
-                        <input type="submit" value="회원가입" onclick="joinAction()"/>
+                        아이디: <input type="text" id="id" name="mid" autofocus/><br />
+                        비밀번호: <input type="text" id="pass" name="mpw" /><br />
+                        비밀번호: <input type="text" id="pass1" /><br />
+                        이메일 <input type="text" id="email" name="memail" /><br />
+                        이름: <input type="text" id="name" name="mname" /><br />
+                        전화번호 : <input type="text" id="phone" name="mphone"/><br />
+                        <input type="button" value="회원가입" onclick="joinAction()"/>
                     </form>
                 </div> 
             </div>
@@ -79,7 +79,9 @@
 	// 공통변수 : 함수가 2군데있는데 다 사용가능한 변수
 	var idcheck = 0; //1이면 사용가능, 0은 사용불가
 	
-	function joinAction() {
+	function joinAction(event) {
+		event.preventDefault(); // 폼 제출 막기
+
 		const id = document.getElementById("id");
 		const pass = document.getElementById("pass");
 		const pass1 = document.getElementById("pass1");
@@ -98,7 +100,6 @@
 			return false; 
 		}
 		
-
 		if(pass.value.length <=0){ 
 			alert('비밀번호를 입력하세요.');
 			pass.focus();
@@ -126,6 +127,12 @@
 			alert('이메일을 입력하세요.');
 			age.focus();
 			return false; // 함수종료. 전송하지 않음.
+		}
+
+		if(phone.value.length < 11){  // 일치여부 판단
+			alert('휴대폰 번호를 올바르게 입력해 주세요');
+			phone.focus();
+			return false; 
 		}
 
 		// 전송하기
@@ -159,4 +166,4 @@
 	}    
 	</script>
 </body>
-</html><section></section>
+</html>

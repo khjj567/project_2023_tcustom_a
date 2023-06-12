@@ -12,7 +12,6 @@
     width: 100%;
     height: auto;
     background-color: rgba(217, 217, 217, 1);
-    
 }
 /* draggable */
 .draggable { 
@@ -74,8 +73,7 @@
 							</div>
 						</div>
 						<div class="form-floating mb-2">		
-                            <label for="writer" class="form-label"> 작성자 </label>
-							<input type="hidden" id="writer" name="mid" th:value="${user.username}" class="form-control" required />  
+							<input type="hidden" id="writer" name="mid" th:value="관리자" class="form-control" required />  
 						</div>
                         <div>
                             게시글 작성시 주의사항
@@ -158,17 +156,12 @@
                 document.getElementById("content").value=content;
 		
 				// 유효성검사 : 한글자라도 입력하면 통과 : 안입력하면 alert창이 뜨게끔
-				if(title.value.length <= 0){
+				if(title.value.length <= 2){
 					alert('제목을 입력하세요');
 					title.focus();
 					return false; // 아래쪽 소스코드를 수행하지 않고, 함수가 종료됨
 				}
-				if(writer.value.length <= 0){
-					alert('작성자를 입력하세요');
-					writer.focus();
-					return false;
-				}
-
+				
 				// 이 줄은 유효성검사를 통과하는 시점 
 				
 				// 아래는 다음과 같다 //? 왜 안된다고?

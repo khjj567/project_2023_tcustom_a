@@ -28,9 +28,9 @@
             <div class="clear"></div>
             <div class="bar"></div>
             <div class="body">
-                <form th:action="@{/fqa/announce1update.do?(hanno=${obj.hanno})}" method="post">
+                <form th:action="@{/fqa/announce1update.do?(hanno=${obj.hanno})}" method="post" id="form">
 					<div>
-						제목 : <input type="text" name="hantitle" th:value="${obj.hantitle}" />
+						제목 : <input type="text" name="hantitle" id="title" th:value="${obj.hantitle}" />
 					</div>
 					<div>
 						내용
@@ -43,7 +43,7 @@
 					</div>
 					<!-- <div class="clear"></div> -->
 					<div>
-						<input id="mypage_btn" type="submit" value="저장하기" />
+						<input id="mypage_btn" type="submit" value="저장하기"  onclick="updateCheck()"/>
 					</div>
 				</form>
             </div>
@@ -59,6 +59,27 @@
 			var tmp = document.createElement("div");
 			tmp.innerHTML = html.replace(/<[^>]+>/g, '');
 			return tmp.innerText;
+		}
+
+		function updateCheck(){
+            event.preventDefault(); // 폼 제출 막기
+
+			const title = document.getElementById("title");
+			const content = document.getElementById("content");
+
+			if(title.value.length <= 2){
+				alert('제목을 3글자 이상 입력하세요');
+				title.focus();
+				return false;
+			}
+
+			if(content.value.length <= 7){
+				alert('내용을 8글자 이상 입력하세요');
+				content.focus();
+				return false;
+			}
+
+			document.getElementById('form').submit();
 		}
 	</script>
 </body>

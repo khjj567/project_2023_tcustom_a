@@ -14,9 +14,9 @@
                 </div>
                 <!-- 중앙으로 이동 및 마진 -->
                 <div>                   
-                    <form th:action="@{/loginaction.do}" method="post">
-                        아이디: <input type="text" name="mid" id="id" value="aaa" autofocus/><br />
-                        암호: <input type="password" name="mpw" id="pass" value="aaa" /><br />
+                    <form th:action="@{/loginaction.do}" method="post" id="form">
+                        아이디: <input type="text" name="mid" id="id" autofocus/><br />
+                        암호: <input type="password" name="mpw" id="pass" /><br />
                         <input type="submit" value="로그인" onclick="loginAction()"/>
                     </form>
                 </div> 
@@ -30,6 +30,8 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
     <script>
     async function loginAction() {
+
+        event.preventDefault(); // 폼 제출 막기
 
         const id = document.getElementById("id");
         const pass = document.getElementById("pass");

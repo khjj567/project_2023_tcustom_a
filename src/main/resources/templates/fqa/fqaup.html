@@ -13,11 +13,11 @@
                     질문등록
                 </div>
                 <a th:href="@{/fqa.do?menu=3}"><button>FQA</button></a>
-                <form th:action="@{/fqa/fqaone.do}" method="post">
-					제목: <input type="text" name="hquestion" value="t"/><br/>
-					내용: <textarea type="text" name="hanswer" value="c"></textarea><br/>
+                <form th:action="@{/fqa/fqaone.do}" method="post" id="form">
+					제목: <input type="text" id="title" name="hquestion" /><br/>
+					내용: <textarea type="text" id="content" name="hanswer" ></textarea><br/>
 					<input type="hidden" name="mid" th:value="${user.username}" />
-					<input type="submit" value="등록"/>
+					<input type="submit" value="등록" onclick="updateCheck()"/>
 				</form>
             </div>
         </div>
@@ -25,5 +25,27 @@
         <th:block th:replace="~{/fragments/footer :: footerFragment}"></th:block>
     </div>
 
+    <script>
+        function updateCheck(){
+            event.preventDefault(); // 폼 제출 막기
+
+			const title = document.getElementById("title");
+			const content = document.getElementById("content");
+
+			if(title.value.length <= 2){
+				alert('제목을 3글자 이상 입력하세요');
+				title.focus();
+				return false;
+			}
+
+			if(content.value.length <= 7){
+				alert('내용을 8글자 이상 입력하세요');
+				content.focus();
+				return false;
+			}
+
+			document.getElementById('form').submit();
+		}
+	</script>
 </body>
 </html>

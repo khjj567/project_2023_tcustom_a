@@ -10,8 +10,6 @@
 <!-- 라이트박스 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/css/lightbox.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.1/js/lightbox.min.js"></script>
-<!-- 이미지 특정id로 그부분만 캡처 하기 : designonepic -->
-<script src="../js/html2canvas.min.js"></script>
 
 <style>
     /* image_p : id일때만 draggable 돼 */
@@ -140,6 +138,18 @@ function readURL(input) {
         document.getElementById('img_preview').src = "";
     }
     }
+function fileCheck(event) {
+
+    const filecheck = document.getElementById("filecheck");
+
+    if (filecheck.value.length <= 0) {
+        alert('파일을 선택하세요');
+        // filecheck.focus();
+        return false; // 함수종료
+    }
+
+    document.getElementById("form").submit();
+}
 </script>
 
 <body>
@@ -181,11 +191,10 @@ function readURL(input) {
                 </div>
                 <!-- 우측 선택사항 -->
                 <div id="base_right">
-                    <form  th:action="@{/product/design.do}" method="post"  enctype="multipart/form-data">
-                        <input type="file" name="file1" onchange="readURL(this);">
+                    <form  th:action="@{/product/design.do}" method="post" id="form" enctype="multipart/form-data" onsubmit="return fileCheck(event);">
+                        <input type="file" name="file1" id="filecheck" onchange="readURL(this);">
                         <input type="hidden" name="psno" th:value="${param.psno}">
                         <input type="hidden" name="tno" th:value="${param.tno}">
-                        <!-- <input type="hidden" name="mid" th:value="${user.username}"> -->
                         
                         <br/>
                         <!-- 프린팅방식 @@-->
@@ -212,7 +221,7 @@ function readURL(input) {
                             <option th:each="tmp : ${tsdto.list}" th:value="${tmp.tssize}" th:text="${tmp.tssize}" >종류</option>
                         </select>
                         <div style="margin: 20px;">
-                            <input type="submit" class="select_btn2" value="주문하기" >
+                            <input type="submit" class="select_btn2" value="주문하기" onclick="fileCheck(event);">
                             </input>
                         </div>
                     </form>

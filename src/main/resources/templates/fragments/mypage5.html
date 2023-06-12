@@ -28,10 +28,46 @@
     }
     </style>
     <th:block th:fragment="mypage5Fragment">
+        <script>
+            function updateCheck(){
+                event.preventDefault(); // 폼 제출 막기
+        
+                const name = document.getElementById("name");
+                const mphone = document.getElementById("mphone");
+                const memail = document.getElementById("memail");
+        
+                if(name.value.length <= 0){
+                    alert('이름을 입력해 주세요');
+                    name.focus();
+                    return false;
+                }
+        
+                if(mphone.value.length < 11){
+                    alert('휴대폰 번호를 올바르게 입력해 주세요');
+                    mphone.focus();
+                    return false;
+                }
+        
+                if(memail.value.length <= 0){
+                    alert('이메일을 입력해주세요');
+                    memail.focus();
+                    return false;
+                }
+
+                if(mpw.value.length <= 0){
+                    alert('비밀번호를 입력해주세요');
+                    mpw.focus();
+                    return false;
+                }
+        
+                document.getElementById('form').submit();
+            }
+        </script>
+
         <div class="my_title">
             개인정보수정
         </div>
-        <form th:action="@{/member/update.do}" method="post">
+        <form th:action="@{/member/update.do}" method="post" id="form"  >
             <div class="trm">
                 <p class="p_conts_one">
                     <label for="name">아이디:</label>
@@ -60,15 +96,15 @@
                 <input type="text" id="mpw" name="mpw">
             </p>
             <div>
-                <input id="mypage_btn" style="border: solid 1px #000000;" type="submit" value="저장하기" />
+                <input id="mypage_btn" style="border: solid 1px #000000;" type="submit" value="저장하기" onclick="updateCheck()"/>
             </div>
             <div>
                 <a id="mypage_btn" style="float: right; border: solid 1px #000000;" th:href="@{/member/updatepw.do}">비밀번호 변경</a>
             </div>
         </form>
-        <!-- <div class="clear"></div>
-        <div>
-            <a id="mypage_btn" style="float: right; border: solid 1px #000000;" th:href="@{/mypage/updatepw.do}">비밀번호 변경</a>
-        </div> -->
+        
     </th:block>
+
+    
+    
 </html>
