@@ -20,6 +20,9 @@
 						</div>
 						<div class="mypage_button">
 							<input type="button" id="mypage_btn" value="저장하기" onclick="updateCheck()"/>
+							<!-- type="button" : 
+								submit이면 값이 넘어가서 event.preventDefault();로 폼제출을 막아야 하고 
+								button을 사용하면 폼제출이 id가 호출되어야 넘어가므로 event.preventDefault(); 를 사용하지 않아도 무방하다 -->
 						</div>
 					</div>
 				</form>
