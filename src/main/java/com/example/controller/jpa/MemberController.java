@@ -141,6 +141,7 @@ public class MemberController {
                 for(Orders orders : obj3){
                     TshirtColor tcolor = tcRepository.findByTcolorno(orders.getDesignOne().getTcolorno());
                     orders.setTcolorname(tcolor.getTcolorname());
+                    log.info("컬러 => {}", orders.getTcolorname());
 
                     TshirtSize tSize = tsRepository.findByTsno(orders.getDesignOne().getTsno());
                     orders.setTssize(tSize.getTssize());

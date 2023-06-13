@@ -76,7 +76,7 @@
                             <input name="addextra" type="text" class="form-control" id="sample6_extraAddress" placeholder="참고항목" />
                         </div>
                         <div class="orderlabel_box">
-                            <input type="submit" value="결제하기" style="margin: 20px; padding: 3px 0 3px 0; float: left;" class="select_btn2" onclick="OrderAction()"/>
+                            <input type="button" value="결제하기" style="margin: 20px; padding: 3px 0 3px 0; float: left;" class="select_btn2" onclick="OrderAction()"/>
                         </div>
                     </form>
                 </div>
@@ -151,7 +151,7 @@
 
 
     function OrderAction() {
-        event.preventDefault(); // 폼 제출 막기
+        // event.preventDefault(); // 폼 제출 막기
 
         const ocnt = document.getElementById("ocnt");
         const aname = document.getElementById("aname");
@@ -173,13 +173,13 @@
     }
 
 
-    if(aphone.value.length <=0){  // 0인지 먼저 확인할것
-        alert('수령인 휴대폰 번호를 입력하세요.');
+    if(aphone.value.length <10){  // 0인지 먼저 확인할것
+        alert('수령인 휴대폰 번호를 정확히 입력하세요.');
         aphone.focus();
         return false; 
     }
 
-    if(sample6_postcode.value.length <=0){ 
+    if(sample6_postcode.value.length <5){ 
         alert('우편번호를 입력하세요.');
         sample6_postcode.focus();
         return false; // 함수종료. 전송하지 않음.

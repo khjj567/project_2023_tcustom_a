@@ -28,7 +28,7 @@
                         </p>
                         <div class="clear"></div>
                         <div>
-                            <input id="mypage_btn" style="border: solid 1px #000000;" type="submit" value="저장하기" onclick="updateCheck()"/>
+                            <input id="mypage_btn" style="border: solid 1px #000000;" type="button" value="저장하기" onclick="updateCheck()"/>
                         </div>
                     </div>
                 </form>
@@ -40,7 +40,7 @@
 
     <script>
         function updateCheck(){
-            event.preventDefault(); // 폼 제출 막기
+            // event.preventDefault(); // 폼 제출 막기
     
             const mpw = document.getElementById("mpw");
             const mpwnew = document.getElementById("mpwnew");

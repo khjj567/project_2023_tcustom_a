@@ -15,9 +15,9 @@
                 <a th:href="@{/fqa.do?menu=3}"><button>FQA</button></a>
                 <form th:action="@{/fqa/fqaone.do}" method="post" id="form">
 					제목: <input type="text" id="title" name="hquestion" /><br/>
-					내용: <textarea type="text" id="content" name="hanswer" ></textarea><br/>
+					내용: <textarea class="textarea" style="width: 700px; height: 200px;" type="text" id="content" name="hanswer" ></textarea><br/>
 					<input type="hidden" name="mid" th:value="${user.username}" />
-					<input type="submit" value="등록" onclick="updateCheck()"/>
+					<input type="button" value="등록" onclick="updateCheck()"/>
 				</form>
             </div>
         </div>
@@ -27,7 +27,7 @@
 
     <script>
         function updateCheck(){
-            event.preventDefault(); // 폼 제출 막기
+            // event.preventDefault(); // 폼 제출 막기
 
 			const title = document.getElementById("title");
 			const content = document.getElementById("content");

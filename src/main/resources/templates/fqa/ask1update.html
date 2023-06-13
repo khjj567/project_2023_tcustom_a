@@ -19,7 +19,7 @@
 							<textarea name="haskcontent" style="width: 700px; height: 200px;" id="content" th:text="${obj.haskcontent}" th:value="${obj.haskcontent}"></textarea>
 						</div>
 						<div class="mypage_button">
-							<input type="submit" id="mypage_btn" value="저장하기" onclick="updateCheck()"/>
+							<input type="button" id="mypage_btn" value="저장하기" onclick="updateCheck()"/>
 						</div>
 					</div>
 				</form>
@@ -39,7 +39,7 @@
 		}
 
 		function updateCheck(){
-            event.preventDefault(); // 폼 제출 막기
+            // event.preventDefault(); // 폼 제출 막기
 
 			const title = document.getElementById("title");
 			const content = document.getElementById("content");

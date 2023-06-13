@@ -5,7 +5,7 @@
             주문목록
         </div>
         <a th:href="@{/product.do}"><button>옷보러가기</button></a>
-        <table class="trm">
+        <table class="responstable">
             <thead>
                 <th>수령인</th>
                 <th>휴대폰 번호</th>
@@ -22,10 +22,8 @@
                     <form th:action="@{/member/dropmadd.do}" method="post">
                         <td>
                             <input type="submit" value="삭제" />
-                        </td>
-                        <td>
                             <input type="hidden" name="ano" th:value="${obj.ano}"/>
-                        </td><!-- 주소번호 -->
+                        </td>
                     </form>
                 </tr>
             </tbody>

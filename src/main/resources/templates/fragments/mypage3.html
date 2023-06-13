@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html>
+
+<style>
+    
+</style>
     <th:block th:fragment="mypage3Fragment">
         <div class="my_title">
             주문목록
         </div>
         <a th:href="@{/product.do}"><button>옷보러가기</button></a>
-        <table class="trm">
+        <table class="responstable">
             <thead>
                 <th>주문번호</th>
                 <th>제품이름</th>
@@ -15,9 +19,7 @@
                 <th>프린팅방법</th>
                 <th>프린팅면</th>
                 <th>주문날짜</th>
-                <th>티셔츠가격</th>
-                <th>프린팅가격</th>
-                <!-- <th>파일생성일자</th> -->
+                <th>총가격</th>
                 <th>##</th>
             </thead>
             <tbody>
@@ -30,9 +32,10 @@
                     <td th:text="${obj.pmethod}"></td><!-- 프린팅방법 -->
                     <td th:text="${obj.psidename}"></td><!-- 프린팅면 -->
                     <td th:text="${#dates.format(obj.oregdate, 'yyyy/MM/dd')}"></td><!-- 파일생성날짜 -->
-                    <td th:text="${obj.tprice}"></td> <!-- 가격 -->
-                    <td th:text="${obj.pprice}"></td> <!-- 가격 -->
                     <td>
+                        <input type="hidden" name="tprice" th:value="${obj.tprice}"/>
+                        <input type="hidden" name="pprice" th:value="${obj.pprice}"/>
+                        
                         <script th:inline="javascript">
                             var tprice = /*[[${obj.tprice}]]*/ 0; // 첫 번째 숫자 값
                             var pprice = /*[[${obj.pprice}]]*/ 0; // 두 번째 숫자 값
@@ -41,7 +44,7 @@
                         </script>
                     </td>
                     <td>
-                        <a th:href="@{/product/order1.do(ono=${obj.ono})}"><button>다시주문하기</button></a>
+                        <a th:href="@{/product/order1.do(ono=${obj.ono})}"><button>주문</button></a>
                     </td>
                 </tr>
             </tbody>

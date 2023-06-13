@@ -62,8 +62,8 @@ public class HomeFqaController {
         Model model, 
         @AuthenticationPrincipal MemberUser user,
         @RequestParam(name="hasktitle") String hasktitle,
-        @RequestParam(name="content") String haskcontent,
-        @RequestParam(name="mid") String mid
+        @RequestParam(name="content") String haskcontent
+        // @RequestParam(name="mid") String mid
     ){
         try {
             if(user != null){ // 로그인 되었음
@@ -78,7 +78,7 @@ public class HomeFqaController {
             HomeAsk hAsk = new HomeAsk();
             hAsk.setHasktitle(hasktitle);
             hAsk.setHaskcontent(haskcontent);
-            hAsk.setMid(mid);
+            hAsk.setMid(user.getUsername());
             hAsk.setHaskhit(BigInteger.valueOf(1));
 
             hAskRepository.save(hAsk);

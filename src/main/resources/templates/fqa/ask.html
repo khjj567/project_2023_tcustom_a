@@ -18,10 +18,10 @@
                 <a th:href="@{/fqa.do?menu=2}"><button>고객문의목록</button></a>
                 <!-- 좌측 프린팅사이드 이미지 -->
                 <form th:action="@{/fqa/askone.do}" method="post" id="form">
-					<div class="col-sm">
-						<div class="form-floating mb-2">
-                            <label for="title" class="form-label">제목</label>
-							<input type="text" name="hasktitle" id="title" class="form-control" autofocus required /> 
+					<div>
+						<div>
+                            <label for="title">제목</label>
+							<input type="text" name="hasktitle" id="title" autofocus required /> 
                             
 						</div>
 						<div >
@@ -30,15 +30,15 @@
                                 <!-- <input type="text" name="haskcontent" id="content"/> -->
 							</div>
 						</div>
-						<div class="form-floating mb-2">		
-                            <label for="writer" class="form-label"> 작성자 </label>
-							<input type="hidden" id="writer" name="mid" value="${user.username}" class="form-control" required />  
+						<div>		
+                            <label for="writer" > 작성자 </label>
+							<input type="text" id="writer" name="mid" th:value="${user.username}" readonly />  
 						</div>
                         <div>
                             게시글 작성시 주의사항
                         </div>
 						<div>
-							<input type="button" value="글쓰기" class="btn btn-primary"onclick="getEditorContent()"/>
+							<input type="button" value="글쓰기"onclick="getEditorContent()"/>
 						</div>
 					</div>
                     <textarea style="display:none;" name="content" id="content"></textarea>
@@ -119,11 +119,6 @@
 					alert('제목을 입력하세요');
 					title.focus();
 					return false; // 아래쪽 소스코드를 수행하지 않고, 함수가 종료됨
-				}
-				if(writer.value.length <= 7){
-					alert('작성자를 입력하세요');
-					writer.focus();
-					return false;
 				}
 
 				// 이 줄은 유효성검사를 통과하는 시점 

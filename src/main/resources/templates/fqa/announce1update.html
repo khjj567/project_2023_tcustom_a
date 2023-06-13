@@ -3,7 +3,7 @@
 <th:block th:replace="~{/fragments/homeheader :: headerFragment}"></th:block>
 <style>
 
-#mypage_btn input[type="submit"] {
+#mypage_btn input[type="button"] {
 	font-size: 16px;
 	background-color: rgba(217, 217, 217, 1);
 	border: solid 1px #000000;
@@ -43,7 +43,7 @@
 					</div>
 					<!-- <div class="clear"></div> -->
 					<div>
-						<input id="mypage_btn" type="submit" value="저장하기"  onclick="updateCheck()"/>
+						<input id="mypage_btn" type="button" value="저장하기"  onclick="updateCheck()"/>
 					</div>
 				</form>
             </div>
@@ -62,7 +62,7 @@
 		}
 
 		function updateCheck(){
-            event.preventDefault(); // 폼 제출 막기
+            // event.preventDefault(); // 폼 제출 막기
 
 			const title = document.getElementById("title");
 			const content = document.getElementById("content");
